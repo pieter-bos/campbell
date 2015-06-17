@@ -79,7 +79,7 @@ fun = do
     space
     char '('
     space
-    args <- sepBy decl (char ',' >> space)
+    args <- sepBy decl (char ',')
     char ')'
     space
     return (Fun name t args)
@@ -103,19 +103,19 @@ assign =
     }
 
 while :: Parser Statement
-while = string "while" >> space >> expr >>= (return . While)
+while = string "while" >> expr >>= (return . While)
 
 ruleIf :: Parser Statement
-ruleIf = string "if" >> space >> expr >>= (return . If)
+ruleIf = string "if" >> expr >>= (return . If)
 
 ruleElse :: Parser Statement
-ruleElse = string "else" >> space >> (return Else)
+ruleElse = string "else" >> (return Else)
 
 typeList :: Parser [String]
 typeList = do
     string "<"
     space
-    ids <- sepBy identifier (char ',' >> space)
+    ids <- sepBy identifier (char ',')
     string ">"
     return ids
 
