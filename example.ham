@@ -54,5 +54,5 @@ fun main()
     it = Range(1, 10)
     while it.hasNext()
         value = it.next()
-        
+
     for value in Range(1, 10)
