@@ -1,17 +1,21 @@
 package campbell.parser;
 
-import campbell.parser.gen.Campbell;
+import campbell.parser.gen.CampbellTokens;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.Pair;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CampbellLexer implements TokenSource {
-
     // |   lookAhead   |   buffer   |   reader ....
     // ^ start of next token
     //                 ^ current read position
@@ -19,15 +23,37 @@ public class CampbellLexer implements TokenSource {
     // Reverting puts the lookAhead back in the buffer
     // Accepting a token clears the lookAhead and returns the new token
 
+    private static final Map<String, Integer> keywords = new HashMap<>();
+    static {
+        keywords.put("class", CampbellTokens.CLASS);
+        keywords.put("while", CampbellTokens.WHILE);
+        keywords.put("impl", CampbellTokens.IMPL);
+        keywords.put("of", CampbellTokens.OF);
+        keywords.put("trait", CampbellTokens.TRAIT);
+        keywords.put("if", CampbellTokens.IF);
+        keywords.put("else", CampbellTokens.ELSE);
+        keywords.put("return", CampbellTokens.RETURN);
+        keywords.put("unsafe", CampbellTokens.UNSAFE);
+        keywords.put("true", CampbellTokens.TRUE);
+        keywords.put("false", CampbellTokens.FALSE);
+        keywords.put("fun", CampbellTokens.FUN);
+        keywords.put("unsafe", CampbellTokens.UNSAFE);
+        keywords.put("for", CampbellTokens.FOR);
+        keywords.put("in", CampbellTokens.IN);
+    }
+
     private final Reader reader;
     private String lookAhead = "";
     private String buffer = "";
 
-    private final CommonTokenFactory tokenFactory = new CommonTokenFactory();
+    private TokenFactory<?> tokenFactory = new CommonTokenFactory();
 
     // We emit an OPEN_BLOCK or CLOSE_BLOCK for *changes* in indent level to simulate blocks in the parser grammar.
     private int currentIndent = 0;
     private Queue<Token> tokenQueue = new LinkedList<>();
+
+    private int line = 1;
+    private int column = 0;
 
     public CampbellLexer(InputStream stream) {
         this.reader = new InputStreamReader(stream);
@@ -38,33 +64,44 @@ public class CampbellLexer implements TokenSource {
             return tokenQueue.poll();
         }
 
+
         try {
+            if(!reader.ready()) {
+                for(int i = 0; i < currentIndent; i++) {
+                    tokenQueue.add(accept(CampbellTokens.CLOSE_BLOCK));
+                }
+
+                tokenQueue.add(accept(CampbellTokens.EOF));
+
+                return tokenQueue.poll();
+            }
+
             if(peekc() == '\n' || peekc() == '\r') {
                 // Read any empty lines (and ignore the indent)
                 while(peekc() == '\n' || peekc() == '\r') {
                     readc();
                 }
 
-                accept();
+                accept(0);
 
                 int newIndent = 0;
 
                 while(peekc() == '\t' || peekc() == ' ') {
                     if(peekc() == '\t') {
-                        accept();
+                        accept(0);
                         newIndent++;
                     } else if(expect("    ")) {
-                        accept();
+                        accept(0);
                         newIndent++;
                     } else {
                         // TODO figure out what antlr does when it cannot parse a token
-                        return null;
+                        return tokenFactory.create(new Pair<>(this, null), Token.EPSILON, buffer, 0, 0, 0, line, column);
                     }
                 }
 
                 if(newIndent > currentIndent) {
                     for(int i = 0; i < (newIndent - currentIndent); i++) {
-                        tokenQueue.add(tokenFactory.create(Campbell.OPEN_BLOCK, "OPEN_BLOCK"));
+                        tokenQueue.add(tokenFactory.create(new Pair<>(this, null), CampbellTokens.OPEN_BLOCK, "OPEN_BLOCK", 0, 0, 0, line, 1));
                     }
 
                     currentIndent = newIndent;
@@ -72,7 +109,7 @@ public class CampbellLexer implements TokenSource {
                     return tokenQueue.poll();
                 } else if(newIndent < currentIndent) {
                     for(int i = 0; i < (currentIndent - newIndent); i++) {
-                        tokenQueue.add(tokenFactory.create(Campbell.CLOSE_BLOCK, "CLOSE_BLOCK"));
+                        tokenQueue.add(tokenFactory.create(new Pair<>(this, null), CampbellTokens.CLOSE_BLOCK, "CLOSE_BLOCK", 0, 0, 0, line, 1));
                     }
 
                     currentIndent = newIndent;
@@ -83,129 +120,75 @@ public class CampbellLexer implements TokenSource {
 
             while(peekc() == ' ' || peekc() == '\t') {
                 readc();
-                accept();
+                accept(0);
             }
-
-            // Keywords
-
-            if(expect("class")) {
-                return tokenFactory.create(Campbell.CLASS, accept());
-            }
-
-            if(expect("while")) {
-                return tokenFactory.create(Campbell.WHILE, accept());
-            }
-
-            if(expect("impl")) {
-                return tokenFactory.create(Campbell.IMPL, accept());
-            }
-
-            if(expect("of")) {
-                return tokenFactory.create(Campbell.OF, accept());
-            }
-
-            if(expect("trait")) {
-                return tokenFactory.create(Campbell.TRAIT, accept());
-            }
-
-            if(expect("if")) {
-                return tokenFactory.create(Campbell.IF, accept());
-            }
-
-            if(expect("else")) {
-                return tokenFactory.create(Campbell.ELSE, accept());
-            }
-
-            if(expect("return")) {
-                return tokenFactory.create(Campbell.RETURN, accept());
-            }
-
-            if(expect("unsafe")) {
-                return tokenFactory.create(Campbell.UNSAFE, accept());
-            }
-
-            if(expect("true")) {
-                return tokenFactory.create(Campbell.TRUE, accept());
-            }
-
-            if(expect("false")) {
-                return tokenFactory.create(Campbell.FALSE, accept());
-            }
-
-            if(expect("fun")) {
-                return tokenFactory.create(Campbell.FUN, accept());
-            }
-
-            if(expect("unsafe")) {
-                return tokenFactory.create(Campbell.UNSAFE, accept());
-            }
-
-            if(expect("for")) {
-                return tokenFactory.create(Campbell.FOR, accept());
-            }
-
-            if(expect("in")) {
-                return tokenFactory.create(Campbell.IN, accept());
-            }
-
-
 
             // Special characters
 
             if(expect("(")) {
-                return tokenFactory.create(Campbell.PAREN_OPEN, accept());
+                return accept(CampbellTokens.PAREN_OPEN);
             }
 
             if(expect(")")) {
-                return tokenFactory.create(Campbell.PAREN_CLOSE, accept());
+                return accept(CampbellTokens.PAREN_CLOSE);
             }
 
             if(expect("[")) {
-                return tokenFactory.create(Campbell.PAREN_OPEN, accept());
+                return accept(CampbellTokens.PAREN_OPEN);
             }
 
             if(expect("]")) {
-                return tokenFactory.create(Campbell.PAREN_CLOSE, accept());
+                return accept(CampbellTokens.PAREN_CLOSE);
             }
 
             if(expect("<")) {
-                return tokenFactory.create(Campbell.BROKET_OPEN, accept());
+                if(peekc() == '=') {
+                    readc();
+                    return accept(CampbellTokens.LTE);
+                } else {
+                    return accept(CampbellTokens.BROKET_OPEN);
+                }
             }
 
             if(expect(">")) {
-                return tokenFactory.create(Campbell.BROKET_CLOSE, accept());
+                if(peekc() == '=') {
+                    readc();
+                    return accept(CampbellTokens.GTE);
+                } else {
+                    return accept(CampbellTokens.BROKET_CLOSE);
+                }
             }
 
             if(expect(",")) {
-                return tokenFactory.create(Campbell.COMMA, accept());
+                return accept(CampbellTokens.COMMA);
             }
 
             if(expect(".")) {
-                return tokenFactory.create(Campbell.DOT, accept());
+                return accept(CampbellTokens.DOT);
             }
 
             if(expect("+")) {
-                return tokenFactory.create(Campbell.PLUS, accept());
+                return accept(CampbellTokens.PLUS);
             }
 
             if(expect("-")) {
-                return tokenFactory.create(Campbell.MINUS, accept());
+                return accept(CampbellTokens.MINUS);
             }
 
             if(expect("*")) {
-                return tokenFactory.create(Campbell.STAR, accept());
+                return accept(CampbellTokens.STAR);
             }
 
             if(expect("/")) {
-                return tokenFactory.create(Campbell.SLASH, accept());
+                return accept(CampbellTokens.SLASH);
             }
 
             if(expect("%")) {
-                return tokenFactory.create(Campbell.PERCENT, accept());
+                return accept(CampbellTokens.PERCENT);
             }
 
             if(expect("=")) {
-                return tokenFactory.create(Campbell.EQUALS, accept());
+                return accept(CampbellTokens.EQUALS);
             }
 
             // Integer
@@ -218,34 +201,40 @@ public class CampbellLexer implements TokenSource {
                 if(lookAhead.charAt(0) == '0' && lookAhead.length() != 1) {
                     revert();
                 } else {
-                    return tokenFactory.create(Campbell.INT, accept());
+                    return accept(CampbellTokens.INT);
                 }
             }
 
-            // Identifier
+            // Identifier or keyword
 
             if("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$".contains(peek(1))) {
                 while("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$".contains(peek(1))) {
                     readc();
                 }
 
-                return tokenFactory.create(Campbell.IDENTIFIER, accept());
+                if(keywords.containsKey(lookAhead)) {
+                    return accept(keywords.get(lookAhead));
+                } else {
+                    return accept(CampbellTokens.IDENTIFIER);
+                }
             }
+
+            readc();
+
+            return accept(CampbellTokens.ERROR);
         } catch(IOException e) {
-            return tokenFactory.create(Token.EOF, "");
+            return accept(CampbellTokens.ERROR);
         }
 
         // TODO figure out what antlr does when it cannot parse a token
-
-        return null;
     }
 
     public int getLine() {
-        return 0;
+        return line;
     }
 
     public int getCharPositionInLine() {
-        return 0;
+        return column;
     }
 
     public CharStream getInputStream() {
@@ -296,10 +285,31 @@ public class CampbellLexer implements TokenSource {
         lookAhead = "";
     }
 
-    private String accept() {
+    private Token accept(int type) {
         String result = lookAhead;
+        int resultLine = line;
+        int resultColumn = column;
+
         lookAhead = "";
-        return result;
+
+        Matcher matcher = Pattern.compile("\r?\n").matcher(result);
+
+        int count = 0;
+        int end = -1;
+
+        while(matcher.find()) {
+            count++;
+            end = matcher.end();
+        }
+
+        if(count > 0) {
+            line += count;
+            column = result.length() - end;
+        } else {
+            column += result.length();
+        }
+
+        return tokenFactory.create(new Pair<>(this, null), type, result, 0, 0, 0, resultLine, resultColumn);
     }
 
     private boolean expect(String s) throws IOException {
@@ -312,10 +322,10 @@ public class CampbellLexer implements TokenSource {
     }
 
     public void setTokenFactory(TokenFactory<?> tokenFactory) {
-
+        this.tokenFactory = tokenFactory;
     }
 
     public TokenFactory<?> getTokenFactory() {
-        return null;
+        return tokenFactory;
     }
 }

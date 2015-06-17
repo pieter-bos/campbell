@@ -15,10 +15,10 @@ impl Add<int> of (int, int)
             return HaskellAdd a b
 
 impl Iterable<int> of Range
-    fun hasNext()
+    fun bool hasNext()
         return self.i < end
 
-    fun next()
+    fun int next()
         result = self.i
         self.i = 1
         return result
@@ -30,7 +30,7 @@ class Vec<T>
     T data
     int length
 
-    fun init(int length)
+    fun void init(int length)
 
 
     fun T get(int i)
@@ -42,7 +42,7 @@ impl Indexable<T> of Vec<T>
         unsafe
             return (data + sizeof(T) * i)
 
-fun main()
+fun void main()
     Vec<int> v
 
     if true
@@ -56,3 +56,4 @@ fun main()
         value = it.next()
 
     for value in Range(1, 10)
+        nop
