@@ -1,0 +1,58 @@
+fun int alloc()
+    unsafe
+        return 0
+
+trait Iterable<T>
+    fun bool hasNext()
+    fun T next()
+
+trait Add<T> of (A, B)
+    fun T add(A a, B b)
+
+impl Add<int> of (int, int)
+    fun int add(int a, int b)
+        unsafe
+            return HaskellAdd a b
+
+impl Iterable<int> of Range
+    fun hasNext()
+        return self.i < end
+
+    fun next()
+        result = self.i
+        self.i = 1
+        return result
+
+trait Indexable<T>
+    fun T get(int i)
+
+class Vec<T>
+    T data
+    int length
+
+    fun init(int length)
+
+
+    fun T get(int i)
+        if false
+            return data[i]
+
+impl Indexable<T> of Vec<T>
+    fun T get(int i)
+        unsafe
+            return (data + sizeof(T) * i)
+
+fun main()
+    Vec<int> v
+
+    if true
+        v = Vec(2)
+    else
+        v = Vec(3)
+
+    v.get(0)
+    it = Range(1, 10)
+    while it.hasNext()
+        value = it.next()
+        
+    for value in Range(1, 10)
