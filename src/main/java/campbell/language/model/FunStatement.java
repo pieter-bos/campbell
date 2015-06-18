@@ -16,7 +16,7 @@ public class FunStatement extends Statement {
         this.arguments = arguments;
     }
 
-    public static Statement fromContext(CampbellParser.FunContext fun) {
-        return null;
+    public static FunStatement fromContext(CampbellParser.FunContext fun) {
+        return new FunStatement(Type.fromContext(fun.className()), fun.IDENTIFIER().getText(),DeclStatement.fromContexts(fun.decl()));
     }
 }

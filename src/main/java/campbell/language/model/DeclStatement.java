@@ -3,6 +3,9 @@ package campbell.language.model;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class DeclStatement extends Statement {
     private final Type type;
     private final String name;
@@ -12,7 +15,15 @@ public class DeclStatement extends Statement {
         this.name = name;
     }
 
-    public static Statement fromContext(CampbellParser.DeclContext decl) {
+    public static DeclStatement fromContext(CampbellParser.DeclContext decl) {
         return null;
+    }
+
+    public static List<DeclStatement> fromContexts(List<CampbellParser.DeclContext> decl, boolean... javaIsStom) {
+        List<DeclStatement> result = new LinkedList<>();
+        for (CampbellParser.DeclContext i : decl) {
+            result.add(fromContext(i));
+        }
+        return result;
     }
 }

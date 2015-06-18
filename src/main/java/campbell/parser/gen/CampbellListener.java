@@ -1,4 +1,4 @@
-// Generated from /home/pieter/programming/haskell/campbell/src/main/java/campbell/parser/Campbell.g4 by ANTLR 4.5
+// Generated from /home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/parser/Campbell.g4 by ANTLR 4.5
 package campbell.parser.gen;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -68,16 +68,6 @@ public interface CampbellListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIfNode(@NotNull CampbellParser.IfNodeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CampbellParser#elseNode}.
-	 * @param ctx the parse tree
-	 */
-	void enterElseNode(@NotNull CampbellParser.ElseNodeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CampbellParser#elseNode}.
-	 * @param ctx the parse tree
-	 */
-	void exitElseNode(@NotNull CampbellParser.ElseNodeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CampbellParser#impl}.
 	 * @param ctx the parse tree

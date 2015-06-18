@@ -2,7 +2,6 @@ package campbell.language.model;
 
 import campbell.parser.gen.CampbellParser;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.List;
 
 public class ForStatement extends Statement {
@@ -16,7 +15,11 @@ public class ForStatement extends Statement {
         this.statements = statements;
     }
 
-    public static Statement fromContext(CampbellParser.ForNodeContext forNodeContext) {
-        return null;
+    public static ForStatement fromContext(CampbellParser.ForNodeContext forNodeContext) {
+        Expression arg = Expression.fromContext(forNodeContext.expr(0));
+        Expression args = Expression.fromContext(forNodeContext.expr(1));
+        List<Statement> block = Statement.fromContexts(forNodeContext.block().statement());
+
+        return new ForStatement(arg, args, block);
     }
 }

@@ -1,4 +1,4 @@
-// Generated from /home/pieter/programming/haskell/campbell/src/main/java/campbell/parser/Campbell.g4 by ANTLR 4.5
+// Generated from /home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/parser/Campbell.g4 by ANTLR 4.5
 package campbell.parser.gen;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -84,18 +84,6 @@ public class CampbellBaseListener implements CampbellListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIfNode(@NotNull CampbellParser.IfNodeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterElseNode(@NotNull CampbellParser.ElseNodeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitElseNode(@NotNull CampbellParser.ElseNodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

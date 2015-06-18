@@ -11,7 +11,7 @@ public class AssignStatement extends Statement {
         this.right = right;
     }
 
-    public static Statement fromContext(CampbellParser.AssignContext assign) {
+    public static AssignStatement fromContext(CampbellParser.AssignContext assign) {
         return new AssignStatement(Expression.fromContext(assign.expr(0)), Expression.fromContext(assign.expr(1)));
     }
 }

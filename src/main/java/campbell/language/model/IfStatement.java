@@ -21,7 +21,14 @@ public class IfStatement extends Statement {
         this.elseStatements = elseStatements;
     }
 
-    public static Statement fromContext(CampbellParser.IfNodeContext ifNodeContext) {
-        return null;
+    public static IfStatement fromContext(CampbellParser.IfNodeContext ifNodeContext) {
+        Expression condition = Expression.fromContext(ifNodeContext.expr());
+        List<Statement> block1 = fromContexts(ifNodeContext.block(0).statement());
+
+        if (ifNodeContext.block().size() != 1) {
+            return new IfStatement(condition, block1, fromContexts(ifNodeContext.block(1).statement()));
+        } else {
+            return new IfStatement(condition, block1);
+        }
     }
 }
