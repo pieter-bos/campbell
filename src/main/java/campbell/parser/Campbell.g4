@@ -10,7 +10,6 @@ statement
     | unsafe
     | whileNode
     | ifNode
-    | elseNode
     | impl
     | trait
     | returnNode
@@ -34,11 +33,7 @@ whileNode
     ;
 
 ifNode
-    : IF expr block
-    ;
-
-elseNode
-    : ELSE block
+    : IF expr block (ELSE block)?
     ;
 
 impl
