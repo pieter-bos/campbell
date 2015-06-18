@@ -64,7 +64,6 @@ public class CampbellLexer implements TokenSource {
             return tokenQueue.poll();
         }
 
-
         try {
             if(!reader.ready()) {
                 for(int i = 0; i < currentIndent; i++) {
