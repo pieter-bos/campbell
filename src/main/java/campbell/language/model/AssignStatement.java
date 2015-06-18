@@ -12,6 +12,6 @@ public class AssignStatement extends Statement {
     }
 
     public static Statement fromContext(CampbellParser.AssignContext assign) {
-        return null;
+        return new AssignStatement(Expression.fromContext(assign.expr(0)), Expression.fromContext(assign.expr(1)));
     }
 }
