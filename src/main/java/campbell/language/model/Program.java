@@ -4,10 +4,10 @@ import campbell.parser.gen.CampbellParser;
 
 import java.util.List;
 
-public class Program {
-    private List<Statement> statements;
+public class Program extends Statement {
+    private List<? extends Statement> statements;
 
-    public Program(List<Statement> statements) {
+    public Program(List<? extends Statement> statements) {
         this.statements = statements;
     }
 

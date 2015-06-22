@@ -34,10 +34,14 @@ public abstract class Statement {
             return ForStatement.fromContext(ctx.forNode());
         }
 
-        return null;
+        throw new campbell.language.model.NotImplementedException(ctx);
     }
 
-    public static List<Statement> fromContexts(List<CampbellParser.StatementContext> statements) {
+    // We cannot overload functions that differ only in generic type since those types are erased compile-time,
+    // but we can also not override functions that differ in generic type since the types differ before erasure...
+    @SuppressWarnings("unchecked")
+    public static List<? extends Statement> fromContexts(List/*<CampbellParser.StatementContext>*/ untypedStatements) {
+        List<CampbellParser.StatementContext> statements = (List<CampbellParser.StatementContext>) untypedStatements;
         LinkedList<Statement> result = new LinkedList<>();
 
         for(CampbellParser.StatementContext ctx : statements) {

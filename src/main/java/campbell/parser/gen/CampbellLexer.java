@@ -1,4 +1,4 @@
-// Generated from /home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/parser/Campbell.g4 by ANTLR 4.5
+// Generated from /home/pieter/programming/haskell/campbell/src/main/java/campbell/parser/Campbell.g4 by ANTLR 4.5
 package campbell.parser.gen;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

@@ -1,4 +1,4 @@
-// Generated from /home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/parser/Campbell.g4 by ANTLR 4.5
+// Generated from /home/pieter/programming/haskell/campbell/src/main/java/campbell/parser/Campbell.g4 by ANTLR 4.5
 package campbell.parser.gen;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -329,13 +329,13 @@ public class CampbellBaseListener implements CampbellListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSimpleExpr4(@NotNull CampbellParser.SimpleExpr4Context ctx) { }
+	@Override public void enterSimpleExpr3(@NotNull CampbellParser.SimpleExpr3Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSimpleExpr4(@NotNull CampbellParser.SimpleExpr4Context ctx) { }
+	@Override public void exitSimpleExpr3(@NotNull CampbellParser.SimpleExpr3Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -425,25 +425,49 @@ public class CampbellBaseListener implements CampbellListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExprAddon(@NotNull CampbellParser.ExprAddonContext ctx) { }
+	@Override public void enterCall(@NotNull CampbellParser.CallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExprAddon(@NotNull CampbellParser.ExprAddonContext ctx) { }
+	@Override public void exitCall(@NotNull CampbellParser.CallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBool(@NotNull CampbellParser.BoolContext ctx) { }
+	@Override public void enterGet(@NotNull CampbellParser.GetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBool(@NotNull CampbellParser.BoolContext ctx) { }
+	@Override public void exitGet(@NotNull CampbellParser.GetContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTrue(@NotNull CampbellParser.TrueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTrue(@NotNull CampbellParser.TrueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFalse(@NotNull CampbellParser.FalseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFalse(@NotNull CampbellParser.FalseContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

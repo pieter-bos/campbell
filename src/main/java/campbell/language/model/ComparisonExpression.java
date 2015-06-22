@@ -1,6 +1,8 @@
 package campbell.language.model;
 
-public class ComparisonExpression {
+import campbell.parser.gen.CampbellParser;
+
+public class ComparisonExpression extends Expression {
     private final Expression left;
     private final ComparisonOp op;
     private final Expression right;
@@ -18,5 +20,21 @@ public class ComparisonExpression {
         this.left = left;
         this.op = op;
         this.right = right;
+    }
+
+    public static ComparisonExpression fromContext(CampbellParser.LtContext ctx) {
+
+    }
+
+    public static ComparisonExpression fromContext(CampbellParser.LteContext ctx) {
+
+    }
+
+    public static ComparisonExpression fromContext(CampbellParser.GtContext ctx) {
+
+    }
+
+    public static ComparisonExpression fromContext(CampbellParser.GteContext ctx) {
+
     }
 }

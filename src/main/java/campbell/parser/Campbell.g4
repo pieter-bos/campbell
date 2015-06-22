@@ -88,7 +88,7 @@ expr2
 
 expr3
     : MINUS expr # negate
-    | expr4 # simpleExpr4
+    | expr4 # simpleExpr3
     ;
 
 expr4
@@ -112,11 +112,11 @@ classList
     ;
 
 exprAddon
-    : PAREN_OPEN (expr (COMMA expr)*)? PAREN_CLOSE
-    | DOT IDENTIFIER
+    : PAREN_OPEN (expr (COMMA expr)*)? PAREN_CLOSE # call
+    | DOT IDENTIFIER # get
     ;
 
 bool
-    : TRUE
-    | FALSE
+    : TRUE # true
+    | FALSE # false
     ;

@@ -8,8 +8,8 @@ import java.util.List;
 
 public class ImplStatement extends Statement {
     private final ClassType type;
-    private final List<ClassType> of;
-    private final List<Statement> statements;
+    private final List<Type> of;
+    private final List<? extends Statement> statements;
 
     public ImplStatement(ClassType type, List<Statement> statements) {
         this.type = type;
@@ -17,18 +17,21 @@ public class ImplStatement extends Statement {
         this.statements = statements;
     }
 
-    public ImplStatement(ClassType type, List<ClassType> of, List<Statement> statements) {
+    public ImplStatement(ClassType type, List<Type> of, List<Statement> statements) {
         this.type = type;
         this.of = of;
         this.statements = statements;
     }
 
     public static ImplStatement fromContext(CampbellParser.ImplContext impl) {
-        Type type = Type.fromContext(impl.);
+        Type type = Type.fromContext(impl.className());
+        List<? extends Statement> statements = Statement.fromContexts(impl.block().statement());
 
-        if (impl.block().statement().size()>1) {
-            return new ImplStatement(type, Statement.fromContexts(impl.classList().className()), Statement.fromContexts(impl.block().statement()));
+        if(impl.classList() != null) {
+            List<Type> of = Type.fromContexts(impl.classList().className());
+            return new ImplStatement(type, of, statements);
+        } else {
+
         }
-        return new ImplStatement(type, Statement.fromContexts(impl.block().statement()));
     }
 }

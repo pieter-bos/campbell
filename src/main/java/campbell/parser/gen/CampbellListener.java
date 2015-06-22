@@ -1,4 +1,4 @@
-// Generated from /home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/parser/Campbell.g4 by ANTLR 4.5
+// Generated from /home/pieter/programming/haskell/campbell/src/main/java/campbell/parser/Campbell.g4 by ANTLR 4.5
 package campbell.parser.gen;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -295,17 +295,17 @@ public interface CampbellListener extends ParseTreeListener {
 	 */
 	void exitNegate(@NotNull CampbellParser.NegateContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code simpleExpr4}
+	 * Enter a parse tree produced by the {@code simpleExpr3}
 	 * labeled alternative in {@link CampbellParser#expr3}.
 	 * @param ctx the parse tree
 	 */
-	void enterSimpleExpr4(@NotNull CampbellParser.SimpleExpr4Context ctx);
+	void enterSimpleExpr3(@NotNull CampbellParser.SimpleExpr3Context ctx);
 	/**
-	 * Exit a parse tree produced by the {@code simpleExpr4}
+	 * Exit a parse tree produced by the {@code simpleExpr3}
 	 * labeled alternative in {@link CampbellParser#expr3}.
 	 * @param ctx the parse tree
 	 */
-	void exitSimpleExpr4(@NotNull CampbellParser.SimpleExpr4Context ctx);
+	void exitSimpleExpr3(@NotNull CampbellParser.SimpleExpr3Context ctx);
 	/**
 	 * Enter a parse tree produced by the {@code int}
 	 * labeled alternative in {@link CampbellParser#expr4}.
@@ -385,23 +385,51 @@ public interface CampbellListener extends ParseTreeListener {
 	 */
 	void exitClassList(@NotNull CampbellParser.ClassListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CampbellParser#exprAddon}.
+	 * Enter a parse tree produced by the {@code call}
+	 * labeled alternative in {@link CampbellParser#exprAddon}.
 	 * @param ctx the parse tree
 	 */
-	void enterExprAddon(@NotNull CampbellParser.ExprAddonContext ctx);
+	void enterCall(@NotNull CampbellParser.CallContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CampbellParser#exprAddon}.
+	 * Exit a parse tree produced by the {@code call}
+	 * labeled alternative in {@link CampbellParser#exprAddon}.
 	 * @param ctx the parse tree
 	 */
-	void exitExprAddon(@NotNull CampbellParser.ExprAddonContext ctx);
+	void exitCall(@NotNull CampbellParser.CallContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CampbellParser#bool}.
+	 * Enter a parse tree produced by the {@code get}
+	 * labeled alternative in {@link CampbellParser#exprAddon}.
 	 * @param ctx the parse tree
 	 */
-	void enterBool(@NotNull CampbellParser.BoolContext ctx);
+	void enterGet(@NotNull CampbellParser.GetContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CampbellParser#bool}.
+	 * Exit a parse tree produced by the {@code get}
+	 * labeled alternative in {@link CampbellParser#exprAddon}.
 	 * @param ctx the parse tree
 	 */
-	void exitBool(@NotNull CampbellParser.BoolContext ctx);
+	void exitGet(@NotNull CampbellParser.GetContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code true}
+	 * labeled alternative in {@link CampbellParser#bool}.
+	 * @param ctx the parse tree
+	 */
+	void enterTrue(@NotNull CampbellParser.TrueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code true}
+	 * labeled alternative in {@link CampbellParser#bool}.
+	 * @param ctx the parse tree
+	 */
+	void exitTrue(@NotNull CampbellParser.TrueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code false}
+	 * labeled alternative in {@link CampbellParser#bool}.
+	 * @param ctx the parse tree
+	 */
+	void enterFalse(@NotNull CampbellParser.FalseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code false}
+	 * labeled alternative in {@link CampbellParser#bool}.
+	 * @param ctx the parse tree
+	 */
+	void exitFalse(@NotNull CampbellParser.FalseContext ctx);
 }
