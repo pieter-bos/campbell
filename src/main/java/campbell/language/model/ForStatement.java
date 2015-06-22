@@ -4,7 +4,7 @@ import campbell.parser.gen.CampbellParser;
 
 import java.util.List;
 
-public class ForStatement extends Statement {
+public class ForStatement extends Scope {
     private final Expression var;
     private final Expression iterable;
     private final List<? extends Statement> statements;
@@ -21,5 +21,28 @@ public class ForStatement extends Statement {
         List<? extends Statement> block = Statement.fromContexts(forNodeContext.block().statement());
 
         return new ForStatement(arg, args, block);
+    }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+
+        var.setScope(this);
+        iterable.setScope(scope);
+
+        for(Statement stat : statements) {
+            stat.setScope(this);
+        }
+    }
+
+    @Override
+    public String toString(int indent) {
+        String result = indent(indent) + "for " + var.toString(0) + " in " + iterable.toString(0);
+
+        for(Statement stat : statements) {
+            result += "\n" + stat.toString(indent + 1);
+        }
+
+        return result;
     }
 }

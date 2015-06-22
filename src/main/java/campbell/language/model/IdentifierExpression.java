@@ -12,4 +12,14 @@ public class IdentifierExpression extends Expression {
     public static IdentifierExpression fromContext(TerminalNode ctx) {
         return new IdentifierExpression(ctx.getText());
     }
+
+    @Override
+    public String toString(int indent) {
+        return indent(indent) + id;
+    }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+    }
 }

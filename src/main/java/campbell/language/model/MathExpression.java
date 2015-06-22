@@ -13,13 +13,13 @@ public class MathExpression extends Expression {
         Multiply,
         Divide,
         Modulo;
+
     }
     public MathExpression(Expression left, MathOp op, Expression right) {
         this.left = left;
         this.op = op;
         this.right = right;
     }
-
     public static MathExpression fromContext(CampbellParser.AddContext ctx) {
         return new MathExpression(Expression.fromContext(ctx.expr1()), MathOp.Add, Expression.fromContext(ctx.expr2()));
     }
@@ -38,5 +38,31 @@ public class MathExpression extends Expression {
 
     public static MathExpression fromContext(CampbellParser.ModuloContext ctx) {
         return new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Modulo, Expression.fromContext(ctx.expr3()));
+    }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+
+        left.setScope(scope);
+        right.setScope(scope);
+    }
+
+    @Override
+    public String toString(int indent) {
+        switch(op) {
+            case Add:
+                return indent(indent) + "(" + left.toString(0) + " + " + right.toString(0) + ")";
+            case Subtract:
+                return indent(indent) + "(" + left.toString(0) + " - " + right.toString(0) + ")";
+            case Multiply:
+                return indent(indent) + "(" + left.toString(0) + " * " + right.toString(0) + ")";
+            case Divide:
+                return indent(indent) + "(" + left.toString(0) + " / " + right.toString(0) + ")";
+            case Modulo:
+                return indent(indent) + "(" + left.toString(0) + " % " + right.toString(0) + ")";
+        }
+
+        return null;
     }
 }

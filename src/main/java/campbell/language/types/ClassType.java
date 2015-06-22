@@ -10,4 +10,29 @@ public class ClassType extends Type {
         this.name = name;
         this.parametricTypes = parametricTypes;
     }
+
+    @Override
+    public String toString() {
+        if(parametricTypes.size() == 0) {
+            return name;
+        } else {
+            String result = name + "<";
+
+            boolean firstType = true;
+
+            for(Type t : parametricTypes) {
+                if(!firstType) {
+                    result += ", ";
+                }
+
+                firstType = false;
+
+                result += t.toString();
+            }
+
+            result += ">";
+
+            return result;
+        }
+    }
 }

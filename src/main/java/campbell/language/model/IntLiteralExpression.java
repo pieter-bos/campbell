@@ -14,4 +14,14 @@ public class IntLiteralExpression extends Expression {
     public static IntLiteralExpression fromContext(TerminalNode ctx) {
         return new IntLiteralExpression(ctx.getText());
     }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+    }
+
+    @Override
+    public String toString(int indent) {
+        return value.toString();
+    }
 }

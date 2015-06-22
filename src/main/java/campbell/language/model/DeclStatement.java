@@ -16,7 +16,7 @@ public class DeclStatement extends Statement {
     }
 
     public static DeclStatement fromContext(CampbellParser.DeclContext decl) {
-        return null;
+        return new DeclStatement(Type.fromContext(decl.className()), decl.IDENTIFIER().getText());
     }
 
     public static List<DeclStatement> fromContexts(List<CampbellParser.DeclContext> decl, boolean... javaIsStom) {
@@ -37,5 +37,15 @@ public class DeclStatement extends Statement {
         }
 
         return result;
+    }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+    }
+
+    @Override
+    public String toString(int indent) {
+        return indent(indent) + type.toString() + " " + name;
     }
 }

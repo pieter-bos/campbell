@@ -4,7 +4,7 @@ import campbell.parser.gen.CampbellParser;
 
 import java.util.List;
 
-public class IfStatement extends Statement {
+public class IfStatement extends Scope {
     private final Expression condition;
     private final List<? extends Statement> statements;
     private final List<? extends Statement> elseStatements;
@@ -30,5 +30,39 @@ public class IfStatement extends Statement {
         } else {
             return new IfStatement(condition, block1);
         }
+    }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+        this.condition.setScope(scope);
+        for (Statement s : statements) {
+            s.setScope(this);
+        }
+
+        if (elseStatements != null) {
+            for (Statement st : elseStatements) {
+                st.setScope(this);
+            }
+        }
+    }
+
+    @Override
+    public String toString(int indent) {
+        String result = indent(indent) + "if " + condition.toString(0);
+
+        for(Statement stat : statements) {
+            result += "\n" + stat.toString(indent + 1);
+        }
+
+        if(elseStatements != null) {
+            result += "\n" + indent(indent) + "else";
+
+            for(Statement stat : elseStatements) {
+                result += "\n" + stat.toString(indent + 1);
+            }
+        }
+
+        return result;
     }
 }

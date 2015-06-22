@@ -14,4 +14,17 @@ public class AssignStatement extends Statement {
     public static AssignStatement fromContext(CampbellParser.AssignContext assign) {
         return new AssignStatement(Expression.fromContext(assign.expr(0)), Expression.fromContext(assign.expr(1)));
     }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+
+        left.setScope(scope);
+        right.setScope(scope);
+    }
+
+    @Override
+    public String toString(int indent) {
+        return left.toString(indent) + " = " + right.toString(0);
+    }
 }

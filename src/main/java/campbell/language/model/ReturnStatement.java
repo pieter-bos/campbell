@@ -12,4 +12,14 @@ public class ReturnStatement extends Statement {
     public static Statement fromContext(CampbellParser.ReturnNodeContext returnNodeContext) {
         return new ReturnStatement(Expression.fromContext(returnNodeContext.expr()));
     }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+    }
+
+    @Override
+    public String toString(int indent) {
+        return indent(indent) + "return " + returnExpression.toString(0);
+    }
 }

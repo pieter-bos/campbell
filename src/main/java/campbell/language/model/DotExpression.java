@@ -14,4 +14,16 @@ public class DotExpression extends Expression {
     public static DotExpression fromContext(CampbellParser.GetContext ctx, Expression expr) {
         return new DotExpression(expr, ctx.IDENTIFIER().getText());
     }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+
+        expr.setScope(scope);
+    }
+
+    @Override
+    public String toString(int indent) {
+        return indent(indent) + "(" + expr.toString(0) + "." + property + ")";
+    }
 }

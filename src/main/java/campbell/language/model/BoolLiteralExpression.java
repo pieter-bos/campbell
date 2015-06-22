@@ -12,4 +12,14 @@ public class BoolLiteralExpression extends Expression {
     public static BoolLiteralExpression fromContext(CampbellParser.BoolContext ctx) {
         return new BoolLiteralExpression(ctx instanceof CampbellParser.TrueContext);
     }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+    }
+
+    @Override
+    public String toString(int indent) {
+        return indent(indent) + value;
+    }
 }

@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Statement {
+    protected Scope scope;
+
     public static Statement fromContext(CampbellParser.StatementContext ctx) {
         if(ctx.fun() != null) {
             return FunStatement.fromContext(ctx.fun());
@@ -49,5 +51,28 @@ public abstract class Statement {
         }
 
         return result;
+    }
+
+    public abstract void setScope(Scope scope);
+
+    public abstract String toString(int indent);
+
+    protected String indent(int indent) {
+        String result = "";
+
+        for(int i = 0; i < indent; i++) {
+            result += "    ";
+        }
+
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return toString(0);
+    }
+
+    public Scope getScope() {
+        return scope;
     }
 }

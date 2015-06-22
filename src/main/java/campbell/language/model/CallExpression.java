@@ -16,4 +16,34 @@ public class CallExpression extends Expression {
     public static CallExpression fromContext(CampbellParser.CallContext call, Expression callee) {
         return new CallExpression(callee, Expression.fromContexts(call.expr()));
     }
+
+    @Override
+    public void setScope(Scope scope) {
+        this.scope = scope;
+        callee.setScope(scope);
+
+        for(Expression expr : arguments) {
+            expr.setScope(scope);
+        }
+    }
+
+    @Override
+    public String toString(int indent) {
+        String result = callee.toString(indent) + "(";
+        boolean firstArgument = true;
+
+        for(Expression arg : arguments) {
+            if(!firstArgument) {
+                result += ", ";
+            }
+
+            firstArgument = false;
+
+            result += arg.toString(0);
+        }
+
+        result += ")";
+
+        return result;
+    }
 }
