@@ -1,20 +1,21 @@
 package campbell.language.model;
 
 import campbell.language.types.ClassType;
+import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 
 import java.util.List;
 
 public class ClassStatement extends Statement {
-    private ClassType type;
-    private final List<Statement> statements;
+    private Type type;
+    private final List<? extends Statement> statements;
 
-    public ClassStatement(ClassType type, List<Statement> statements) {
+    public ClassStatement(Type type, List<? extends Statement> statements) {
         this.type = type;
         this.statements = statements;
     }
 
     public static Statement fromContext(CampbellParser.ClassNodeContext classNodeContext) {
-        return null;
+        return new ClassStatement(Type.fromContext(classNodeContext.className()), Statement.fromContexts(classNodeContext.block().statement()));
     }
 }

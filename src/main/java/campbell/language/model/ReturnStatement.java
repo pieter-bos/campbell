@@ -10,6 +10,6 @@ public class ReturnStatement extends Statement {
     }
 
     public static Statement fromContext(CampbellParser.ReturnNodeContext returnNodeContext) {
-        return null;
+        return new ReturnStatement(Expression.fromContext(returnNodeContext.expr()));
     }
 }

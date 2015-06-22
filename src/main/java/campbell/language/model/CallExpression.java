@@ -6,9 +6,9 @@ import java.util.List;
 
 public class CallExpression extends Expression {
     private final Expression callee;
-    private final List<Expression> arguments;
+    private final List<? extends Expression> arguments;
 
-    public CallExpression(Expression callee, List<Expression> arguments) {
+    public CallExpression(Expression callee, List<? extends Expression> arguments) {
         this.callee = callee;
         this.arguments = arguments;
     }

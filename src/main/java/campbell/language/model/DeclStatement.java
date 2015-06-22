@@ -26,4 +26,16 @@ public class DeclStatement extends Statement {
         }
         return result;
     }
+
+    @SuppressWarnings("unchecked")
+    public static List<? extends DeclStatement> fromContexts(List untypedStatements) {
+        List<CampbellParser.DeclContext> statements = (List<CampbellParser.DeclContext>) untypedStatements;
+        LinkedList<DeclStatement> result = new LinkedList<>();
+
+        for(CampbellParser.DeclContext ctx : statements) {
+            result.add(fromContext(ctx));
+        }
+
+        return result;
+    }
 }

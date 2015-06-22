@@ -7,9 +7,9 @@ import java.util.List;
 public class ForStatement extends Statement {
     private final Expression var;
     private final Expression iterable;
-    private final List<Statement> statements;
+    private final List<? extends Statement> statements;
 
-    public ForStatement(Expression var, Expression iterable, List<Statement> statements) {
+    public ForStatement(Expression var, Expression iterable, List<? extends Statement> statements) {
         this.var = var;
         this.iterable = iterable;
         this.statements = statements;
@@ -18,7 +18,7 @@ public class ForStatement extends Statement {
     public static ForStatement fromContext(CampbellParser.ForNodeContext forNodeContext) {
         Expression arg = Expression.fromContext(forNodeContext.expr(0));
         Expression args = Expression.fromContext(forNodeContext.expr(1));
-        List<Statement> block = Statement.fromContexts(forNodeContext.block().statement());
+        List<? extends Statement> block = Statement.fromContexts(forNodeContext.block().statement());
 
         return new ForStatement(arg, args, block);
     }

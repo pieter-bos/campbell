@@ -8,15 +8,15 @@ import java.util.List;
 public class FunStatement extends Statement {
     private Type returnType;
     private final String name;
-    private final List<DeclStatement> arguments;
+    private final List<? extends DeclStatement> arguments;
 
-    public FunStatement(Type returnType, String name, List<DeclStatement> arguments) {
+    public FunStatement(Type returnType, String name, List<? extends DeclStatement> arguments) {
         this.returnType = returnType;
         this.name = name;
         this.arguments = arguments;
     }
 
     public static FunStatement fromContext(CampbellParser.FunContext fun) {
-        return new FunStatement(Type.fromContext(fun.className()), fun.IDENTIFIER().getText(),DeclStatement.fromContexts(fun.decl()));
+        return new FunStatement(Type.fromContext(fun.className()), fun.IDENTIFIER().getText(), DeclStatement.fromContexts(fun.decl()));
     }
 }

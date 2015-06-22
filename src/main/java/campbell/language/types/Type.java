@@ -7,14 +7,16 @@ import java.util.List;
 
 public abstract class Type {
     public static Type fromContext(CampbellParser.ClassNameContext classNameContext) {
-        if (!genericType) {
-            if (primitiveType) {
+        String id = classNameContext.IDENTIFIER().getText();
 
+        if(classNameContext.className().size() == 0) {
+            if(PrimitiveType.isPrimitive(id)) {
+                return PrimitiveType.fromId(id);
             } else {
-                // simple class
+                return new ClassType(id, new LinkedList<>());
             }
         } else {
-            // Class with generic arguments
+            return new ClassType(id, fromContexts(classNameContext.className()));
         }
     }
 

@@ -9,4 +9,8 @@ public class NotImplementedException extends RuntimeException {
     public NotImplementedException(ParserRuleContext context) {
         super("There is no implementation of the rule " + context);
     }
+
+    public NotImplementedException(String message) {
+        super(message);
+    }
 }
