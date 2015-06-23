@@ -12,5 +12,6 @@ public abstract class Scope extends Statement {
      * find(naam) -> definitie:type
      */
 
+
     
 }
