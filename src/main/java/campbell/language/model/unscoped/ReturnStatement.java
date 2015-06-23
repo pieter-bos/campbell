@@ -1,5 +1,7 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.scoped.Scope;
+import campbell.language.model.Statement;
 import campbell.parser.gen.CampbellParser;
 
 public class ReturnStatement extends Statement {
@@ -10,7 +12,7 @@ public class ReturnStatement extends Statement {
     }
 
     public static Statement fromContext(CampbellParser.ReturnNodeContext returnNodeContext) {
-        return new ReturnStatement(Expression.fromContext(returnNodeContext.expr()));
+        return at(returnNodeContext.getStart(), new ReturnStatement(Expression.fromContext(returnNodeContext.expr())));
     }
 
     @Override

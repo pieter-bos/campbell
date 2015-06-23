@@ -11,4 +11,9 @@ public class GenericType extends Type {
     public String toString() {
         return name;
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 }

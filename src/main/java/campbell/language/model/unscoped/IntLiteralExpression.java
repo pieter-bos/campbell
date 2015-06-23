@@ -1,5 +1,6 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.scoped.Scope;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.math.BigInteger;
@@ -12,7 +13,7 @@ public class IntLiteralExpression extends Expression {
     }
 
     public static IntLiteralExpression fromContext(TerminalNode ctx) {
-        return new IntLiteralExpression(ctx.getText());
+        return at(ctx.getSymbol(), new IntLiteralExpression(ctx.getText()));
     }
 
     @Override

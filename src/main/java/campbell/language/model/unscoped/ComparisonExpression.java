@@ -1,5 +1,6 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.scoped.Scope;
 import campbell.parser.gen.CampbellParser;
 
 public class ComparisonExpression extends Expression {
@@ -22,19 +23,19 @@ public class ComparisonExpression extends Expression {
     }
 
     public static ComparisonExpression fromContext(CampbellParser.LtContext ctx) {
-        return new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.LessThan, Expression.fromContext(ctx.expr1(1)));
+        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.LessThan, Expression.fromContext(ctx.expr1(1))));
     }
 
     public static ComparisonExpression fromContext(CampbellParser.LteContext ctx) {
-        return new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.LessThanEquals, Expression.fromContext(ctx.expr1(1)));
+        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.LessThanEquals, Expression.fromContext(ctx.expr1(1))));
     }
 
     public static ComparisonExpression fromContext(CampbellParser.GtContext ctx) {
-        return new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.GreaterThan, Expression.fromContext(ctx.expr1(1)));
+        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.GreaterThan, Expression.fromContext(ctx.expr1(1))));
     }
 
     public static ComparisonExpression fromContext(CampbellParser.GteContext ctx) {
-        return new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.GreaterThanEquals, Expression.fromContext(ctx.expr1(1)));
+        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.GreaterThanEquals, Expression.fromContext(ctx.expr1(1))));
     }
 
     @Override

@@ -1,6 +1,6 @@
-package campbell.language.model;
+package campbell.language.model.scoped;
 
-import campbell.language.types.ClassType;
+import campbell.language.model.Statement;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 
@@ -29,9 +29,9 @@ public class TraitStatement extends Scope {
 
         if(trait.classList() != null) {
             List<Type> of = Type.fromContexts(trait.classList().className());
-            return new TraitStatement(type, of, statements);
+            return at(trait.getStart(), new TraitStatement(type, of, statements));
         } else {
-            return new TraitStatement(type, statements);
+            return at(trait.getStart(), new TraitStatement(type, statements));
         }
     }
 

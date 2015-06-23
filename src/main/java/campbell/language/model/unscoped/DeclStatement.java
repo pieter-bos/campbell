@@ -1,12 +1,15 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.scoped.Scope;
+import campbell.language.model.Statement;
+import campbell.language.model.Symbol;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class DeclStatement extends Statement {
+public class DeclStatement extends Statement implements Symbol {
     private final Type type;
     private final String name;
 
@@ -16,7 +19,7 @@ public class DeclStatement extends Statement {
     }
 
     public static DeclStatement fromContext(CampbellParser.DeclContext decl) {
-        return new DeclStatement(Type.fromContext(decl.className()), decl.IDENTIFIER().getText());
+        return at(decl.getStart(), new DeclStatement(Type.fromContext(decl.className()), decl.IDENTIFIER().getText()));
     }
 
     public static List<DeclStatement> fromContexts(List<CampbellParser.DeclContext> decl, boolean... javaIsStom) {
@@ -47,5 +50,9 @@ public class DeclStatement extends Statement {
     @Override
     public String toString(int indent) {
         return indent(indent) + type.toString() + " " + name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

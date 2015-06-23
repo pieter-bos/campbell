@@ -1,5 +1,6 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.scoped.Scope;
 import campbell.parser.gen.CampbellParser;
 
 public class BoolLiteralExpression extends Expression {
@@ -10,7 +11,7 @@ public class BoolLiteralExpression extends Expression {
     }
 
     public static BoolLiteralExpression fromContext(CampbellParser.BoolContext ctx) {
-        return new BoolLiteralExpression(ctx instanceof CampbellParser.TrueContext);
+        return at(ctx.getStart(), new BoolLiteralExpression(ctx instanceof CampbellParser.TrueContext));
     }
 
     @Override

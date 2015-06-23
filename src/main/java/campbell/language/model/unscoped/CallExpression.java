@@ -1,5 +1,6 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.scoped.Scope;
 import campbell.parser.gen.CampbellParser;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class CallExpression extends Expression {
     }
 
     public static CallExpression fromContext(CampbellParser.CallContext call, Expression callee) {
-        return new CallExpression(callee, Expression.fromContexts(call.expr()));
+        return at(call.getStart(), new CallExpression(callee, Expression.fromContexts(call.expr())));
     }
 
     @Override

@@ -35,4 +35,9 @@ public class ClassType extends Type {
             return result;
         }
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 }

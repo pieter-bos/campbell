@@ -1,5 +1,7 @@
-package campbell.language.model;
+package campbell.language.model.scoped;
 
+import campbell.language.model.unscoped.Expression;
+import campbell.language.model.Statement;
 import campbell.parser.gen.CampbellParser;
 
 import java.util.List;
@@ -14,7 +16,7 @@ public class WhileStatement extends Scope {
     }
 
     public static Statement fromContext(CampbellParser.WhileNodeContext whileNodeContext) {
-        return new WhileStatement(Expression.fromContext(whileNodeContext.expr()), Statement.fromContexts(whileNodeContext.block().statement()));
+        return at(whileNodeContext.getStart(), new WhileStatement(Expression.fromContext(whileNodeContext.expr()), Statement.fromContexts(whileNodeContext.block().statement())));
     }
 
     @Override

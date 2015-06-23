@@ -5,4 +5,9 @@ public class IntType extends PrimitiveType {
     public String toString() {
         return "int";
     }
+
+    @Override
+    public String getName() {
+        return "int";
+    }
 }

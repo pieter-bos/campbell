@@ -1,5 +1,6 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.scoped.Scope;
 import campbell.parser.gen.CampbellParser;
 
 public class MathExpression extends Expression {
@@ -21,23 +22,23 @@ public class MathExpression extends Expression {
         this.right = right;
     }
     public static MathExpression fromContext(CampbellParser.AddContext ctx) {
-        return new MathExpression(Expression.fromContext(ctx.expr1()), MathOp.Add, Expression.fromContext(ctx.expr2()));
+        return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr1()), MathOp.Add, Expression.fromContext(ctx.expr2())));
     }
 
     public static MathExpression fromContext(CampbellParser.SubtractContext ctx) {
-        return new MathExpression(Expression.fromContext(ctx.expr1()), MathOp.Subtract, Expression.fromContext(ctx.expr2()));
+        return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr1()), MathOp.Subtract, Expression.fromContext(ctx.expr2())));
     }
 
     public static MathExpression fromContext(CampbellParser.MultiplyContext ctx) {
-        return new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Multiply, Expression.fromContext(ctx.expr3()));
+        return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Multiply, Expression.fromContext(ctx.expr3())));
     }
 
     public static MathExpression fromContext(CampbellParser.DivideContext ctx) {
-        return new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Divide, Expression.fromContext(ctx.expr3()));
+        return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Divide, Expression.fromContext(ctx.expr3())));
     }
 
     public static MathExpression fromContext(CampbellParser.ModuloContext ctx) {
-        return new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Modulo, Expression.fromContext(ctx.expr3()));
+        return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Modulo, Expression.fromContext(ctx.expr3())));
     }
 
     @Override

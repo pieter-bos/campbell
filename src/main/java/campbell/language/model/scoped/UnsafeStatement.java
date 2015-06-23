@@ -1,5 +1,6 @@
-package campbell.language.model;
+package campbell.language.model.scoped;
 
+import campbell.language.model.Statement;
 import campbell.parser.gen.CampbellParser;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class UnsafeStatement extends Scope {
     }
 
     public static Statement fromContext(CampbellParser.UnsafeContext unsafe) {
-        return new UnsafeStatement(Statement.fromContexts(unsafe.block().statement()));
+        return at(unsafe.getStart(), new UnsafeStatement(Statement.fromContexts(unsafe.block().statement())));
     }
 
     @Override

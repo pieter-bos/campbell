@@ -1,5 +1,6 @@
-package campbell.language.model;
+package campbell.language.model.scoped;
 
+import campbell.language.model.Statement;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 
@@ -28,9 +29,9 @@ public class ImplStatement extends Scope {
 
         if(impl.classList() != null) {
             List<Type> of = Type.fromContexts(impl.classList().className());
-            return new ImplStatement(type, of, statements);
+            return at(impl.getStart(), new ImplStatement(type, of, statements));
         } else {
-            return new ImplStatement(type, statements);
+            return at(impl.getStart(), new ImplStatement(type, statements));
         }
     }
 

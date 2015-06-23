@@ -1,11 +1,14 @@
-package campbell.language.model;
+package campbell.language.model.scoped;
 
+import campbell.language.model.unscoped.DeclStatement;
+import campbell.language.model.Statement;
+import campbell.language.model.Symbol;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 
 import java.util.List;
 
-public class FunStatement extends Scope {
+public class FunStatement extends Scope implements Symbol {
     private Type returnType;
     private String name;
     private List<? extends DeclStatement> arguments;
@@ -27,10 +30,10 @@ public class FunStatement extends Scope {
 
     public static FunStatement fromContext(CampbellParser.FunContext fun) {
         if(fun.block() == null) {
-            return new FunStatement(Type.fromContext(fun.className()), fun.IDENTIFIER().getText(), DeclStatement.fromContexts(fun.decl()));
+            return at(fun.getStart(), new FunStatement(Type.fromContext(fun.className()), fun.IDENTIFIER().getText(), DeclStatement.fromContexts(fun.decl())));
         } else {
-            return new FunStatement(Type.fromContext(fun.className()), fun.IDENTIFIER().getText(), DeclStatement.fromContexts(fun.decl()),
-                    Statement.fromContexts(fun.block().statement()));
+            return at(fun.getStart(), new FunStatement(Type.fromContext(fun.className()), fun.IDENTIFIER().getText(), DeclStatement.fromContexts(fun.decl()),
+                    Statement.fromContexts(fun.block().statement())));
         }
     }
 
@@ -74,5 +77,26 @@ public class FunStatement extends Scope {
                 stat.setScope(this);
             }
         }
+    }
+
+    @Override
+    public void findDefinitions() {
+        for (DeclStatement decl : arguments) {
+            symbols.put(decl.getName(), decl);
+        }
+
+        for(Statement stat : statements) {
+            if(stat instanceof FunStatement) {
+                symbols.put(((FunStatement) stat).getName(), (Symbol) stat);
+            } else if(stat instanceof DeclStatement) {
+                symbols.put(((DeclStatement) stat).getName(), (Symbol) stat);
+            } else if(stat instanceof ClassStatement) {
+                classes.put(((ClassStatement) stat).getType().getName(), )
+            }
+        }
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -1,5 +1,7 @@
-package campbell.language.model;
+package campbell.language.model.scoped;
 
+import campbell.language.model.unscoped.Expression;
+import campbell.language.model.Statement;
 import campbell.parser.gen.CampbellParser;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class ForStatement extends Scope {
         Expression args = Expression.fromContext(forNodeContext.expr(1));
         List<? extends Statement> block = Statement.fromContexts(forNodeContext.block().statement());
 
-        return new ForStatement(arg, args, block);
+        return at(forNodeContext.getStart(), new ForStatement(arg, args, block));
     }
 
     @Override

@@ -1,5 +1,6 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.scoped.Scope;
 import campbell.parser.gen.CampbellParser;
 
 public class DotExpression extends Expression {
@@ -12,7 +13,7 @@ public class DotExpression extends Expression {
     }
 
     public static DotExpression fromContext(CampbellParser.GetContext ctx, Expression expr) {
-        return new DotExpression(expr, ctx.IDENTIFIER().getText());
+        return at(ctx.getStart(), new DotExpression(expr, ctx.IDENTIFIER().getText()));
     }
 
     @Override

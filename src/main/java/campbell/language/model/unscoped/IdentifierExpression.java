@@ -1,5 +1,6 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.scoped.Scope;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class IdentifierExpression extends Expression {
@@ -10,7 +11,7 @@ public class IdentifierExpression extends Expression {
     }
 
     public static IdentifierExpression fromContext(TerminalNode ctx) {
-        return new IdentifierExpression(ctx.getText());
+        return at(ctx.getSymbol(), new IdentifierExpression(ctx.getText()));
     }
 
     @Override

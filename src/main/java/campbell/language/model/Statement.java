@@ -1,12 +1,19 @@
 package campbell.language.model;
 
+import campbell.language.model.scoped.*;
+import campbell.language.model.unscoped.AssignStatement;
+import campbell.language.model.unscoped.DeclStatement;
+import campbell.language.model.unscoped.Expression;
+import campbell.language.model.unscoped.ReturnStatement;
 import campbell.parser.gen.CampbellParser;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.antlr.v4.runtime.Token;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Statement {
+    protected int line;
+    protected int col;
     protected Scope scope;
 
     public static Statement fromContext(CampbellParser.StatementContext ctx) {
@@ -67,6 +74,12 @@ public abstract class Statement {
         return result;
     }
 
+    public static <T extends Statement> T at(Token start, T s) {
+        s.line = start.getLine();
+        s.col = start.getCharPositionInLine();
+        return s;
+    }
+
     @Override
     public String toString() {
         return toString(0);
@@ -74,5 +87,13 @@ public abstract class Statement {
 
     public Scope getScope() {
         return scope;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public int getCol() {
+        return col;
     }
 }

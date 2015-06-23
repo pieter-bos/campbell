@@ -1,5 +1,7 @@
-package campbell.language.model;
+package campbell.language.model.scoped;
 
+import campbell.language.model.unscoped.Expression;
+import campbell.language.model.Statement;
 import campbell.parser.gen.CampbellParser;
 
 import java.util.List;

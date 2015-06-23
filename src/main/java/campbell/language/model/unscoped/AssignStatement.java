@@ -1,5 +1,7 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.scoped.Scope;
+import campbell.language.model.Statement;
 import campbell.parser.gen.CampbellParser;
 
 public class AssignStatement extends Statement {
@@ -12,7 +14,8 @@ public class AssignStatement extends Statement {
     }
 
     public static AssignStatement fromContext(CampbellParser.AssignContext assign) {
-        return new AssignStatement(Expression.fromContext(assign.expr(0)), Expression.fromContext(assign.expr(1)));
+        // TODO decl
+        return at(assign.getStart(), new AssignStatement(Expression.fromContext(assign.expr(0)), Expression.fromContext(assign.expr(1))));
     }
 
     @Override

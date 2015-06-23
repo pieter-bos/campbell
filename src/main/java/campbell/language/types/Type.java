@@ -29,4 +29,6 @@ public abstract class Type {
 
         return result;
     }
+
+    public abstract String getName();
 }
