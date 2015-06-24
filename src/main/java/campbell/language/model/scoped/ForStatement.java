@@ -58,11 +58,20 @@ public class ForStatement extends Scope {
             } else if(stat instanceof FunStatement) {
                 symbols.put(((FunStatement) stat).getName(), (Symbol) stat);
             } else if(stat instanceof ClassStatement) {
-                classes.put(((ClassStatement) stat).getType().getName(), (ClassStatement) stat);
+                types.put(((ClassStatement) stat).getType().getName(), ((ClassStatement) stat).getType());
             }
 
             if(stat instanceof Scope) {
                 ((Scope) stat).findDefinitions();
+            }
+        }
+    }
+
+    @Override
+    public void findImpls() {
+        for(Statement stat : statements) {
+            if(stat instanceof Scope) {
+                ((Scope) stat).findImpls();
             }
         }
     }

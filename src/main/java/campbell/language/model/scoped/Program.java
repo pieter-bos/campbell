@@ -51,6 +51,7 @@ public class Program extends Scope {
         Program p = parseFrom(new FileInputStream("/home/pieter/programming/haskell/campbell/example.ham"));
         p.setScope(null);
         p.findDefinitions();
+        p.findImpls();
         System.out.println(p);
     }
 
@@ -62,12 +63,25 @@ public class Program extends Scope {
             } else if(stat instanceof DeclStatement) {
                 symbols.put(((DeclStatement) stat).getName(), (Symbol) stat);
             } else if(stat instanceof ClassStatement) {
-                classes.put(((ClassStatement) stat).getType().getName(), (ClassStatement) stat);
+                types.put(((ClassStatement) stat).getType().getName(), ((ClassStatement) stat).getType());
             }
 
             if(stat instanceof Scope) {
                 ((Scope) stat).findDefinitions();
             }
         }
+    }
+
+    @Override
+    public void findImpls() {
+        for(Statement stat : statements) {
+            if(stat instanceof Scope) {
+                ((Scope) stat).findImpls();
+            }
+        }
+    }
+
+    public void toRoborovski(campbell.roborovski.model.Program program) {
+
     }
 }

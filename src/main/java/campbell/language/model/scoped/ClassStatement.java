@@ -5,6 +5,7 @@ import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
 import campbell.language.types.ClassType;
+import campbell.language.types.GenericType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 
@@ -23,7 +24,9 @@ public class ClassStatement extends Scope {
         Type type = Type.fromContext(classNodeContext.className());
 
         if(type instanceof ClassType) {
-            return at(classNodeContext.getStart(), new ClassStatement((ClassType) type, Statement.fromContexts(classNodeContext.block().statement())));
+            ClassStatement stat = new ClassStatement((ClassType) type, Statement.fromContexts(classNodeContext.block().statement()));
+            type.setImplementation(stat);
+            return at(classNodeContext.getStart(), stat);
         } else {
             throw new CompileException(classNodeContext.getStart(), "ClassStatement", "Expected a class type, but got " + type.toString());
         }
@@ -56,17 +59,34 @@ public class ClassStatement extends Scope {
 
     @Override
     public void findDefinitions() {
+        for(Type param : type.getParametricTypes()) {
+            if(!(param instanceof ClassType) || ((ClassType) param).getParametricTypes().size() != 0) {
+                throw new CompileException(this, "A type in the generic arguments of this class is '" + param.getName() + "' instead of a generic argument.");
+            }
+
+            types.put(param.getName(), new GenericType(param.getName()));
+        }
+
         for(Statement stat : statements) {
             if(stat instanceof DeclStatement) {
                 symbols.put(((DeclStatement) stat).getName(), (Symbol) stat);
             } else if(stat instanceof FunStatement) {
                 symbols.put(((FunStatement) stat).getName(), (Symbol) stat);
             } else if(stat instanceof ClassStatement) {
-                classes.put(((ClassStatement) stat).getType().getName(), (ClassStatement) stat);
+                types.put(((ClassStatement) stat).getType().getName(), ((ClassStatement) stat).getType());
             }
 
             if(stat instanceof Scope) {
                 ((Scope) stat).findDefinitions();
+            }
+        }
+    }
+
+    @Override
+    public void findImpls() {
+        for(Statement stat : statements) {
+            if(stat instanceof Scope) {
+                ((Scope) stat).findImpls();
             }
         }
     }

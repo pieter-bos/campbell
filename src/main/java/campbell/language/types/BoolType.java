@@ -1,6 +1,6 @@
 package campbell.language.types;
 
-public class BoolType extends Type {
+public class BoolType extends PrimitiveType {
     @Override
     public String toString() {
         return "bool";

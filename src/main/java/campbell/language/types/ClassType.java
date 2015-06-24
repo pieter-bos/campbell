@@ -40,4 +40,8 @@ public class ClassType extends Type {
     public String getName() {
         return name;
     }
+
+    public List<Type> getParametricTypes() {
+        return parametricTypes;
+    }
 }

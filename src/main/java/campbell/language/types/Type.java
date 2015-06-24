@@ -1,11 +1,15 @@
 package campbell.language.types;
 
+import campbell.language.model.Node;
+import campbell.language.model.scoped.ClassStatement;
 import campbell.parser.gen.CampbellParser;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Type {
+    private Node implementation = null;
+
     public static Type fromContext(CampbellParser.ClassNameContext classNameContext) {
         String id = classNameContext.IDENTIFIER().getText();
 
@@ -31,4 +35,12 @@ public abstract class Type {
     }
 
     public abstract String getName();
+
+    public Node getImplementation() {
+        return implementation;
+    }
+
+    public void setImplementation(Node implementation) {
+        this.implementation = implementation;
+    }
 }

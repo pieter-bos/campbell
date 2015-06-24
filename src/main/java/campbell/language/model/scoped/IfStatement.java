@@ -68,4 +68,13 @@ public class IfStatement extends Scope {
             elseStatements.findDefinitions();
         }
     }
+
+    @Override
+    public void findImpls() {
+        statements.findImpls();
+
+        if(elseStatements != null) {
+            elseStatements.findImpls();
+        }
+    }
 }

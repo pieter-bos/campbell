@@ -18,6 +18,15 @@ public class BlockStatement extends Scope implements Iterable<Statement> {
     }
 
     @Override
+    public void findImpls() {
+        for(Statement stat : statements) {
+            if(stat instanceof Scope) {
+                ((Scope) stat).findImpls();
+            }
+        }
+    }
+
+    @Override
     public void setScope(Scope scope) {
         this.scope = scope;
 

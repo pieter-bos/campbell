@@ -1,6 +1,6 @@
 package campbell.language.types;
 
-public class PointerType {
+public class PointerType extends Type {
     private Type referencedType;
 
     public PointerType(Type referencedType) {
@@ -10,5 +10,10 @@ public class PointerType {
     @Override
     public String toString() {
         return "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    }
+
+    @Override
+    public String getName() {
+        return ">>>>>>>>>>>>>" + referencedType.getName();
     }
 }

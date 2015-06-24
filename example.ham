@@ -9,6 +9,12 @@ trait Iterable<T>
 trait Add<T> of (A, B)
     fun T add(A a, B b)
 
+class BigInteger
+    int value
+
+trait Add<R> of (A, B)
+    fun R add(A a, B b)
+
 impl Add<int> of (int, int)
     fun int add(int a, int b)
         unsafe
@@ -57,4 +63,3 @@ fun void main()
 
     for value in Range(1, 10)
         nop
-# lksahjglsadhjgkjsdah
