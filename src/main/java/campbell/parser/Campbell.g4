@@ -13,11 +13,11 @@ statement
     | impl
     | trait
     | returnNode
-    | expr
     | decl
     | assign
     | classNode
     | forNode
+    | expr
     ;
 
 fun

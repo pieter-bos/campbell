@@ -45,7 +45,7 @@ public class ClassStatement extends Scope {
 
     @Override
     public String toString(int indent) {
-        String result = indent(indent) + "class " + type;
+        String result = indent(indent) + "class " + type + " " + getComment();
 
         for(Statement stat : statements) {
             result += "\n" + stat.toString(indent + 1);
@@ -69,5 +69,9 @@ public class ClassStatement extends Scope {
                 ((Scope) stat).findDefinitions();
             }
         }
+    }
+
+    public String getName() {
+        return type.getName();
     }
 }

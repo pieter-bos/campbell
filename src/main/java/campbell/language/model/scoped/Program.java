@@ -1,6 +1,8 @@
 package campbell.language.model.scoped;
 
 import campbell.language.model.Statement;
+import campbell.language.model.Symbol;
+import campbell.language.model.unscoped.DeclStatement;
 import campbell.parser.CampbellStreamParser;
 import campbell.parser.gen.CampbellParser;
 
@@ -31,16 +33,10 @@ public class Program extends Scope {
 
     @Override
     public String toString(int indent) {
-        String result = "";
-        boolean firstStatement = true;
+        String result = indent(indent) + getComment();
 
         for(Statement stat : statements) {
-            if(!firstStatement) {
-                result += "\n";
-            }
-
-            firstStatement = false;
-
+            result += "\n";
             result += stat.toString(indent);
         }
 
@@ -54,5 +50,24 @@ public class Program extends Scope {
     public static void main(String[] args) throws FileNotFoundException {
         Program p = parseFrom(new FileInputStream("/home/pieter/programming/haskell/campbell/example.ham"));
         p.setScope(null);
+        p.findDefinitions();
+        System.out.println(p);
+    }
+
+    @Override
+    public void findDefinitions() {
+        for(Statement stat : statements) {
+            if(stat instanceof FunStatement) {
+                symbols.put(((FunStatement) stat).getName(), (Symbol) stat);
+            } else if(stat instanceof DeclStatement) {
+                symbols.put(((DeclStatement) stat).getName(), (Symbol) stat);
+            } else if(stat instanceof ClassStatement) {
+                classes.put(((ClassStatement) stat).getType().getName(), (ClassStatement) stat);
+            }
+
+            if(stat instanceof Scope) {
+                ((Scope) stat).findDefinitions();
+            }
+        }
     }
 }

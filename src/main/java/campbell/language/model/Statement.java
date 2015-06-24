@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.Token;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Statement {
+public abstract class Statement implements Node {
     protected int line;
     protected int col;
     protected Scope scope;
@@ -89,11 +89,21 @@ public abstract class Statement {
         return scope;
     }
 
+    @Override
     public int getLine() {
         return line;
     }
 
+    @Override
     public int getCol() {
         return col;
+    }
+
+    public ClassStatement findClass(String name) {
+        return getScope().findClass(name);
+    }
+
+    public Symbol findSymbol(String name) {
+        return getScope().findSymbol(name);
     }
 }

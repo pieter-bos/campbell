@@ -75,6 +75,19 @@ public class CampbellLexer implements TokenSource {
                 return tokenQueue.poll();
             }
 
+            while(peekc() == ' ' || peekc() == '\t') {
+                readc();
+                accept(0);
+            }
+
+            if(peekc() == '#') {
+                while(peekc() != '\n' && peekc() != '\r') {
+                    readc();
+                }
+
+                accept(0);
+            }
+
             if(peekc() == '\n' || peekc() == '\r') {
                 // Read any empty lines (and ignore the indent)
                 while(peekc() == '\n' || peekc() == '\r') {
@@ -115,11 +128,6 @@ public class CampbellLexer implements TokenSource {
 
                     return tokenQueue.poll();
                 }
-            }
-
-            while(peekc() == ' ' || peekc() == '\t') {
-                readc();
-                accept(0);
             }
 
             // Special characters
@@ -246,7 +254,11 @@ public class CampbellLexer implements TokenSource {
 
     private String readFromStream(int length) throws IOException {
         char[] data = new char[length];
-        reader.read(data);
+
+        if(reader.read(data) != length) {
+            throw new IOException("Could not read data from the stream fast enough");
+        }
+
         return new String(data);
     }
 

@@ -8,19 +8,19 @@ import java.util.List;
 
 public class IfStatement extends Scope {
     private final Expression condition;
-    private final List<? extends Statement> statements;
-    private final List<? extends Statement> elseStatements;
+    private final BlockStatement statements;
+    private final BlockStatement elseStatements;
 
     public IfStatement(Expression condition, List<? extends Statement> statements) {
         this.condition = condition;
-        this.statements = statements;
+        this.statements = new BlockStatement(statements);
         this.elseStatements = null;
     }
 
     public IfStatement(Expression condition, List<? extends Statement> statements, List<? extends Statement> elseStatements) {
         this.condition = condition;
-        this.statements = statements;
-        this.elseStatements = elseStatements;
+        this.statements = new BlockStatement(statements);
+        this.elseStatements = new BlockStatement(elseStatements);
     }
 
     public static IfStatement fromContext(CampbellParser.IfNodeContext ifNodeContext) {
@@ -38,33 +38,34 @@ public class IfStatement extends Scope {
     public void setScope(Scope scope) {
         this.scope = scope;
         this.condition.setScope(scope);
-        for (Statement s : statements) {
-            s.setScope(this);
-        }
+
+        statements.setScope(scope);
 
         if (elseStatements != null) {
-            for (Statement st : elseStatements) {
-                st.setScope(this);
-            }
+            elseStatements.setScope(scope);
         }
     }
 
     @Override
     public String toString(int indent) {
-        String result = indent(indent) + "if " + condition.toString(0);
+        String result = indent(indent) + "if " + condition.toString(0) + "\n";
 
-        for(Statement stat : statements) {
-            result += "\n" + stat.toString(indent + 1);
-        }
+        result += statements.toString(indent + 1);
 
         if(elseStatements != null) {
-            result += "\n" + indent(indent) + "else";
-
-            for(Statement stat : elseStatements) {
-                result += "\n" + stat.toString(indent + 1);
-            }
+            result += "\n" + indent(indent) + "else" + "\n";
+            result += elseStatements.toString(indent + 1);
         }
 
         return result;
+    }
+
+    @Override
+    public void findDefinitions() {
+        statements.findDefinitions();
+
+        if(elseStatements != null) {
+            elseStatements.findDefinitions();
+        }
     }
 }

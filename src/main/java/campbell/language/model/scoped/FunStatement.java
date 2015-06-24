@@ -53,7 +53,7 @@ public class FunStatement extends Scope implements Symbol {
             result += decl.toString(0);
         }
 
-        result += ")";
+        result += ") " + getComment();
 
         if(statements != null) {
             for(Statement stat : statements) {
@@ -81,22 +81,32 @@ public class FunStatement extends Scope implements Symbol {
 
     @Override
     public void findDefinitions() {
-        for (DeclStatement decl : arguments) {
-            symbols.put(decl.getName(), decl);
-        }
+        if(!isAbstract()) {
+            for (DeclStatement decl : arguments) {
+                symbols.put(decl.getName(), decl);
+            }
 
-        for(Statement stat : statements) {
-            if(stat instanceof FunStatement) {
-                symbols.put(((FunStatement) stat).getName(), (Symbol) stat);
-            } else if(stat instanceof DeclStatement) {
-                symbols.put(((DeclStatement) stat).getName(), (Symbol) stat);
-            } else if(stat instanceof ClassStatement) {
-                classes.put(((ClassStatement) stat).getType().getName(), )
+            for(Statement stat : statements) {
+                if(stat instanceof FunStatement) {
+                    symbols.put(((FunStatement) stat).getName(), (Symbol) stat);
+                } else if(stat instanceof DeclStatement) {
+                    symbols.put(((DeclStatement) stat).getName(), (Symbol) stat);
+                } else if(stat instanceof ClassStatement) {
+                    classes.put(((ClassStatement) stat).getType().getName(), (ClassStatement) stat);
+                }
+
+                if(stat instanceof Scope) {
+                    ((Scope) stat).findDefinitions();
+                }
             }
         }
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean isAbstract() {
+        return statements == null;
     }
 }

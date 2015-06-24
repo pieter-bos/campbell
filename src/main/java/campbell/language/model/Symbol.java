@@ -1,4 +1,5 @@
 package campbell.language.model;
 
-public interface Symbol {
+public interface Symbol extends Node {
+    String getName();
 }

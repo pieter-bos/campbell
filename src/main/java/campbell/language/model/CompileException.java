@@ -3,7 +3,7 @@ package campbell.language.model;
 import org.antlr.v4.runtime.Token;
 
 public class CompileException extends RuntimeException {
-    public CompileException(Statement location, String message) {
+    public CompileException(Node location, String message) {
         this(location.getLine(), location.getCol(), location.getClass().getName(), message);
     }
 
@@ -12,6 +12,6 @@ public class CompileException extends RuntimeException {
     }
 
     public CompileException(int line, int col, String what, String message) {
-        super(String.format("Compile error while processing a %s at %d:%d:\n%s", what, line, col, message);
+        super(String.format("Compile error while processing a %s at %d:%d:\n%s", what, line, col, message));
     }
 }

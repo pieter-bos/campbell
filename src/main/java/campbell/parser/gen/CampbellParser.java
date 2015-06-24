@@ -173,9 +173,6 @@ public class CampbellParser extends Parser {
 		public ReturnNodeContext returnNode() {
 			return getRuleContext(ReturnNodeContext.class,0);
 		}
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
 		public DeclContext decl() {
 			return getRuleContext(DeclContext.class,0);
 		}
@@ -187,6 +184,9 @@ public class CampbellParser extends Parser {
 		}
 		public ForNodeContext forNode() {
 			return getRuleContext(ForNodeContext.class,0);
+		}
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
 		}
 		public StatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -261,35 +261,35 @@ public class CampbellParser extends Parser {
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(60); 
-				expr();
+				decl();
 				}
 				break;
 			case 9:
 				enterOuterAlt(_localctx, 9);
 				{
 				setState(61); 
-				decl();
+				assign();
 				}
 				break;
 			case 10:
 				enterOuterAlt(_localctx, 10);
 				{
 				setState(62); 
-				assign();
+				classNode();
 				}
 				break;
 			case 11:
 				enterOuterAlt(_localctx, 11);
 				{
 				setState(63); 
-				classNode();
+				forNode();
 				}
 				break;
 			case 12:
 				enterOuterAlt(_localctx, 12);
 				{
 				setState(64); 
-				forNode();
+				expr();
 				}
 				break;
 			}
@@ -2191,7 +2191,7 @@ public class CampbellParser extends Parser {
 		"\u011a\3\2\2\2.\u011e\3\2\2\2\60\62\5\4\3\2\61\60\3\2\2\2\62\63\3\2\2"+
 		"\2\63\61\3\2\2\2\63\64\3\2\2\2\64\65\3\2\2\2\65\66\7\2\2\3\66\3\3\2\2"+
 		"\2\67D\5\6\4\28D\5\b\5\29D\5\n\6\2:D\5\f\7\2;D\5\16\b\2<D\5\20\t\2=D\5"+
-		"\22\n\2>D\5\34\17\2?D\5\24\13\2@D\5\26\f\2AD\5\30\r\2BD\5\32\16\2C\67"+
+		"\22\n\2>D\5\24\13\2?D\5\26\f\2@D\5\30\r\2AD\5\32\16\2BD\5\34\17\2C\67"+
 		"\3\2\2\2C8\3\2\2\2C9\3\2\2\2C:\3\2\2\2C;\3\2\2\2C<\3\2\2\2C=\3\2\2\2C"+
 		">\3\2\2\2C?\3\2\2\2C@\3\2\2\2CA\3\2\2\2CB\3\2\2\2D\5\3\2\2\2EF\7\16\2"+
 		"\2FG\5(\25\2GH\7\"\2\2HQ\7\27\2\2IN\5\24\13\2JK\7\32\2\2KM\5\24\13\2L"+
