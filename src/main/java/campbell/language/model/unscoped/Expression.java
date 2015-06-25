@@ -1,7 +1,10 @@
 package campbell.language.model.unscoped;
 
 import campbell.language.model.*;
+import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.Block;
+import campbell.roborovski.model.Program;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -110,4 +113,15 @@ public abstract class Expression extends Statement {
 
         return result;
     }
+
+    public abstract Type getType();
+
+    public abstract campbell.roborovski.model.Expression toRoborovski();
+
+    @Override
+    public void toRoborovski(Program program, Block block) {
+        block.addStatement(toRoborovski());
+    }
+
+    public abstract Expression deepCopy();
 }

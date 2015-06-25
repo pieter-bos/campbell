@@ -1,6 +1,7 @@
 package campbell.language.model.unscoped;
 
 import campbell.language.model.scoped.Scope;
+import campbell.language.types.Type;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class IdentifierExpression extends Expression {
@@ -22,5 +23,25 @@ public class IdentifierExpression extends Expression {
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
+    }
+
+    @Override
+    public Type getType() {
+        return findSymbol(id).getType();
+    }
+
+    @Override
+    public campbell.roborovski.model.Expression toRoborovski() {
+        return null;
+    }
+
+    @Override
+    public Expression deepCopy() {
+        return new IdentifierExpression(id);
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        // Nop
     }
 }

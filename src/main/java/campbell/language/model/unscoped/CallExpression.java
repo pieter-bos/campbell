@@ -1,9 +1,15 @@
 package campbell.language.model.unscoped;
 
+import campbell.language.model.CompileException;
+import campbell.language.model.Statement;
 import campbell.language.model.scoped.Scope;
+import campbell.language.types.FunctionType;
+import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CallExpression extends Expression {
     private final Expression callee;
@@ -46,5 +52,44 @@ public class CallExpression extends Expression {
         result += ")";
 
         return result;
+    }
+
+    @Override
+    public CallExpression deepCopy() {
+        return new CallExpression(callee.deepCopy(), arguments.stream().map(Expression::deepCopy).collect(Collectors.toList()));
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        callee.replaceType(replace, replaceWith);
+        for (Expression e : arguments) {
+            e.replaceType(replace, replaceWith);
+        }
+    }
+
+    @Override
+    public Type getType() {
+        Type currentType = callee.getType();
+
+        for(int i = 0; i < arguments.size(); i++) {
+            if(currentType instanceof FunctionType) {
+                currentType = ((FunctionType) currentType).getReturnType();
+            } else {
+                throw new CompileException(this, "Type " + currentType.getName() + " is not callable.");
+            }
+        }
+
+        return currentType;
+    }
+
+    @Override
+    public campbell.roborovski.model.Expression toRoborovski() {
+        LinkedList<campbell.roborovski.model.Expression> args = new LinkedList<>();
+
+        for(Expression e : arguments) {
+            args.add(e.toRoborovski());
+        }
+
+        return new campbell.roborovski.model.CallExpression(callee.toRoborovski(), args);
     }
 }

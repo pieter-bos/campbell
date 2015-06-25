@@ -2,7 +2,11 @@ package campbell.language.model.unscoped;
 
 import campbell.language.model.scoped.Scope;
 import campbell.language.model.Statement;
+import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.Assign;
+import campbell.roborovski.model.Block;
+import campbell.roborovski.model.Program;
 
 public class AssignStatement extends Statement {
     private final Expression left;
@@ -29,5 +33,21 @@ public class AssignStatement extends Statement {
     @Override
     public String toString(int indent) {
         return left.toString(indent) + " = " + right.toString(0);
+    }
+
+    @Override
+    public void toRoborovski(Program program, Block block) {
+        block.addStatement(new Assign(left.toRoborovski(), right.toRoborovski()));
+    }
+
+    @Override
+    public AssignStatement deepCopy() {
+        return new AssignStatement(left.deepCopy(), right.deepCopy());
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        left.replaceType(replace, replaceWith);
+        right.replaceType(replace, replaceWith);
     }
 }

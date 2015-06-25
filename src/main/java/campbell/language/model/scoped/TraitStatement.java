@@ -5,8 +5,11 @@ import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.*;
+import campbell.roborovski.model.Program;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TraitStatement extends Scope {
     private final Type type;
@@ -81,6 +84,35 @@ public class TraitStatement extends Scope {
         }
 
         return result;
+    }
+
+    @Override
+    public void toRoborovski(Program program, Block block) {
+        // nop
+    }
+
+    @Override
+    public TraitStatement deepCopy() {
+        if(of == null) {
+            return new TraitStatement(type, statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
+        } else {
+            return new TraitStatement(type, of, statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
+        }
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        type.replaceType(replace, replaceWith);
+
+        if (of != null) {
+            for (Type t : of) {
+                t.replaceType(replace, replaceWith);
+            }
+        }
+
+        for (Statement s : statements) {
+            s.replaceType(replace, replaceWith);
+        }
     }
 
     @Override

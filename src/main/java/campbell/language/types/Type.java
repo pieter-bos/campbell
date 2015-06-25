@@ -36,6 +36,8 @@ public abstract class Type {
 
     public abstract String getName();
 
+    public abstract void replaceType(Type replace, Type replaceWith);
+
     public Node getImplementation() {
         return implementation;
     }

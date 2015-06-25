@@ -1,20 +1,44 @@
 package campbell.language.model.unscoped;
 
+import campbell.language.model.Statement;
 import campbell.language.model.scoped.Scope;
+import campbell.language.types.BoolType;
+import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.BinaryExpression;
 
 public class ComparisonExpression extends Expression {
     private final Expression left;
     private final ComparisonOp op;
     private final Expression right;
 
+    @Override
+    public Type getType() {
+        return new BoolType();
+    }
+
+    @Override
+    public campbell.roborovski.model.Expression toRoborovski() {
+        return new BinaryExpression(left.toRoborovski(), op.getRoborovski(), right.toRoborovski());
+    }
+
     public enum ComparisonOp {
-        LessThan,
-        GreaterThan,
-        LessThanEquals,
-        GreaterThanEquals,
-        Equals,
-        NotEquals;
+        LessThan(BinaryExpression.BinaryOp.LessThan),
+        GreaterThan(BinaryExpression.BinaryOp.GreaterThan),
+        LessThanEquals(BinaryExpression.BinaryOp.LessThanEquals),
+        GreaterThanEquals(BinaryExpression.BinaryOp.GreaterThanEquals),
+        Equals(BinaryExpression.BinaryOp.Equals),
+        NotEquals(BinaryExpression.BinaryOp.NotEquals);
+
+        private final BinaryExpression.BinaryOp roborovski;
+
+        ComparisonOp(BinaryExpression.BinaryOp roborovski) {
+            this.roborovski = roborovski;
+        }
+
+        public BinaryExpression.BinaryOp getRoborovski() {
+            return roborovski;
+        }
     }
     public ComparisonExpression(Expression left, ComparisonOp op, Expression right) {
         this.left = left;
@@ -60,5 +84,16 @@ public class ComparisonExpression extends Expression {
         }
 
         return null;
+    }
+
+    @Override
+    public ComparisonExpression deepCopy() {
+        return new ComparisonExpression(left.deepCopy(), op, right.deepCopy());
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        left.replaceType(replace, replaceWith);
+        right.replaceType(replace, replaceWith);
     }
 }

@@ -5,26 +5,34 @@ import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.*;
+import campbell.roborovski.model.Program;
+import org.antlr.v4.codegen.model.decl.Decl;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FunStatement extends Scope implements Symbol {
     private Type returnType;
     private String name;
-    private List<? extends DeclStatement> arguments;
+    private List<DeclStatement> arguments;
     private List<? extends Statement> statements;
+    private Function func;
 
     public FunStatement(Type returnType, String name, List<? extends DeclStatement> arguments) {
         this.returnType = returnType;
         this.name = name;
-        this.arguments = arguments;
+        this.arguments = new LinkedList<>();
+        this.arguments.addAll(arguments);
         this.statements = null;
     }
 
     public FunStatement(Type returnType, String name, List<? extends DeclStatement> arguments, List<? extends Statement> statements) {
         this.returnType = returnType;
         this.name = name;
-        this.arguments = arguments;
+        this.arguments = new LinkedList<>();
+        this.arguments.addAll(arguments);
         this.statements = statements;
     }
 
@@ -62,6 +70,38 @@ public class FunStatement extends Scope implements Symbol {
         }
 
         return result;
+    }
+
+    @Override
+    public void toRoborovski(Program program, Block block) {
+        func = new Function();
+        program.addFunction(func);
+
+        for(DeclStatement decl : arguments) {
+            func.addArgument(new Variable(decl.getName()));
+        }
+
+        for(Statement stat : statements) {
+            stat.toRoborovski(program, block);
+        }
+    }
+
+    @Override
+    public FunStatement deepCopy() {
+        return new FunStatement(returnType, name, arguments.stream().map(DeclStatement::deepCopy).collect(Collectors.toList()));
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        returnType.replaceType(replace, replaceWith);
+
+        for(DeclStatement stat : arguments) {
+            stat.replaceType(replace, replaceWith);
+        }
+
+        for(Statement stat : statements) {
+            stat.replaceType(replace, replaceWith);
+        }
     }
 
     @Override
@@ -115,6 +155,19 @@ public class FunStatement extends Scope implements Symbol {
 
     public String getName() {
         return name;
+    }
+
+    public Function getFunction() {
+        return func;
+    }
+
+    public List<DeclStatement> getArguments() {
+        return arguments;
+    }
+
+    @Override
+    public Type getType() {
+        return null;
     }
 
     public boolean isAbstract() {

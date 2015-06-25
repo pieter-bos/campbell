@@ -5,13 +5,17 @@ import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.Block;
+import campbell.roborovski.model.Program;
+import campbell.roborovski.model.Variable;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class DeclStatement extends Statement implements Symbol {
-    private final Type type;
+    private Type type;
     private final String name;
+    private Variable variable = null;
 
     public DeclStatement(Type type, String name) {
         this.type = type;
@@ -52,7 +56,32 @@ public class DeclStatement extends Statement implements Symbol {
         return indent(indent) + type.toString() + " " + name;
     }
 
+    @Override
+    public void toRoborovski(Program program, Block block) {
+        variable = new Variable(name);
+        block.addVariable(variable);
+    }
+
+    @Override
+    public DeclStatement deepCopy() {
+        return new DeclStatement(type, name);
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        if(type.getName().equals(replace.getName())) {
+            type = replaceWith;
+        } else {
+            type.replaceType(replace, replaceWith);
+        }
+    }
+
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Type getType() {
+        return type;
     }
 }

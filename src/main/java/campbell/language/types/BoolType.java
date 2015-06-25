@@ -10,4 +10,19 @@ public class BoolType extends PrimitiveType {
     public String getName() {
         return "bool";
     }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        // nop
+    }
+
+    @Override
+    public int hashCode() {
+        return "bool".hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof BoolType;
+    }
 }

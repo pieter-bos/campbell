@@ -16,4 +16,9 @@ public class PointerType extends Type {
     public String getName() {
         return ">>>>>>>>>>>>>" + referencedType.getName();
     }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        // nop
+    }
 }

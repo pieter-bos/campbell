@@ -8,12 +8,21 @@ import campbell.language.types.ClassType;
 import campbell.language.types.GenericType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.*;
+import campbell.roborovski.model.Program;
+import util.HashList;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClassStatement extends Scope {
     private ClassType type;
     private final List<? extends Statement> statements;
+
+    private final HashMap<HashList<Type>, ClassStatement> implementations = new HashMap<>();
+    private Struct struct = null;
 
     public ClassStatement(ClassType type, List<? extends Statement> statements) {
         this.type = type;
@@ -37,6 +46,42 @@ public class ClassStatement extends Scope {
         return type;
     }
 
+    public ClassStatement getImplementation(List<Type> types, Program program) {
+        HashList<Type> hashTypes = new HashList<>();
+        hashTypes.addAll(types);
+
+        if(implementations.containsKey(hashTypes)) {
+            return implementations.get(hashTypes);
+        } else {
+            ClassStatement result = this.deepCopy();
+
+            Iterator<Type> replace = type.getParametricTypes().iterator();
+            Iterator<Type> replaceWith = types.iterator();
+
+            while(replace.hasNext()) {
+                Type replaceT = replace.next();
+                Type replaceWithT = replaceWith.next();
+                result.replaceType(replaceT, replaceWithT);
+            }
+
+            implementations.put(hashTypes, result);
+
+            result.struct = new Struct();
+            program.addStruct(result.struct);
+
+            for(Statement stat : statements) {
+                if(stat instanceof DeclStatement) {
+                    result.struct.addVariable(new Variable(((DeclStatement) stat).getName()));
+                } else if(stat instanceof FunStatement) {
+                    DeclStatement x = new DeclStatement(result.getType(), "this");
+                    ((FunStatement) stat).getArguments().add(x);
+                }
+            }
+
+            return result;
+        }
+    }
+
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -55,6 +100,11 @@ public class ClassStatement extends Scope {
         }
 
         return result;
+    }
+
+    @Override
+    public void toRoborovski(Program program, Block block) {
+        // nop
     }
 
     @Override
@@ -93,5 +143,19 @@ public class ClassStatement extends Scope {
 
     public String getName() {
         return type.getName();
+    }
+
+    @Override
+    public ClassStatement deepCopy() {
+        return new ClassStatement(type, statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        type.replaceType(replace, replaceWith);
+
+        for(Statement stat : statements) {
+            stat.replaceType(replace, replaceWith);
+        }
     }
 }

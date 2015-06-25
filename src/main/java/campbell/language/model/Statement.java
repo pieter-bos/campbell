@@ -7,6 +7,7 @@ import campbell.language.model.unscoped.Expression;
 import campbell.language.model.unscoped.ReturnStatement;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.Variable;
 import org.antlr.v4.runtime.Token;
 
 import java.util.LinkedList;
@@ -107,4 +108,10 @@ public abstract class Statement implements Node {
     public Symbol findSymbol(String name) {
         return getScope().findSymbol(name);
     }
+
+    public abstract void toRoborovski(campbell.roborovski.model.Program program, campbell.roborovski.model.Block block);
+
+    public abstract Statement deepCopy();
+
+    public abstract void replaceType(Type replace, Type replaceWith);
 }

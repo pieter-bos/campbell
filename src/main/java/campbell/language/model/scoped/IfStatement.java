@@ -2,9 +2,16 @@ package campbell.language.model.scoped;
 
 import campbell.language.model.unscoped.Expression;
 import campbell.language.model.Statement;
+import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.*;
+import campbell.roborovski.model.Program;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class IfStatement extends Scope {
     private final Expression condition;
@@ -58,6 +65,47 @@ public class IfStatement extends Scope {
         }
 
         return result;
+    }
+
+    @Override
+    public void toRoborovski(Program program, Block block) {
+        Block ifBlock = new Block();
+        Block elseBlock = new Block();
+
+        statements.toRoborovski(program, ifBlock);
+
+        if(elseStatements != null) {
+            elseStatements.toRoborovski(program, elseBlock);
+        }
+
+        block.addStatement(new If(condition.toRoborovski(), ifBlock, elseBlock));
+    }
+
+    @Override
+    public IfStatement deepCopy() {
+        if(elseStatements == null) {
+            return new IfStatement(condition.deepCopy(),
+                    StreamSupport.stream(statements.spliterator(), true).collect(Collectors.toList()));
+        } else {
+            return new IfStatement(condition.deepCopy(),
+                    StreamSupport.stream(statements.spliterator(), true).collect(Collectors.toList()),
+                    StreamSupport.stream(elseStatements.spliterator(), true).collect(Collectors.toList()));
+        }
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        condition.replaceType(replace, replaceWith);
+
+        for (Statement stat : statements) {
+            stat.replaceType(replace, replaceWith);
+        }
+
+        if (elseStatements != null) {
+            for (Statement stat : elseStatements) {
+                stat.replaceType(replace, replaceWith);
+            }
+        }
     }
 
     @Override

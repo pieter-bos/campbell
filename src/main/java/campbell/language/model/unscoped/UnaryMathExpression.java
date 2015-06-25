@@ -1,6 +1,8 @@
 package campbell.language.model.unscoped;
 
 import campbell.language.model.scoped.Scope;
+import campbell.language.types.IntType;
+import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 
 public class UnaryMathExpression extends Expression {
@@ -23,6 +25,26 @@ public class UnaryMathExpression extends Expression {
         }
 
         return null;
+    }
+
+    @Override
+    public Type getType() {
+        return new IntType();
+    }
+
+    @Override
+    public campbell.roborovski.model.Expression toRoborovski() {
+        return null;
+    }
+
+    @Override
+    public Expression deepCopy() {
+        return new UnaryMathExpression(op, expr.deepCopy());
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        expr.replaceType(replace, replaceWith);
     }
 
     public enum UnaryMathOp {

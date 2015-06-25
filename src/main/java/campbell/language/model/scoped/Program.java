@@ -3,6 +3,7 @@ package campbell.language.model.scoped;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
+import campbell.language.types.Type;
 import campbell.parser.CampbellStreamParser;
 import campbell.parser.gen.CampbellParser;
 
@@ -10,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Program extends Scope {
     private List<? extends Statement> statements;
@@ -81,7 +83,35 @@ public class Program extends Scope {
         }
     }
 
-    public void toRoborovski(campbell.roborovski.model.Program program) {
+    @Override
+    public void toRoborovski(campbell.roborovski.model.Program program, campbell.roborovski.model.Block block) {
+        /**
+         * ClassStatement -> functies en een struct
+         * ForStatement -> compilet naar een while
+         * FunStatement -> functies
+         * If -> compilet naar een if
+         * Program -> block
+         * Unsafe -> block
+         * While -> compilet naar een while, block
+         * Assign
+         * Return
+         * Expressions
+         */
 
+        for(Statement statement : statements) {
+            statement.toRoborovski(program, block);
+        }
+    }
+
+    @Override
+    public Statement deepCopy() {
+        return new Program(statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        for (Statement s : statements) {
+            s.replaceType(replace, replaceWith);
+        }
     }
 }

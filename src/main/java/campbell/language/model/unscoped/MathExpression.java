@@ -1,12 +1,35 @@
 package campbell.language.model.unscoped;
 
 import campbell.language.model.scoped.Scope;
+import campbell.language.types.IntType;
+import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 
 public class MathExpression extends Expression {
     private final Expression left;
     private final MathOp op;
     private final Expression right;
+
+    @Override
+    public Type getType() {
+        return new IntType();
+    }
+
+    @Override
+    public campbell.roborovski.model.Expression toRoborovski() {
+        return null;
+    }
+
+    @Override
+    public Expression deepCopy() {
+        return new MathExpression(left.deepCopy(), op, right.deepCopy());
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        left.replaceType(replace, replaceWith);
+        right.replaceType(replace, replaceWith);
+    }
 
     public enum MathOp {
         Add,

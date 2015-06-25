@@ -3,9 +3,13 @@ package campbell.language.model.scoped;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
+import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.*;
+import campbell.roborovski.model.Program;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UnsafeStatement extends Scope {
     private List<? extends Statement> statements;
@@ -36,6 +40,28 @@ public class UnsafeStatement extends Scope {
         }
 
         return result;
+    }
+
+    @Override
+    public void toRoborovski(Program program, Block block) {
+        Block innerBlock = new Block();
+        block.addStatement(innerBlock);
+
+        for(Statement stat : statements) {
+            stat.toRoborovski(program, innerBlock);
+        }
+    }
+
+    @Override
+    public UnsafeStatement deepCopy() {
+        return new UnsafeStatement(statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
+    }
+
+    @Override
+    public void replaceType(Type replace, Type replaceWith) {
+        for (Statement s : statements) {
+            s.replaceType(replace, replaceWith);
+        }
     }
 
     @Override
