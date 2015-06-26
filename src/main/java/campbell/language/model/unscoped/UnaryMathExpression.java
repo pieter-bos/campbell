@@ -4,6 +4,9 @@ import campbell.language.model.scoped.Scope;
 import campbell.language.types.IntType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.BinaryExpression;
+import campbell.roborovski.model.ConstExpression;
+import campbell.roborovski.model.Program;
 
 public class UnaryMathExpression extends Expression {
     private final UnaryMathOp op;
@@ -33,8 +36,8 @@ public class UnaryMathExpression extends Expression {
     }
 
     @Override
-    public campbell.roborovski.model.Expression toRoborovski() {
-        return null;
+    public campbell.roborovski.model.Expression toRoborovski(Program program) {
+        return new BinaryExpression(new ConstExpression(0), BinaryExpression.BinaryOp.Subtract, expr.toRoborovski(program));
     }
 
     @Override

@@ -78,7 +78,7 @@ public class IfStatement extends Scope {
             elseStatements.toRoborovski(program, elseBlock);
         }
 
-        block.addStatement(new If(condition.toRoborovski(), ifBlock, elseBlock));
+        block.addStatement(new If(condition.toRoborovski(program), ifBlock, elseBlock));
     }
 
     @Override

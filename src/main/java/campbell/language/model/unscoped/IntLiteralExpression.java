@@ -3,6 +3,8 @@ package campbell.language.model.unscoped;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.IntType;
 import campbell.language.types.Type;
+import campbell.roborovski.model.ConstExpression;
+import campbell.roborovski.model.Program;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.math.BigInteger;
@@ -34,8 +36,8 @@ public class IntLiteralExpression extends Expression {
     }
 
     @Override
-    public campbell.roborovski.model.Expression toRoborovski() {
-        return null;
+    public campbell.roborovski.model.Expression toRoborovski(Program program) {
+        return new ConstExpression(value.intValue());
     }
 
     @Override

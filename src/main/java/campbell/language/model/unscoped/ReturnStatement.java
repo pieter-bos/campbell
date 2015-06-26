@@ -6,6 +6,7 @@ import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
 import campbell.roborovski.model.Program;
+import campbell.roborovski.model.Return;
 
 public class ReturnStatement extends Statement {
     private Expression returnExpression;
@@ -30,7 +31,7 @@ public class ReturnStatement extends Statement {
 
     @Override
     public void toRoborovski(Program program, Block block) {
-
+        block.addStatement(new Return(returnExpression.toRoborovski(program)));
     }
 
     @Override

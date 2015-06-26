@@ -54,7 +54,9 @@ public class Program extends Scope {
         p.setScope(null);
         p.findDefinitions();
         p.findImpls();
-        System.out.println(p);
+        campbell.roborovski.model.Program program = new campbell.roborovski.model.Program();
+        p.toRoborovski(program, program);
+        System.out.println(program);
     }
 
     @Override

@@ -84,4 +84,8 @@ public class DeclStatement extends Statement implements Symbol {
     public Type getType() {
         return type;
     }
+
+    public Variable getVariable() {
+        return variable;
+    }
 }

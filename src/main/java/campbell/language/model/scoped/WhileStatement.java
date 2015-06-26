@@ -49,7 +49,7 @@ public class WhileStatement extends Scope {
 
     @Override
     public void toRoborovski(Program program, Block block) {
-        While wh = new While(condition.toRoborovski());
+        While wh = new While(condition.toRoborovski(program));
         block.addStatement(wh);
 
         for(Statement stat : statements) {

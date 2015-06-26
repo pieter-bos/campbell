@@ -4,6 +4,8 @@ import campbell.language.model.scoped.Scope;
 import campbell.language.types.IntType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.BinaryExpression;
+import campbell.roborovski.model.Program;
 
 public class MathExpression extends Expression {
     private final Expression left;
@@ -16,8 +18,8 @@ public class MathExpression extends Expression {
     }
 
     @Override
-    public campbell.roborovski.model.Expression toRoborovski() {
-        return null;
+    public campbell.roborovski.model.Expression toRoborovski(Program program) {
+        return new BinaryExpression(left.toRoborovski(program), op.getRoborovskiOp(), right.toRoborovski(program));
     }
 
     @Override
@@ -32,12 +34,21 @@ public class MathExpression extends Expression {
     }
 
     public enum MathOp {
-        Add,
-        Subtract,
-        Multiply,
-        Divide,
-        Modulo;
+        Add(BinaryExpression.BinaryOp.Add),
+        Subtract(BinaryExpression.BinaryOp.Subtract),
+        Multiply(BinaryExpression.BinaryOp.Multiply),
+        Divide(BinaryExpression.BinaryOp.Divide),
+        Modulo(BinaryExpression.BinaryOp.Modulo);
 
+        private BinaryExpression.BinaryOp roborovskiOp;
+
+        MathOp(BinaryExpression.BinaryOp roborovskiOp) {
+            this.roborovskiOp = roborovskiOp;
+        }
+
+        public BinaryExpression.BinaryOp getRoborovskiOp() {
+            return roborovskiOp;
+        }
     }
     public MathExpression(Expression left, MathOp op, Expression right) {
         this.left = left;

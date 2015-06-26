@@ -6,6 +6,7 @@ import campbell.language.types.BoolType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.BinaryExpression;
+import campbell.roborovski.model.Program;
 
 public class ComparisonExpression extends Expression {
     private final Expression left;
@@ -18,8 +19,8 @@ public class ComparisonExpression extends Expression {
     }
 
     @Override
-    public campbell.roborovski.model.Expression toRoborovski() {
-        return new BinaryExpression(left.toRoborovski(), op.getRoborovski(), right.toRoborovski());
+    public campbell.roborovski.model.Expression toRoborovski(Program program) {
+        return new BinaryExpression(left.toRoborovski(program), op.getRoborovski(), right.toRoborovski(program));
     }
 
     public enum ComparisonOp {

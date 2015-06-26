@@ -6,6 +6,7 @@ import campbell.language.model.scoped.Scope;
 import campbell.language.types.FunctionType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.Program;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -83,13 +84,13 @@ public class CallExpression extends Expression {
     }
 
     @Override
-    public campbell.roborovski.model.Expression toRoborovski() {
+    public campbell.roborovski.model.Expression toRoborovski(Program program) {
         LinkedList<campbell.roborovski.model.Expression> args = new LinkedList<>();
 
         for(Expression e : arguments) {
-            args.add(e.toRoborovski());
+            args.add(e.toRoborovski(program));
         }
 
-        return new campbell.roborovski.model.CallExpression(callee.toRoborovski(), args);
+        return new campbell.roborovski.model.CallExpression(callee.toRoborovski(program), args);
     }
 }

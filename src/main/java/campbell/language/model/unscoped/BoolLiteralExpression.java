@@ -6,6 +6,7 @@ import campbell.language.types.BoolType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.ConstExpression;
+import campbell.roborovski.model.Program;
 
 public class BoolLiteralExpression extends Expression {
     private boolean value;
@@ -44,7 +45,7 @@ public class BoolLiteralExpression extends Expression {
     }
 
     @Override
-    public campbell.roborovski.model.Expression toRoborovski() {
+    public campbell.roborovski.model.Expression toRoborovski(Program program) {
         return new ConstExpression(value ? 1 : 0);
     }
 }

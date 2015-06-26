@@ -1,7 +1,13 @@
 package campbell.language.model.unscoped;
 
+import campbell.language.model.CompileException;
+import campbell.language.model.Symbol;
+import campbell.language.model.scoped.FunStatement;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.Type;
+import campbell.roborovski.model.FunctionExpression;
+import campbell.roborovski.model.Program;
+import campbell.roborovski.model.VariableExpression;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class IdentifierExpression extends Expression {
@@ -31,8 +37,16 @@ public class IdentifierExpression extends Expression {
     }
 
     @Override
-    public campbell.roborovski.model.Expression toRoborovski() {
-        return null;
+    public campbell.roborovski.model.Expression toRoborovski(Program program) {
+        Symbol symbol = requireSymbol(id, this);
+
+        if(symbol instanceof FunStatement) {
+            return new FunctionExpression(((FunStatement) symbol).getFunction());
+        } else if(symbol instanceof DeclStatement) {
+            return new VariableExpression(((DeclStatement) symbol).getVariable());
+        }
+
+        throw new CompileException(this, "Internal error: Unknown identifier implementation type " + symbol.getClass());
     }
 
     @Override

@@ -69,14 +69,18 @@ public class ClassStatement extends Scope {
             result.struct = new Struct();
             program.addStruct(result.struct);
 
-            for(Statement stat : statements) {
+            for(Statement stat : result.statements) {
                 if(stat instanceof DeclStatement) {
                     result.struct.addVariable(new Variable(((DeclStatement) stat).getName()));
                 } else if(stat instanceof FunStatement) {
-                    DeclStatement x = new DeclStatement(result.getType(), "this");
-                    ((FunStatement) stat).getArguments().add(x);
+                    ((FunStatement) stat).getArguments().add(new DeclStatement(result.getType(), "this"));
+                    stat.toRoborovski(program, program);
                 }
             }
+
+            result.setScope(getScope());
+            result.findDefinitions();
+            result.findImpls();
 
             return result;
         }
@@ -152,8 +156,6 @@ public class ClassStatement extends Scope {
 
     @Override
     public void replaceType(Type replace, Type replaceWith) {
-        type.replaceType(replace, replaceWith);
-
         for(Statement stat : statements) {
             stat.replaceType(replace, replaceWith);
         }

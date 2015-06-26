@@ -109,6 +109,16 @@ public abstract class Statement implements Node {
         return getScope().findSymbol(name);
     }
 
+    public Symbol requireSymbol(String name, Node place) {
+        Symbol symbol = findSymbol(name);
+
+        if(symbol == null) {
+            throw new CompileException(place, "Usage of nonexistant symbol " + name);
+        } else {
+            return symbol;
+        }
+    }
+
     public abstract void toRoborovski(campbell.roborovski.model.Program program, campbell.roborovski.model.Block block);
 
     public abstract Statement deepCopy();

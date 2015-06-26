@@ -116,11 +116,11 @@ public abstract class Expression extends Statement {
 
     public abstract Type getType();
 
-    public abstract campbell.roborovski.model.Expression toRoborovski();
+    public abstract campbell.roborovski.model.Expression toRoborovski(Program program);
 
     @Override
     public void toRoborovski(Program program, Block block) {
-        block.addStatement(toRoborovski());
+        block.addStatement(toRoborovski(program));
     }
 
     public abstract Expression deepCopy();

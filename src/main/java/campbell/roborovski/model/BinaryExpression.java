@@ -7,7 +7,12 @@ public class BinaryExpression extends Expression {
         LessThanEquals,
         GreaterThanEquals,
         Equals,
-        NotEquals
+        NotEquals,
+        Add,
+        Subtract,
+        Multiply,
+        Divide,
+        Modulo
     }
 
     private final Expression left;

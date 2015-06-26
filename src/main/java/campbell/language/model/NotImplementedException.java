@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
  */
 public class NotImplementedException extends RuntimeException {
     public NotImplementedException(ParserRuleContext context) {
-        super("There is no implementation of the rule " + context);
+        super("There is no implementation of the rule " + context.getClass());
     }
 
     public NotImplementedException(String message) {

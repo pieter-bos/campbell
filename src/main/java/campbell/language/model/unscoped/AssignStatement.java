@@ -37,7 +37,7 @@ public class AssignStatement extends Statement {
 
     @Override
     public void toRoborovski(Program program, Block block) {
-        block.addStatement(new Assign(left.toRoborovski(), right.toRoborovski()));
+        block.addStatement(new Assign(left.toRoborovski(program), right.toRoborovski(program)));
     }
 
     @Override

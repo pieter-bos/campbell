@@ -81,8 +81,10 @@ public class FunStatement extends Scope implements Symbol {
             func.addArgument(new Variable(decl.getName()));
         }
 
-        for(Statement stat : statements) {
-            stat.toRoborovski(program, block);
+        if(statements != null) {
+            for(Statement stat : statements) {
+                stat.toRoborovski(program, func);
+            }
         }
     }
 
@@ -99,8 +101,10 @@ public class FunStatement extends Scope implements Symbol {
             stat.replaceType(replace, replaceWith);
         }
 
-        for(Statement stat : statements) {
-            stat.replaceType(replace, replaceWith);
+        if(statements != null) {
+            for(Statement stat : statements) {
+                stat.replaceType(replace, replaceWith);
+            }
         }
     }
 
