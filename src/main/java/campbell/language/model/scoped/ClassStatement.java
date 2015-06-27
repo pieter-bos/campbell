@@ -160,4 +160,8 @@ public class ClassStatement extends Scope {
             stat.replaceType(replace, replaceWith);
         }
     }
+
+    public Struct getStruct() {
+        return struct;
+    }
 }

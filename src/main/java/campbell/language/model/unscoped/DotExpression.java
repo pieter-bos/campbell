@@ -74,7 +74,7 @@ public class DotExpression extends Expression {
                 args.add(expr.toRoborovski(program));
                 return new CallExpression(new FunctionExpression(((FunStatement) symbol).getFunction()), args);
             } else if(symbol instanceof DeclStatement) {
-                return new campbell.roborovski.model.DotExpression(expr.toRoborovski(program), property);
+                return new campbell.roborovski.model.DotExpression(expr.toRoborovski(program), specificClass.getStruct(), property);
             }
 
             throw new CompileException(this, "Internal error: dot not implemented for type " + symbol.getClass());

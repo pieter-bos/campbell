@@ -6,10 +6,9 @@ import campbell.language.model.unscoped.DeclStatement;
 import campbell.language.types.Type;
 import campbell.parser.CampbellStreamParser;
 import campbell.parser.gen.CampbellParser;
+import sprockell.SprockellEmitter;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,14 +48,13 @@ public class Program extends Scope {
         return Program.fromContext(CampbellStreamParser.parse(input));
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         Program p = parseFrom(new FileInputStream("/home/pieter/programming/haskell/campbell/example.ham"));
         p.setScope(null);
         p.findDefinitions();
         p.findImpls();
-        campbell.roborovski.model.Program program = new campbell.roborovski.model.Program();
-        p.toRoborovski(program, program);
-        System.out.println(program);
+        campbell.roborovski.model.Program program = p.toRoborovski();
+        program.compile(new SprockellEmitter(new FileWriter("/home/pieter/programming/haskell/campbell/example.hs")));
     }
 
     @Override

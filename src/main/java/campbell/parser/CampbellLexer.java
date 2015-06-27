@@ -65,7 +65,7 @@ public class CampbellLexer implements TokenSource {
         }
 
         try {
-            if(!reader.ready()) {
+            if(finished()) {
                 for(int i = 0; i < currentIndent; i++) {
                     tokenQueue.add(accept(CampbellTokens.CLOSE_BLOCK));
                 }
@@ -90,7 +90,7 @@ public class CampbellLexer implements TokenSource {
 
             if(peekc() == '\n' || peekc() == '\r') {
                 // Read any empty lines (and ignore the indent)
-                while(peekc() == '\n' || peekc() == '\r') {
+                while(!finished() && peekc() == '\n' || peekc() == '\r') {
                     readc();
                 }
 
@@ -98,7 +98,7 @@ public class CampbellLexer implements TokenSource {
 
                 int newIndent = 0;
 
-                while(peekc() == '\t' || peekc() == ' ') {
+                while(!finished() && peekc() == '\t' || peekc() == ' ') {
                     if(peekc() == '\t') {
                         accept(0);
                         newIndent++;
@@ -149,7 +149,7 @@ public class CampbellLexer implements TokenSource {
             }
 
             if(expect("<")) {
-                if(peekc() == '=') {
+                if(!finished() && peekc() == '=') {
                     readc();
                     return accept(CampbellTokens.LTE);
                 } else {
@@ -158,7 +158,7 @@ public class CampbellLexer implements TokenSource {
             }
 
             if(expect(">")) {
-                if(peekc() == '=') {
+                if(!finished() && peekc() == '=') {
                     readc();
                     return accept(CampbellTokens.GTE);
                 } else {
@@ -201,7 +201,7 @@ public class CampbellLexer implements TokenSource {
             // Integer
 
             if(Character.isDigit(peekc())) {
-                while(Character.isDigit(peekc())) {
+                while(!finished() && Character.isDigit(peekc())) {
                     readc();
                 }
 
@@ -215,7 +215,7 @@ public class CampbellLexer implements TokenSource {
             // Identifier or keyword
 
             if("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$".contains(peek(1))) {
-                while("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$".contains(peek(1))) {
+                while(!finished() && "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$".contains(peek(1))) {
                     readc();
                 }
 
@@ -234,6 +234,10 @@ public class CampbellLexer implements TokenSource {
         }
 
         // TODO figure out what antlr does when it cannot parse a token
+    }
+
+    private boolean finished() throws IOException {
+        return buffer.length() == 0 && !reader.ready();
     }
 
     public int getLine() {

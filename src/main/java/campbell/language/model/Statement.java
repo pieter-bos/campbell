@@ -7,7 +7,8 @@ import campbell.language.model.unscoped.Expression;
 import campbell.language.model.unscoped.ReturnStatement;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
-import campbell.roborovski.model.Variable;
+import campbell.roborovski.model.*;
+import campbell.roborovski.model.Program;
 import org.antlr.v4.runtime.Token;
 
 import java.util.LinkedList;
@@ -120,6 +121,12 @@ public abstract class Statement implements Node {
     }
 
     public abstract void toRoborovski(campbell.roborovski.model.Program program, campbell.roborovski.model.Block block);
+
+    public Program toRoborovski() {
+        Program p = new Program();
+        toRoborovski(p, p);
+        return p;
+    }
 
     public abstract Statement deepCopy();
 

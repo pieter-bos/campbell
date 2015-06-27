@@ -1,4 +1,4 @@
-fun void main()
+fun void main(int length)
     int a
     int b
     int temp
@@ -6,7 +6,9 @@ fun void main()
     a = 1
     b = 1
 
-    while a < 1000
+    while a < length
         temp = a
         a = a + b
         b = temp
+
+main(10)

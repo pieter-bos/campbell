@@ -1,5 +1,7 @@
 package campbell.language.model.unscoped;
 
+import campbell.language.model.CompileException;
+import campbell.language.model.scoped.FunStatement;
 import campbell.language.model.scoped.Scope;
 import campbell.language.model.Statement;
 import campbell.language.types.Type;
@@ -31,7 +33,17 @@ public class ReturnStatement extends Statement {
 
     @Override
     public void toRoborovski(Program program, Block block) {
-        block.addStatement(new Return(returnExpression.toRoborovski(program)));
+        Scope s = getScope();
+
+        while(!(s instanceof FunStatement)) {
+            s = s.getScope();
+
+            if(s == null) {
+                throw new CompileException(this, "Cannot return outside of all functions");
+            }
+        }
+
+        block.addStatement(new Return(returnExpression.toRoborovski(program), ((FunStatement) s).getFunction()));
     }
 
     @Override

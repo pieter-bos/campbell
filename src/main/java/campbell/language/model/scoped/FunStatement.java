@@ -78,12 +78,12 @@ public class FunStatement extends Scope implements Symbol {
         program.addFunction(func);
 
         for(DeclStatement decl : arguments) {
-            func.addArgument(new Variable(decl.getName()));
+            decl.toRoborovski(program, func);
         }
 
         if(statements != null) {
             for(Statement stat : statements) {
-                stat.toRoborovski(program, func);
+                stat.toRoborovski(program, func.getStatementBlock());
             }
         }
     }
