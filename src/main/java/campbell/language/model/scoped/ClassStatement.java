@@ -69,6 +69,10 @@ public class ClassStatement extends Scope {
             result.struct = new Struct();
             program.addStruct(result.struct);
 
+            result.setScope(getScope());
+            result.findDefinitions();
+            result.findImpls();
+
             for(Statement stat : result.statements) {
                 if(stat instanceof DeclStatement) {
                     result.struct.addVariable(new Variable(((DeclStatement) stat).getName()));
@@ -78,9 +82,6 @@ public class ClassStatement extends Scope {
                 }
             }
 
-            result.setScope(getScope());
-            result.findDefinitions();
-            result.findImpls();
 
             return result;
         }

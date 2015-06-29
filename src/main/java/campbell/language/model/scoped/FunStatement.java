@@ -90,7 +90,13 @@ public class FunStatement extends Scope implements Symbol {
 
     @Override
     public FunStatement deepCopy() {
-        return new FunStatement(returnType, name, arguments.stream().map(DeclStatement::deepCopy).collect(Collectors.toList()));
+        if(statements == null) {
+            return new FunStatement(returnType, name, arguments.stream().map(DeclStatement::deepCopy).collect(Collectors.toList()));
+        } else {
+            return new FunStatement(returnType, name,
+                    arguments.stream().map(DeclStatement::deepCopy).collect(Collectors.toList()),
+                    statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
+        }
     }
 
     @Override
