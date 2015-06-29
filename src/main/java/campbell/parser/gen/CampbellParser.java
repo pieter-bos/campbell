@@ -19,20 +19,22 @@ public class CampbellParser extends Parser {
 	public static final int
 		CLASS=1, WHILE=2, IMPL=3, OF=4, TRAIT=5, IF=6, ELSE=7, RETURN=8, UNSAFE=9, 
 		TRUE=10, FALSE=11, FUN=12, FOR=13, IN=14, BROKET_OPEN=15, BROKET_CLOSE=16, 
-		LTE=17, GTE=18, BRACKET_OPEN=19, BRACKET_CLOSE=20, PAREN_OPEN=21, PAREN_CLOSE=22, 
-		DOT=23, COMMA=24, PLUS=25, MINUS=26, STAR=27, SLASH=28, PERCENT=29, EQUALS=30, 
-		INT=31, IDENTIFIER=32, OPEN_BLOCK=33, CLOSE_BLOCK=34, ERROR=35;
+		LTE=17, GTE=18, EQ=19, BRACKET_OPEN=20, BRACKET_CLOSE=21, PAREN_OPEN=22, 
+		PAREN_CLOSE=23, DOT=24, COMMA=25, PLUS=26, MINUS=27, STAR=28, SLASH=29, 
+		PERCENT=30, EQUALS=31, INT=32, IDENTIFIER=33, OPEN_BLOCK=34, CLOSE_BLOCK=35, 
+		NEQ=36, NOT=37, LSH=38, RSH=39, AND=40, OR=41, XOR=42, ERROR=43, HASKELL=44;
 	public static final int
-		RULE_program = 0, RULE_statement = 1, RULE_fun = 2, RULE_unsafe = 3, RULE_whileNode = 4, 
-		RULE_ifNode = 5, RULE_impl = 6, RULE_trait = 7, RULE_returnNode = 8, RULE_decl = 9, 
-		RULE_assign = 10, RULE_classNode = 11, RULE_forNode = 12, RULE_expr = 13, 
-		RULE_expr1 = 14, RULE_expr2 = 15, RULE_expr3 = 16, RULE_expr4 = 17, RULE_block = 18, 
-		RULE_className = 19, RULE_classList = 20, RULE_exprAddon = 21, RULE_bool = 22;
+		RULE_program = 0, RULE_statement = 1, RULE_haskell = 2, RULE_fun = 3, 
+		RULE_unsafe = 4, RULE_whileNode = 5, RULE_ifNode = 6, RULE_impl = 7, RULE_trait = 8, 
+		RULE_returnNode = 9, RULE_decl = 10, RULE_assign = 11, RULE_classNode = 12, 
+		RULE_forNode = 13, RULE_expr = 14, RULE_expr0 = 15, RULE_expr1 = 16, RULE_expr2 = 17, 
+		RULE_expr3 = 18, RULE_expr4 = 19, RULE_block = 20, RULE_className = 21, 
+		RULE_classList = 22, RULE_exprAddon = 23, RULE_bool = 24;
 	public static final String[] ruleNames = {
-		"program", "statement", "fun", "unsafe", "whileNode", "ifNode", "impl", 
-		"trait", "returnNode", "decl", "assign", "classNode", "forNode", "expr", 
-		"expr1", "expr2", "expr3", "expr4", "block", "className", "classList", 
-		"exprAddon", "bool"
+		"program", "statement", "haskell", "fun", "unsafe", "whileNode", "ifNode", 
+		"impl", "trait", "returnNode", "decl", "assign", "classNode", "forNode", 
+		"expr", "expr0", "expr1", "expr2", "expr3", "expr4", "block", "className", 
+		"classList", "exprAddon", "bool"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -40,9 +42,10 @@ public class CampbellParser extends Parser {
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "CLASS", "WHILE", "IMPL", "OF", "TRAIT", "IF", "ELSE", "RETURN", 
 		"UNSAFE", "TRUE", "FALSE", "FUN", "FOR", "IN", "BROKET_OPEN", "BROKET_CLOSE", 
-		"LTE", "GTE", "BRACKET_OPEN", "BRACKET_CLOSE", "PAREN_OPEN", "PAREN_CLOSE", 
+		"LTE", "GTE", "EQ", "BRACKET_OPEN", "BRACKET_CLOSE", "PAREN_OPEN", "PAREN_CLOSE", 
 		"DOT", "COMMA", "PLUS", "MINUS", "STAR", "SLASH", "PERCENT", "EQUALS", 
-		"INT", "IDENTIFIER", "OPEN_BLOCK", "CLOSE_BLOCK", "ERROR"
+		"INT", "IDENTIFIER", "OPEN_BLOCK", "CLOSE_BLOCK", "NEQ", "NOT", "LSH", 
+		"RSH", "AND", "OR", "XOR", "ERROR", "HASKELL"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -122,21 +125,21 @@ public class CampbellParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(47); 
+			setState(51); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(46); 
+				setState(50); 
 				statement();
 				}
 				}
-				setState(49); 
+				setState(53); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CLASS) | (1L << WHILE) | (1L << IMPL) | (1L << TRAIT) | (1L << IF) | (1L << RETURN) | (1L << UNSAFE) | (1L << TRUE) | (1L << FALSE) | (1L << FUN) | (1L << FOR) | (1L << PAREN_OPEN) | (1L << MINUS) | (1L << INT) | (1L << IDENTIFIER))) != 0) );
-			setState(51); 
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CLASS) | (1L << WHILE) | (1L << IMPL) | (1L << TRAIT) | (1L << IF) | (1L << RETURN) | (1L << UNSAFE) | (1L << TRUE) | (1L << FALSE) | (1L << FUN) | (1L << FOR) | (1L << PAREN_OPEN) | (1L << MINUS) | (1L << INT) | (1L << IDENTIFIER) | (1L << HASKELL))) != 0) );
+			setState(55); 
 			match(EOF);
 			}
 		}
@@ -152,6 +155,9 @@ public class CampbellParser extends Parser {
 	}
 
 	public static class StatementContext extends ParserRuleContext {
+		public HaskellContext haskell() {
+			return getRuleContext(HaskellContext.class,0);
+		}
 		public FunContext fun() {
 			return getRuleContext(FunContext.class,0);
 		}
@@ -206,92 +212,136 @@ public class CampbellParser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_statement);
 		try {
-			setState(65);
+			setState(70);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(53); 
-				fun();
+				setState(57); 
+				haskell();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(54); 
-				unsafe();
+				setState(58); 
+				fun();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(55); 
-				whileNode();
+				setState(59); 
+				unsafe();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(56); 
-				ifNode();
+				setState(60); 
+				whileNode();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(57); 
-				impl();
+				setState(61); 
+				ifNode();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(58); 
-				trait();
+				setState(62); 
+				impl();
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(59); 
-				returnNode();
+				setState(63); 
+				trait();
 				}
 				break;
 			case 8:
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(60); 
-				decl();
+				setState(64); 
+				returnNode();
 				}
 				break;
 			case 9:
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(61); 
-				assign();
+				setState(65); 
+				decl();
 				}
 				break;
 			case 10:
 				enterOuterAlt(_localctx, 10);
 				{
-				setState(62); 
-				classNode();
+				setState(66); 
+				assign();
 				}
 				break;
 			case 11:
 				enterOuterAlt(_localctx, 11);
 				{
-				setState(63); 
-				forNode();
+				setState(67); 
+				classNode();
 				}
 				break;
 			case 12:
 				enterOuterAlt(_localctx, 12);
 				{
-				setState(64); 
-				expr();
+				setState(68); 
+				forNode();
 				}
 				break;
+			case 13:
+				enterOuterAlt(_localctx, 13);
+				{
+				setState(69); 
+				expr(0);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class HaskellContext extends ParserRuleContext {
+		public TerminalNode HASKELL() { return getToken(CampbellParser.HASKELL, 0); }
+		public HaskellContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_haskell; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterHaskell(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitHaskell(this);
+		}
+	}
+
+	public final HaskellContext haskell() throws RecognitionException {
+		HaskellContext _localctx = new HaskellContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_haskell);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(72); 
+			match(HASKELL);
 			}
 		}
 		catch (RecognitionException re) {
@@ -342,51 +392,51 @@ public class CampbellParser extends Parser {
 
 	public final FunContext fun() throws RecognitionException {
 		FunContext _localctx = new FunContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_fun);
+		enterRule(_localctx, 6, RULE_fun);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(67); 
+			setState(74); 
 			match(FUN);
-			setState(68); 
+			setState(75); 
 			className();
-			setState(69); 
+			setState(76); 
 			match(IDENTIFIER);
-			setState(70); 
+			setState(77); 
 			match(PAREN_OPEN);
-			setState(79);
+			setState(86);
 			_la = _input.LA(1);
 			if (_la==IDENTIFIER) {
 				{
-				setState(71); 
+				setState(78); 
 				decl();
-				setState(76);
+				setState(83);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==COMMA) {
 					{
 					{
-					setState(72); 
+					setState(79); 
 					match(COMMA);
-					setState(73); 
+					setState(80); 
 					decl();
 					}
 					}
-					setState(78);
+					setState(85);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
 				}
 			}
 
-			setState(81); 
+			setState(88); 
 			match(PAREN_CLOSE);
-			setState(83);
+			setState(90);
 			_la = _input.LA(1);
 			if (_la==OPEN_BLOCK) {
 				{
-				setState(82); 
+				setState(89); 
 				block();
 				}
 			}
@@ -425,13 +475,13 @@ public class CampbellParser extends Parser {
 
 	public final UnsafeContext unsafe() throws RecognitionException {
 		UnsafeContext _localctx = new UnsafeContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_unsafe);
+		enterRule(_localctx, 8, RULE_unsafe);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(85); 
+			setState(92); 
 			match(UNSAFE);
-			setState(86); 
+			setState(93); 
 			block();
 			}
 		}
@@ -470,15 +520,15 @@ public class CampbellParser extends Parser {
 
 	public final WhileNodeContext whileNode() throws RecognitionException {
 		WhileNodeContext _localctx = new WhileNodeContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_whileNode);
+		enterRule(_localctx, 10, RULE_whileNode);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(88); 
+			setState(95); 
 			match(WHILE);
-			setState(89); 
-			expr();
-			setState(90); 
+			setState(96); 
+			expr(0);
+			setState(97); 
 			block();
 			}
 		}
@@ -521,24 +571,24 @@ public class CampbellParser extends Parser {
 
 	public final IfNodeContext ifNode() throws RecognitionException {
 		IfNodeContext _localctx = new IfNodeContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_ifNode);
+		enterRule(_localctx, 12, RULE_ifNode);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92); 
+			setState(99); 
 			match(IF);
-			setState(93); 
-			expr();
-			setState(94); 
+			setState(100); 
+			expr(0);
+			setState(101); 
 			block();
-			setState(97);
+			setState(104);
 			_la = _input.LA(1);
 			if (_la==ELSE) {
 				{
-				setState(95); 
+				setState(102); 
 				match(ELSE);
-				setState(96); 
+				setState(103); 
 				block();
 				}
 			}
@@ -584,27 +634,27 @@ public class CampbellParser extends Parser {
 
 	public final ImplContext impl() throws RecognitionException {
 		ImplContext _localctx = new ImplContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_impl);
+		enterRule(_localctx, 14, RULE_impl);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(99); 
+			setState(106); 
 			match(IMPL);
-			setState(100); 
+			setState(107); 
 			className();
-			setState(103);
+			setState(110);
 			_la = _input.LA(1);
 			if (_la==OF) {
 				{
-				setState(101); 
+				setState(108); 
 				match(OF);
-				setState(102); 
+				setState(109); 
 				classList();
 				}
 			}
 
-			setState(105); 
+			setState(112); 
 			block();
 			}
 		}
@@ -647,27 +697,27 @@ public class CampbellParser extends Parser {
 
 	public final TraitContext trait() throws RecognitionException {
 		TraitContext _localctx = new TraitContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_trait);
+		enterRule(_localctx, 16, RULE_trait);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(107); 
+			setState(114); 
 			match(TRAIT);
-			setState(108); 
+			setState(115); 
 			className();
-			setState(111);
+			setState(118);
 			_la = _input.LA(1);
 			if (_la==OF) {
 				{
-				setState(109); 
+				setState(116); 
 				match(OF);
-				setState(110); 
+				setState(117); 
 				classList();
 				}
 			}
 
-			setState(113); 
+			setState(120); 
 			block();
 			}
 		}
@@ -703,14 +753,14 @@ public class CampbellParser extends Parser {
 
 	public final ReturnNodeContext returnNode() throws RecognitionException {
 		ReturnNodeContext _localctx = new ReturnNodeContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_returnNode);
+		enterRule(_localctx, 18, RULE_returnNode);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(115); 
+			setState(122); 
 			match(RETURN);
-			setState(116); 
-			expr();
+			setState(123); 
+			expr(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -745,13 +795,13 @@ public class CampbellParser extends Parser {
 
 	public final DeclContext decl() throws RecognitionException {
 		DeclContext _localctx = new DeclContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_decl);
+		enterRule(_localctx, 20, RULE_decl);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(118); 
+			setState(125); 
 			className();
-			setState(119); 
+			setState(126); 
 			match(IDENTIFIER);
 			}
 		}
@@ -793,30 +843,30 @@ public class CampbellParser extends Parser {
 
 	public final AssignContext assign() throws RecognitionException {
 		AssignContext _localctx = new AssignContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_assign);
+		enterRule(_localctx, 22, RULE_assign);
 		try {
-			setState(129);
+			setState(136);
 			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(121); 
-				expr();
-				setState(122); 
+				setState(128); 
+				expr(0);
+				setState(129); 
 				match(EQUALS);
-				setState(123); 
-				expr();
+				setState(130); 
+				expr(0);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(125); 
+				setState(132); 
 				decl();
-				setState(126); 
+				setState(133); 
 				match(EQUALS);
-				setState(127); 
-				expr();
+				setState(134); 
+				expr(0);
 				}
 				break;
 			}
@@ -856,15 +906,15 @@ public class CampbellParser extends Parser {
 
 	public final ClassNodeContext classNode() throws RecognitionException {
 		ClassNodeContext _localctx = new ClassNodeContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_classNode);
+		enterRule(_localctx, 24, RULE_classNode);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(131); 
+			setState(138); 
 			match(CLASS);
-			setState(132); 
+			setState(139); 
 			className();
-			setState(133); 
+			setState(140); 
 			block();
 			}
 		}
@@ -907,19 +957,19 @@ public class CampbellParser extends Parser {
 
 	public final ForNodeContext forNode() throws RecognitionException {
 		ForNodeContext _localctx = new ForNodeContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_forNode);
+		enterRule(_localctx, 26, RULE_forNode);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(135); 
+			setState(142); 
 			match(FOR);
-			setState(136); 
-			expr();
-			setState(137); 
+			setState(143); 
+			expr(0);
+			setState(144); 
 			match(IN);
-			setState(138); 
-			expr();
-			setState(139); 
+			setState(145); 
+			expr(0);
+			setState(146); 
 			block();
 			}
 		}
@@ -945,11 +995,181 @@ public class CampbellParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class SimpleExprContext extends ExprContext {
+	public static class SuperExprContext extends ExprContext {
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
+		}
+		public SuperExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterSuperExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitSuperExpr(this);
+		}
+	}
+	public static class OrContext extends ExprContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode OR() { return getToken(CampbellParser.OR, 0); }
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
+		}
+		public OrContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterOr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitOr(this);
+		}
+	}
+	public static class AndContext extends ExprContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode AND() { return getToken(CampbellParser.AND, 0); }
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
+		}
+		public AndContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterAnd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitAnd(this);
+		}
+	}
+	public static class XorContext extends ExprContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode XOR() { return getToken(CampbellParser.XOR, 0); }
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
+		}
+		public XorContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterXor(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitXor(this);
+		}
+	}
+
+	public final ExprContext expr() throws RecognitionException {
+		return expr(0);
+	}
+
+	private ExprContext expr(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		ExprContext _localctx = new ExprContext(_ctx, _parentState);
+		ExprContext _prevctx = _localctx;
+		int _startState = 28;
+		enterRecursionRule(_localctx, 28, RULE_expr, _p);
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			_localctx = new SuperExprContext(_localctx);
+			_ctx = _localctx;
+			_prevctx = _localctx;
+
+			setState(149); 
+			expr0(0);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(162);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					setState(160);
+					switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+					case 1:
+						{
+						_localctx = new AndContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(151);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(152); 
+						match(AND);
+						setState(153); 
+						expr0(0);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new OrContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(154);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(155); 
+						match(OR);
+						setState(156); 
+						expr0(0);
+						}
+						break;
+					case 3:
+						{
+						_localctx = new XorContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(157);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(158); 
+						match(XOR);
+						setState(159); 
+						expr0(0);
+						}
+						break;
+					}
+					} 
+				}
+				setState(164);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			unrollRecursionContexts(_parentctx);
+		}
+		return _localctx;
+	}
+
+	public static class Expr0Context extends ParserRuleContext {
+		public Expr0Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_expr0; }
+	 
+		public Expr0Context() { }
+		public void copyFrom(Expr0Context ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class SimpleExprContext extends Expr0Context {
 		public Expr1Context expr1() {
 			return getRuleContext(Expr1Context.class,0);
 		}
-		public SimpleExprContext(ExprContext ctx) { copyFrom(ctx); }
+		public SimpleExprContext(Expr0Context ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterSimpleExpr(this);
@@ -959,15 +1179,15 @@ public class CampbellParser extends Parser {
 			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitSimpleExpr(this);
 		}
 	}
-	public static class LtContext extends ExprContext {
-		public List<Expr1Context> expr1() {
-			return getRuleContexts(Expr1Context.class);
-		}
-		public Expr1Context expr1(int i) {
-			return getRuleContext(Expr1Context.class,i);
+	public static class LtContext extends Expr0Context {
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
 		}
 		public TerminalNode BROKET_OPEN() { return getToken(CampbellParser.BROKET_OPEN, 0); }
-		public LtContext(ExprContext ctx) { copyFrom(ctx); }
+		public Expr1Context expr1() {
+			return getRuleContext(Expr1Context.class,0);
+		}
+		public LtContext(Expr0Context ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterLt(this);
@@ -977,15 +1197,15 @@ public class CampbellParser extends Parser {
 			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitLt(this);
 		}
 	}
-	public static class GteContext extends ExprContext {
-		public List<Expr1Context> expr1() {
-			return getRuleContexts(Expr1Context.class);
-		}
-		public Expr1Context expr1(int i) {
-			return getRuleContext(Expr1Context.class,i);
+	public static class GteContext extends Expr0Context {
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
 		}
 		public TerminalNode GTE() { return getToken(CampbellParser.GTE, 0); }
-		public GteContext(ExprContext ctx) { copyFrom(ctx); }
+		public Expr1Context expr1() {
+			return getRuleContext(Expr1Context.class,0);
+		}
+		public GteContext(Expr0Context ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterGte(this);
@@ -995,15 +1215,33 @@ public class CampbellParser extends Parser {
 			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitGte(this);
 		}
 	}
-	public static class LteContext extends ExprContext {
-		public List<Expr1Context> expr1() {
-			return getRuleContexts(Expr1Context.class);
+	public static class NeqContext extends Expr0Context {
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
 		}
-		public Expr1Context expr1(int i) {
-			return getRuleContext(Expr1Context.class,i);
+		public TerminalNode NEQ() { return getToken(CampbellParser.NEQ, 0); }
+		public Expr1Context expr1() {
+			return getRuleContext(Expr1Context.class,0);
+		}
+		public NeqContext(Expr0Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterNeq(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitNeq(this);
+		}
+	}
+	public static class LteContext extends Expr0Context {
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
 		}
 		public TerminalNode LTE() { return getToken(CampbellParser.LTE, 0); }
-		public LteContext(ExprContext ctx) { copyFrom(ctx); }
+		public Expr1Context expr1() {
+			return getRuleContext(Expr1Context.class,0);
+		}
+		public LteContext(Expr0Context ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterLte(this);
@@ -1013,15 +1251,33 @@ public class CampbellParser extends Parser {
 			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitLte(this);
 		}
 	}
-	public static class GtContext extends ExprContext {
-		public List<Expr1Context> expr1() {
-			return getRuleContexts(Expr1Context.class);
+	public static class EqContext extends Expr0Context {
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
 		}
-		public Expr1Context expr1(int i) {
-			return getRuleContext(Expr1Context.class,i);
+		public TerminalNode EQ() { return getToken(CampbellParser.EQ, 0); }
+		public Expr1Context expr1() {
+			return getRuleContext(Expr1Context.class,0);
+		}
+		public EqContext(Expr0Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterEq(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitEq(this);
+		}
+	}
+	public static class GtContext extends Expr0Context {
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
 		}
 		public TerminalNode BROKET_CLOSE() { return getToken(CampbellParser.BROKET_CLOSE, 0); }
-		public GtContext(ExprContext ctx) { copyFrom(ctx); }
+		public Expr1Context expr1() {
+			return getRuleContext(Expr1Context.class,0);
+		}
+		public GtContext(Expr0Context ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterGt(this);
@@ -1032,68 +1288,119 @@ public class CampbellParser extends Parser {
 		}
 	}
 
-	public final ExprContext expr() throws RecognitionException {
-		ExprContext _localctx = new ExprContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_expr);
+	public final Expr0Context expr0() throws RecognitionException {
+		return expr0(0);
+	}
+
+	private Expr0Context expr0(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		Expr0Context _localctx = new Expr0Context(_ctx, _parentState);
+		Expr0Context _prevctx = _localctx;
+		int _startState = 30;
+		enterRecursionRule(_localctx, 30, RULE_expr0, _p);
 		try {
-			setState(158);
-			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
-			case 1:
-				_localctx = new LteContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(141); 
-				expr1(0);
-				setState(142); 
-				match(LTE);
-				setState(143); 
-				expr1(0);
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			_localctx = new SimpleExprContext(_localctx);
+			_ctx = _localctx;
+			_prevctx = _localctx;
+
+			setState(166); 
+			expr1(0);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(188);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,12,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					setState(186);
+					switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
+					case 1:
+						{
+						_localctx = new LteContext(new Expr0Context(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr0);
+						setState(168);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(169); 
+						match(LTE);
+						setState(170); 
+						expr1(0);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new GteContext(new Expr0Context(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr0);
+						setState(171);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(172); 
+						match(GTE);
+						setState(173); 
+						expr1(0);
+						}
+						break;
+					case 3:
+						{
+						_localctx = new EqContext(new Expr0Context(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr0);
+						setState(174);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(175); 
+						match(EQ);
+						setState(176); 
+						expr1(0);
+						}
+						break;
+					case 4:
+						{
+						_localctx = new NeqContext(new Expr0Context(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr0);
+						setState(177);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(178); 
+						match(NEQ);
+						setState(179); 
+						expr1(0);
+						}
+						break;
+					case 5:
+						{
+						_localctx = new LtContext(new Expr0Context(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr0);
+						setState(180);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(181); 
+						match(BROKET_OPEN);
+						setState(182); 
+						expr1(0);
+						}
+						break;
+					case 6:
+						{
+						_localctx = new GtContext(new Expr0Context(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr0);
+						setState(183);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(184); 
+						match(BROKET_CLOSE);
+						setState(185); 
+						expr1(0);
+						}
+						break;
+					}
+					} 
 				}
-				break;
-			case 2:
-				_localctx = new GteContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(145); 
-				expr1(0);
-				setState(146); 
-				match(GTE);
-				setState(147); 
-				expr1(0);
-				}
-				break;
-			case 3:
-				_localctx = new LtContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(149); 
-				expr1(0);
-				setState(150); 
-				match(BROKET_OPEN);
-				setState(151); 
-				expr1(0);
-				}
-				break;
-			case 4:
-				_localctx = new GtContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(153); 
-				expr1(0);
-				setState(154); 
-				match(BROKET_CLOSE);
-				setState(155); 
-				expr1(0);
-				}
-				break;
-			case 5:
-				_localctx = new SimpleExprContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(157); 
-				expr1(0);
-				}
-				break;
+				setState(190);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,12,_ctx);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -1102,7 +1409,7 @@ public class CampbellParser extends Parser {
 			_errHandler.recover(this, re);
 		}
 		finally {
-			exitRule();
+			unrollRecursionContexts(_parentctx);
 		}
 		return _localctx;
 	}
@@ -1178,8 +1485,8 @@ public class CampbellParser extends Parser {
 		int _parentState = getState();
 		Expr1Context _localctx = new Expr1Context(_ctx, _parentState);
 		Expr1Context _prevctx = _localctx;
-		int _startState = 28;
-		enterRecursionRule(_localctx, 28, RULE_expr1, _p);
+		int _startState = 32;
+		enterRecursionRule(_localctx, 32, RULE_expr1, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
@@ -1189,29 +1496,29 @@ public class CampbellParser extends Parser {
 			_ctx = _localctx;
 			_prevctx = _localctx;
 
-			setState(161); 
+			setState(192); 
 			expr2(0);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(171);
+			setState(202);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(169);
-					switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
+					setState(200);
+					switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 					case 1:
 						{
 						_localctx = new AddContext(new Expr1Context(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr1);
-						setState(163);
+						setState(194);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(164); 
+						setState(195); 
 						match(PLUS);
-						setState(165); 
+						setState(196); 
 						expr2(0);
 						}
 						break;
@@ -1219,20 +1526,20 @@ public class CampbellParser extends Parser {
 						{
 						_localctx = new SubtractContext(new Expr1Context(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr1);
-						setState(166);
+						setState(197);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(167); 
+						setState(198); 
 						match(MINUS);
-						setState(168); 
+						setState(199); 
 						expr2(0);
 						}
 						break;
 					}
 					} 
 				}
-				setState(173);
+				setState(204);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
 			}
 			}
 		}
@@ -1256,6 +1563,42 @@ public class CampbellParser extends Parser {
 		public Expr2Context() { }
 		public void copyFrom(Expr2Context ctx) {
 			super.copyFrom(ctx);
+		}
+	}
+	public static class LshContext extends Expr2Context {
+		public Expr2Context expr2() {
+			return getRuleContext(Expr2Context.class,0);
+		}
+		public TerminalNode LSH() { return getToken(CampbellParser.LSH, 0); }
+		public Expr3Context expr3() {
+			return getRuleContext(Expr3Context.class,0);
+		}
+		public LshContext(Expr2Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterLsh(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitLsh(this);
+		}
+	}
+	public static class RshContext extends Expr2Context {
+		public Expr2Context expr2() {
+			return getRuleContext(Expr2Context.class,0);
+		}
+		public TerminalNode RSH() { return getToken(CampbellParser.RSH, 0); }
+		public Expr3Context expr3() {
+			return getRuleContext(Expr3Context.class,0);
+		}
+		public RshContext(Expr2Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).enterRsh(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CampbellListener ) ((CampbellListener)listener).exitRsh(this);
 		}
 	}
 	public static class SimpleExpr2Context extends Expr2Context {
@@ -1336,8 +1679,8 @@ public class CampbellParser extends Parser {
 		int _parentState = getState();
 		Expr2Context _localctx = new Expr2Context(_ctx, _parentState);
 		Expr2Context _prevctx = _localctx;
-		int _startState = 30;
-		enterRecursionRule(_localctx, 30, RULE_expr2, _p);
+		int _startState = 34;
+		enterRecursionRule(_localctx, 34, RULE_expr2, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
@@ -1347,29 +1690,29 @@ public class CampbellParser extends Parser {
 			_ctx = _localctx;
 			_prevctx = _localctx;
 
-			setState(175); 
+			setState(206); 
 			expr3();
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(188);
+			setState(225);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(186);
-					switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
+					setState(223);
+					switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MultiplyContext(new Expr2Context(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr2);
-						setState(177);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(178); 
+						setState(208);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(209); 
 						match(STAR);
-						setState(179); 
+						setState(210); 
 						expr3();
 						}
 						break;
@@ -1377,11 +1720,11 @@ public class CampbellParser extends Parser {
 						{
 						_localctx = new DivideContext(new Expr2Context(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr2);
-						setState(180);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(181); 
+						setState(211);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(212); 
 						match(SLASH);
-						setState(182); 
+						setState(213); 
 						expr3();
 						}
 						break;
@@ -1389,20 +1732,44 @@ public class CampbellParser extends Parser {
 						{
 						_localctx = new ModuloContext(new Expr2Context(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr2);
-						setState(183);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(184); 
+						setState(214);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(215); 
 						match(PERCENT);
-						setState(185); 
+						setState(216); 
+						expr3();
+						}
+						break;
+					case 4:
+						{
+						_localctx = new LshContext(new Expr2Context(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr2);
+						setState(217);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(218); 
+						match(LSH);
+						setState(219); 
+						expr3();
+						}
+						break;
+					case 5:
+						{
+						_localctx = new RshContext(new Expr2Context(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr2);
+						setState(220);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(221); 
+						match(RSH);
+						setState(222); 
 						expr3();
 						}
 						break;
 					}
 					} 
 				}
-				setState(190);
+				setState(227);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
 			}
 			}
 		}
@@ -1460,18 +1827,18 @@ public class CampbellParser extends Parser {
 
 	public final Expr3Context expr3() throws RecognitionException {
 		Expr3Context _localctx = new Expr3Context(_ctx, getState());
-		enterRule(_localctx, 32, RULE_expr3);
+		enterRule(_localctx, 36, RULE_expr3);
 		try {
-			setState(194);
+			setState(231);
 			switch (_input.LA(1)) {
 			case MINUS:
 				_localctx = new NegateContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(191); 
+				setState(228); 
 				match(MINUS);
-				setState(192); 
-				expr();
+				setState(229); 
+				expr(0);
 				}
 				break;
 			case TRUE:
@@ -1482,7 +1849,7 @@ public class CampbellParser extends Parser {
 				_localctx = new SimpleExpr3Context(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(193); 
+				setState(230); 
 				expr4();
 				}
 				break;
@@ -1593,32 +1960,32 @@ public class CampbellParser extends Parser {
 
 	public final Expr4Context expr4() throws RecognitionException {
 		Expr4Context _localctx = new Expr4Context(_ctx, getState());
-		enterRule(_localctx, 34, RULE_expr4);
+		enterRule(_localctx, 38, RULE_expr4);
 		try {
 			int _alt;
-			setState(226);
+			setState(263);
 			switch (_input.LA(1)) {
 			case INT:
 				_localctx = new IntContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(196); 
+				setState(233); 
 				match(INT);
-				setState(200);
+				setState(237);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
 				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
-						setState(197); 
+						setState(234); 
 						exprAddon();
 						}
 						} 
 					}
-					setState(202);
+					setState(239);
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
+					_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
 				}
 				}
 				break;
@@ -1627,23 +1994,23 @@ public class CampbellParser extends Parser {
 				_localctx = new BoolExprContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(203); 
+				setState(240); 
 				bool();
-				setState(207);
+				setState(244);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
 				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
-						setState(204); 
+						setState(241); 
 						exprAddon();
 						}
 						} 
 					}
-					setState(209);
+					setState(246);
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
+					_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
 				}
 				}
 				break;
@@ -1651,23 +2018,23 @@ public class CampbellParser extends Parser {
 				_localctx = new IdContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(210); 
+				setState(247); 
 				match(IDENTIFIER);
-				setState(214);
+				setState(251);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
 				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
-						setState(211); 
+						setState(248); 
 						exprAddon();
 						}
 						} 
 					}
-					setState(216);
+					setState(253);
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
+					_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
 				}
 				}
 				break;
@@ -1675,27 +2042,27 @@ public class CampbellParser extends Parser {
 				_localctx = new ParenContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(217); 
+				setState(254); 
 				match(PAREN_OPEN);
-				setState(218); 
-				expr();
-				setState(219); 
+				setState(255); 
+				expr(0);
+				setState(256); 
 				match(PAREN_CLOSE);
-				setState(223);
+				setState(260);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
-						setState(220); 
+						setState(257); 
 						exprAddon();
 						}
 						} 
 					}
-					setState(225);
+					setState(262);
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
+					_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 				}
 				}
 				break;
@@ -1739,28 +2106,28 @@ public class CampbellParser extends Parser {
 
 	public final BlockContext block() throws RecognitionException {
 		BlockContext _localctx = new BlockContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_block);
+		enterRule(_localctx, 40, RULE_block);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(228); 
+			setState(265); 
 			match(OPEN_BLOCK);
-			setState(230); 
+			setState(267); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(229); 
+				setState(266); 
 				statement();
 				}
 				}
-				setState(232); 
+				setState(269); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CLASS) | (1L << WHILE) | (1L << IMPL) | (1L << TRAIT) | (1L << IF) | (1L << RETURN) | (1L << UNSAFE) | (1L << TRUE) | (1L << FALSE) | (1L << FUN) | (1L << FOR) | (1L << PAREN_OPEN) | (1L << MINUS) | (1L << INT) | (1L << IDENTIFIER))) != 0) );
-			setState(234); 
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CLASS) | (1L << WHILE) | (1L << IMPL) | (1L << TRAIT) | (1L << IF) | (1L << RETURN) | (1L << UNSAFE) | (1L << TRUE) | (1L << FALSE) | (1L << FUN) | (1L << FOR) | (1L << PAREN_OPEN) | (1L << MINUS) | (1L << INT) | (1L << IDENTIFIER) | (1L << HASKELL))) != 0) );
+			setState(271); 
 			match(CLOSE_BLOCK);
 			}
 		}
@@ -1805,38 +2172,38 @@ public class CampbellParser extends Parser {
 
 	public final ClassNameContext className() throws RecognitionException {
 		ClassNameContext _localctx = new ClassNameContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_className);
+		enterRule(_localctx, 42, RULE_className);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(236); 
+			setState(273); 
 			match(IDENTIFIER);
-			setState(248);
+			setState(285);
 			_la = _input.LA(1);
 			if (_la==BROKET_OPEN) {
 				{
-				setState(237); 
+				setState(274); 
 				match(BROKET_OPEN);
-				setState(238); 
+				setState(275); 
 				className();
-				setState(243);
+				setState(280);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==COMMA) {
 					{
 					{
-					setState(239); 
+					setState(276); 
 					match(COMMA);
-					setState(240); 
+					setState(277); 
 					className();
 					}
 					}
-					setState(245);
+					setState(282);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(246); 
+				setState(283); 
 				match(BROKET_CLOSE);
 				}
 			}
@@ -1883,46 +2250,46 @@ public class CampbellParser extends Parser {
 
 	public final ClassListContext classList() throws RecognitionException {
 		ClassListContext _localctx = new ClassListContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_classList);
+		enterRule(_localctx, 44, RULE_classList);
 		int _la;
 		try {
-			setState(264);
+			setState(301);
 			switch (_input.LA(1)) {
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(250); 
+				setState(287); 
 				className();
 				}
 				break;
 			case PAREN_OPEN:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(251); 
+				setState(288); 
 				match(PAREN_OPEN);
-				setState(252); 
+				setState(289); 
 				className();
-				setState(253); 
+				setState(290); 
 				match(COMMA);
-				setState(254); 
+				setState(291); 
 				className();
-				setState(259);
+				setState(296);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==COMMA) {
 					{
 					{
-					setState(255); 
+					setState(292); 
 					match(COMMA);
-					setState(256); 
+					setState(293); 
 					className();
 					}
 					}
-					setState(261);
+					setState(298);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(262); 
+				setState(299); 
 				match(PAREN_CLOSE);
 				}
 				break;
@@ -1991,43 +2358,43 @@ public class CampbellParser extends Parser {
 
 	public final ExprAddonContext exprAddon() throws RecognitionException {
 		ExprAddonContext _localctx = new ExprAddonContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_exprAddon);
+		enterRule(_localctx, 46, RULE_exprAddon);
 		int _la;
 		try {
-			setState(280);
+			setState(317);
 			switch (_input.LA(1)) {
 			case PAREN_OPEN:
 				_localctx = new CallContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(266); 
+				setState(303); 
 				match(PAREN_OPEN);
-				setState(275);
+				setState(312);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TRUE) | (1L << FALSE) | (1L << PAREN_OPEN) | (1L << MINUS) | (1L << INT) | (1L << IDENTIFIER))) != 0)) {
 					{
-					setState(267); 
-					expr();
-					setState(272);
+					setState(304); 
+					expr(0);
+					setState(309);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 					while (_la==COMMA) {
 						{
 						{
-						setState(268); 
+						setState(305); 
 						match(COMMA);
-						setState(269); 
-						expr();
+						setState(306); 
+						expr(0);
 						}
 						}
-						setState(274);
+						setState(311);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 					}
 					}
 				}
 
-				setState(277); 
+				setState(314); 
 				match(PAREN_CLOSE);
 				}
 				break;
@@ -2035,9 +2402,9 @@ public class CampbellParser extends Parser {
 				_localctx = new GetContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(278); 
+				setState(315); 
 				match(DOT);
-				setState(279); 
+				setState(316); 
 				match(IDENTIFIER);
 				}
 				break;
@@ -2094,15 +2461,15 @@ public class CampbellParser extends Parser {
 
 	public final BoolContext bool() throws RecognitionException {
 		BoolContext _localctx = new BoolContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_bool);
+		enterRule(_localctx, 48, RULE_bool);
 		try {
-			setState(284);
+			setState(321);
 			switch (_input.LA(1)) {
 			case TRUE:
 				_localctx = new TrueContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(282); 
+				setState(319); 
 				match(TRUE);
 				}
 				break;
@@ -2110,7 +2477,7 @@ public class CampbellParser extends Parser {
 				_localctx = new FalseContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(283); 
+				setState(320); 
 				match(FALSE);
 				}
 				break;
@@ -2132,133 +2499,184 @@ public class CampbellParser extends Parser {
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
 		case 14: 
-			return expr1_sempred((Expr1Context)_localctx, predIndex);
+			return expr_sempred((ExprContext)_localctx, predIndex);
 		case 15: 
+			return expr0_sempred((Expr0Context)_localctx, predIndex);
+		case 16: 
+			return expr1_sempred((Expr1Context)_localctx, predIndex);
+		case 17: 
 			return expr2_sempred((Expr2Context)_localctx, predIndex);
+		}
+		return true;
+	}
+	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 0: 
+			return precpred(_ctx, 4);
+		case 1: 
+			return precpred(_ctx, 3);
+		case 2: 
+			return precpred(_ctx, 2);
+		}
+		return true;
+	}
+	private boolean expr0_sempred(Expr0Context _localctx, int predIndex) {
+		switch (predIndex) {
+		case 3: 
+			return precpred(_ctx, 7);
+		case 4: 
+			return precpred(_ctx, 6);
+		case 5: 
+			return precpred(_ctx, 5);
+		case 6: 
+			return precpred(_ctx, 4);
+		case 7: 
+			return precpred(_ctx, 3);
+		case 8: 
+			return precpred(_ctx, 2);
 		}
 		return true;
 	}
 	private boolean expr1_sempred(Expr1Context _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: 
+		case 9: 
 			return precpred(_ctx, 3);
-		case 1: 
+		case 10: 
 			return precpred(_ctx, 2);
 		}
 		return true;
 	}
 	private boolean expr2_sempred(Expr2Context _localctx, int predIndex) {
 		switch (predIndex) {
-		case 2: 
+		case 11: 
+			return precpred(_ctx, 6);
+		case 12: 
+			return precpred(_ctx, 5);
+		case 13: 
 			return precpred(_ctx, 4);
-		case 3: 
+		case 14: 
 			return precpred(_ctx, 3);
-		case 4: 
+		case 15: 
 			return precpred(_ctx, 2);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3%\u0121\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3.\u0146\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\3\2\6\2\62"+
-		"\n\2\r\2\16\2\63\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\5\3D\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4M\n\4\f\4\16\4P\13\4\5\4R\n"+
-		"\4\3\4\3\4\5\4V\n\4\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\5"+
-		"\7d\n\7\3\b\3\b\3\b\3\b\5\bj\n\b\3\b\3\b\3\t\3\t\3\t\3\t\5\tr\n\t\3\t"+
-		"\3\t\3\n\3\n\3\n\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\5\f\u0084"+
-		"\n\f\3\r\3\r\3\r\3\r\3\16\3\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17"+
-		"\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\5\17"+
-		"\u00a1\n\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\7\20\u00ac\n"+
-		"\20\f\20\16\20\u00af\13\20\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21"+
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
+		"\4\32\t\32\3\2\6\2\66\n\2\r\2\16\2\67\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3I\n\3\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5"+
+		"\3\5\7\5T\n\5\f\5\16\5W\13\5\5\5Y\n\5\3\5\3\5\5\5]\n\5\3\6\3\6\3\6\3\7"+
+		"\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\5\bk\n\b\3\t\3\t\3\t\3\t\5\tq\n\t\3\t"+
+		"\3\t\3\n\3\n\3\n\3\n\5\ny\n\n\3\n\3\n\3\13\3\13\3\13\3\f\3\f\3\f\3\r\3"+
+		"\r\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u008b\n\r\3\16\3\16\3\16\3\16\3\17\3\17"+
+		"\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20"+
+		"\3\20\3\20\7\20\u00a3\n\20\f\20\16\20\u00a6\13\20\3\21\3\21\3\21\3\21"+
+		"\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21"+
 		"\3\21\3\21\3\21\7\21\u00bd\n\21\f\21\16\21\u00c0\13\21\3\22\3\22\3\22"+
-		"\5\22\u00c5\n\22\3\23\3\23\7\23\u00c9\n\23\f\23\16\23\u00cc\13\23\3\23"+
-		"\3\23\7\23\u00d0\n\23\f\23\16\23\u00d3\13\23\3\23\3\23\7\23\u00d7\n\23"+
-		"\f\23\16\23\u00da\13\23\3\23\3\23\3\23\3\23\7\23\u00e0\n\23\f\23\16\23"+
-		"\u00e3\13\23\5\23\u00e5\n\23\3\24\3\24\6\24\u00e9\n\24\r\24\16\24\u00ea"+
-		"\3\24\3\24\3\25\3\25\3\25\3\25\3\25\7\25\u00f4\n\25\f\25\16\25\u00f7\13"+
-		"\25\3\25\3\25\5\25\u00fb\n\25\3\26\3\26\3\26\3\26\3\26\3\26\3\26\7\26"+
-		"\u0104\n\26\f\26\16\26\u0107\13\26\3\26\3\26\5\26\u010b\n\26\3\27\3\27"+
-		"\3\27\3\27\7\27\u0111\n\27\f\27\16\27\u0114\13\27\5\27\u0116\n\27\3\27"+
-		"\3\27\3\27\5\27\u011b\n\27\3\30\3\30\5\30\u011f\n\30\3\30\2\4\36 \31\2"+
-		"\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\2\2\u0136\2\61\3\2\2\2"+
-		"\4C\3\2\2\2\6E\3\2\2\2\bW\3\2\2\2\nZ\3\2\2\2\f^\3\2\2\2\16e\3\2\2\2\20"+
-		"m\3\2\2\2\22u\3\2\2\2\24x\3\2\2\2\26\u0083\3\2\2\2\30\u0085\3\2\2\2\32"+
-		"\u0089\3\2\2\2\34\u00a0\3\2\2\2\36\u00a2\3\2\2\2 \u00b0\3\2\2\2\"\u00c4"+
-		"\3\2\2\2$\u00e4\3\2\2\2&\u00e6\3\2\2\2(\u00ee\3\2\2\2*\u010a\3\2\2\2,"+
-		"\u011a\3\2\2\2.\u011e\3\2\2\2\60\62\5\4\3\2\61\60\3\2\2\2\62\63\3\2\2"+
-		"\2\63\61\3\2\2\2\63\64\3\2\2\2\64\65\3\2\2\2\65\66\7\2\2\3\66\3\3\2\2"+
-		"\2\67D\5\6\4\28D\5\b\5\29D\5\n\6\2:D\5\f\7\2;D\5\16\b\2<D\5\20\t\2=D\5"+
-		"\22\n\2>D\5\24\13\2?D\5\26\f\2@D\5\30\r\2AD\5\32\16\2BD\5\34\17\2C\67"+
-		"\3\2\2\2C8\3\2\2\2C9\3\2\2\2C:\3\2\2\2C;\3\2\2\2C<\3\2\2\2C=\3\2\2\2C"+
-		">\3\2\2\2C?\3\2\2\2C@\3\2\2\2CA\3\2\2\2CB\3\2\2\2D\5\3\2\2\2EF\7\16\2"+
-		"\2FG\5(\25\2GH\7\"\2\2HQ\7\27\2\2IN\5\24\13\2JK\7\32\2\2KM\5\24\13\2L"+
-		"J\3\2\2\2MP\3\2\2\2NL\3\2\2\2NO\3\2\2\2OR\3\2\2\2PN\3\2\2\2QI\3\2\2\2"+
-		"QR\3\2\2\2RS\3\2\2\2SU\7\30\2\2TV\5&\24\2UT\3\2\2\2UV\3\2\2\2V\7\3\2\2"+
-		"\2WX\7\13\2\2XY\5&\24\2Y\t\3\2\2\2Z[\7\4\2\2[\\\5\34\17\2\\]\5&\24\2]"+
-		"\13\3\2\2\2^_\7\b\2\2_`\5\34\17\2`c\5&\24\2ab\7\t\2\2bd\5&\24\2ca\3\2"+
-		"\2\2cd\3\2\2\2d\r\3\2\2\2ef\7\5\2\2fi\5(\25\2gh\7\6\2\2hj\5*\26\2ig\3"+
-		"\2\2\2ij\3\2\2\2jk\3\2\2\2kl\5&\24\2l\17\3\2\2\2mn\7\7\2\2nq\5(\25\2o"+
-		"p\7\6\2\2pr\5*\26\2qo\3\2\2\2qr\3\2\2\2rs\3\2\2\2st\5&\24\2t\21\3\2\2"+
-		"\2uv\7\n\2\2vw\5\34\17\2w\23\3\2\2\2xy\5(\25\2yz\7\"\2\2z\25\3\2\2\2{"+
-		"|\5\34\17\2|}\7 \2\2}~\5\34\17\2~\u0084\3\2\2\2\177\u0080\5\24\13\2\u0080"+
-		"\u0081\7 \2\2\u0081\u0082\5\34\17\2\u0082\u0084\3\2\2\2\u0083{\3\2\2\2"+
-		"\u0083\177\3\2\2\2\u0084\27\3\2\2\2\u0085\u0086\7\3\2\2\u0086\u0087\5"+
-		"(\25\2\u0087\u0088\5&\24\2\u0088\31\3\2\2\2\u0089\u008a\7\17\2\2\u008a"+
-		"\u008b\5\34\17\2\u008b\u008c\7\20\2\2\u008c\u008d\5\34\17\2\u008d\u008e"+
-		"\5&\24\2\u008e\33\3\2\2\2\u008f\u0090\5\36\20\2\u0090\u0091\7\23\2\2\u0091"+
-		"\u0092\5\36\20\2\u0092\u00a1\3\2\2\2\u0093\u0094\5\36\20\2\u0094\u0095"+
-		"\7\24\2\2\u0095\u0096\5\36\20\2\u0096\u00a1\3\2\2\2\u0097\u0098\5\36\20"+
-		"\2\u0098\u0099\7\21\2\2\u0099\u009a\5\36\20\2\u009a\u00a1\3\2\2\2\u009b"+
-		"\u009c\5\36\20\2\u009c\u009d\7\22\2\2\u009d\u009e\5\36\20\2\u009e\u00a1"+
-		"\3\2\2\2\u009f\u00a1\5\36\20\2\u00a0\u008f\3\2\2\2\u00a0\u0093\3\2\2\2"+
-		"\u00a0\u0097\3\2\2\2\u00a0\u009b\3\2\2\2\u00a0\u009f\3\2\2\2\u00a1\35"+
-		"\3\2\2\2\u00a2\u00a3\b\20\1\2\u00a3\u00a4\5 \21\2\u00a4\u00ad\3\2\2\2"+
-		"\u00a5\u00a6\f\5\2\2\u00a6\u00a7\7\33\2\2\u00a7\u00ac\5 \21\2\u00a8\u00a9"+
-		"\f\4\2\2\u00a9\u00aa\7\34\2\2\u00aa\u00ac\5 \21\2\u00ab\u00a5\3\2\2\2"+
-		"\u00ab\u00a8\3\2\2\2\u00ac\u00af\3\2\2\2\u00ad\u00ab\3\2\2\2\u00ad\u00ae"+
-		"\3\2\2\2\u00ae\37\3\2\2\2\u00af\u00ad\3\2\2\2\u00b0\u00b1\b\21\1\2\u00b1"+
-		"\u00b2\5\"\22\2\u00b2\u00be\3\2\2\2\u00b3\u00b4\f\6\2\2\u00b4\u00b5\7"+
-		"\35\2\2\u00b5\u00bd\5\"\22\2\u00b6\u00b7\f\5\2\2\u00b7\u00b8\7\36\2\2"+
-		"\u00b8\u00bd\5\"\22\2\u00b9\u00ba\f\4\2\2\u00ba\u00bb\7\37\2\2\u00bb\u00bd"+
-		"\5\"\22\2\u00bc\u00b3\3\2\2\2\u00bc\u00b6\3\2\2\2\u00bc\u00b9\3\2\2\2"+
-		"\u00bd\u00c0\3\2\2\2\u00be\u00bc\3\2\2\2\u00be\u00bf\3\2\2\2\u00bf!\3"+
-		"\2\2\2\u00c0\u00be\3\2\2\2\u00c1\u00c2\7\34\2\2\u00c2\u00c5\5\34\17\2"+
-		"\u00c3\u00c5\5$\23\2\u00c4\u00c1\3\2\2\2\u00c4\u00c3\3\2\2\2\u00c5#\3"+
-		"\2\2\2\u00c6\u00ca\7!\2\2\u00c7\u00c9\5,\27\2\u00c8\u00c7\3\2\2\2\u00c9"+
-		"\u00cc\3\2\2\2\u00ca\u00c8\3\2\2\2\u00ca\u00cb\3\2\2\2\u00cb\u00e5\3\2"+
-		"\2\2\u00cc\u00ca\3\2\2\2\u00cd\u00d1\5.\30\2\u00ce\u00d0\5,\27\2\u00cf"+
-		"\u00ce\3\2\2\2\u00d0\u00d3\3\2\2\2\u00d1\u00cf\3\2\2\2\u00d1\u00d2\3\2"+
-		"\2\2\u00d2\u00e5\3\2\2\2\u00d3\u00d1\3\2\2\2\u00d4\u00d8\7\"\2\2\u00d5"+
-		"\u00d7\5,\27\2\u00d6\u00d5\3\2\2\2\u00d7\u00da\3\2\2\2\u00d8\u00d6\3\2"+
-		"\2\2\u00d8\u00d9\3\2\2\2\u00d9\u00e5\3\2\2\2\u00da\u00d8\3\2\2\2\u00db"+
-		"\u00dc\7\27\2\2\u00dc\u00dd\5\34\17\2\u00dd\u00e1\7\30\2\2\u00de\u00e0"+
-		"\5,\27\2\u00df\u00de\3\2\2\2\u00e0\u00e3\3\2\2\2\u00e1\u00df\3\2\2\2\u00e1"+
-		"\u00e2\3\2\2\2\u00e2\u00e5\3\2\2\2\u00e3\u00e1\3\2\2\2\u00e4\u00c6\3\2"+
-		"\2\2\u00e4\u00cd\3\2\2\2\u00e4\u00d4\3\2\2\2\u00e4\u00db\3\2\2\2\u00e5"+
-		"%\3\2\2\2\u00e6\u00e8\7#\2\2\u00e7\u00e9\5\4\3\2\u00e8\u00e7\3\2\2\2\u00e9"+
-		"\u00ea\3\2\2\2\u00ea\u00e8\3\2\2\2\u00ea\u00eb\3\2\2\2\u00eb\u00ec\3\2"+
-		"\2\2\u00ec\u00ed\7$\2\2\u00ed\'\3\2\2\2\u00ee\u00fa\7\"\2\2\u00ef\u00f0"+
-		"\7\21\2\2\u00f0\u00f5\5(\25\2\u00f1\u00f2\7\32\2\2\u00f2\u00f4\5(\25\2"+
-		"\u00f3\u00f1\3\2\2\2\u00f4\u00f7\3\2\2\2\u00f5\u00f3\3\2\2\2\u00f5\u00f6"+
-		"\3\2\2\2\u00f6\u00f8\3\2\2\2\u00f7\u00f5\3\2\2\2\u00f8\u00f9\7\22\2\2"+
-		"\u00f9\u00fb\3\2\2\2\u00fa\u00ef\3\2\2\2\u00fa\u00fb\3\2\2\2\u00fb)\3"+
-		"\2\2\2\u00fc\u010b\5(\25\2\u00fd\u00fe\7\27\2\2\u00fe\u00ff\5(\25\2\u00ff"+
-		"\u0100\7\32\2\2\u0100\u0105\5(\25\2\u0101\u0102\7\32\2\2\u0102\u0104\5"+
-		"(\25\2\u0103\u0101\3\2\2\2\u0104\u0107\3\2\2\2\u0105\u0103\3\2\2\2\u0105"+
-		"\u0106\3\2\2\2\u0106\u0108\3\2\2\2\u0107\u0105\3\2\2\2\u0108\u0109\7\30"+
-		"\2\2\u0109\u010b\3\2\2\2\u010a\u00fc\3\2\2\2\u010a\u00fd\3\2\2\2\u010b"+
-		"+\3\2\2\2\u010c\u0115\7\27\2\2\u010d\u0112\5\34\17\2\u010e\u010f\7\32"+
-		"\2\2\u010f\u0111\5\34\17\2\u0110\u010e\3\2\2\2\u0111\u0114\3\2\2\2\u0112"+
-		"\u0110\3\2\2\2\u0112\u0113\3\2\2\2\u0113\u0116\3\2\2\2\u0114\u0112\3\2"+
-		"\2\2\u0115\u010d\3\2\2\2\u0115\u0116\3\2\2\2\u0116\u0117\3\2\2\2\u0117"+
-		"\u011b\7\30\2\2\u0118\u0119\7\31\2\2\u0119\u011b\7\"\2\2\u011a\u010c\3"+
-		"\2\2\2\u011a\u0118\3\2\2\2\u011b-\3\2\2\2\u011c\u011f\7\f\2\2\u011d\u011f"+
-		"\7\r\2\2\u011e\u011c\3\2\2\2\u011e\u011d\3\2\2\2\u011f/\3\2\2\2\37\63"+
-		"CNQUciq\u0083\u00a0\u00ab\u00ad\u00bc\u00be\u00c4\u00ca\u00d1\u00d8\u00e1"+
-		"\u00e4\u00ea\u00f5\u00fa\u0105\u010a\u0112\u0115\u011a\u011e";
+		"\3\22\3\22\3\22\3\22\3\22\3\22\7\22\u00cb\n\22\f\22\16\22\u00ce\13\22"+
+		"\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23"+
+		"\3\23\3\23\3\23\3\23\7\23\u00e2\n\23\f\23\16\23\u00e5\13\23\3\24\3\24"+
+		"\3\24\5\24\u00ea\n\24\3\25\3\25\7\25\u00ee\n\25\f\25\16\25\u00f1\13\25"+
+		"\3\25\3\25\7\25\u00f5\n\25\f\25\16\25\u00f8\13\25\3\25\3\25\7\25\u00fc"+
+		"\n\25\f\25\16\25\u00ff\13\25\3\25\3\25\3\25\3\25\7\25\u0105\n\25\f\25"+
+		"\16\25\u0108\13\25\5\25\u010a\n\25\3\26\3\26\6\26\u010e\n\26\r\26\16\26"+
+		"\u010f\3\26\3\26\3\27\3\27\3\27\3\27\3\27\7\27\u0119\n\27\f\27\16\27\u011c"+
+		"\13\27\3\27\3\27\5\27\u0120\n\27\3\30\3\30\3\30\3\30\3\30\3\30\3\30\7"+
+		"\30\u0129\n\30\f\30\16\30\u012c\13\30\3\30\3\30\5\30\u0130\n\30\3\31\3"+
+		"\31\3\31\3\31\7\31\u0136\n\31\f\31\16\31\u0139\13\31\5\31\u013b\n\31\3"+
+		"\31\3\31\3\31\5\31\u0140\n\31\3\32\3\32\5\32\u0144\n\32\3\32\2\6\36 \""+
+		"$\33\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\2\2\u0161\2"+
+		"\65\3\2\2\2\4H\3\2\2\2\6J\3\2\2\2\bL\3\2\2\2\n^\3\2\2\2\fa\3\2\2\2\16"+
+		"e\3\2\2\2\20l\3\2\2\2\22t\3\2\2\2\24|\3\2\2\2\26\177\3\2\2\2\30\u008a"+
+		"\3\2\2\2\32\u008c\3\2\2\2\34\u0090\3\2\2\2\36\u0096\3\2\2\2 \u00a7\3\2"+
+		"\2\2\"\u00c1\3\2\2\2$\u00cf\3\2\2\2&\u00e9\3\2\2\2(\u0109\3\2\2\2*\u010b"+
+		"\3\2\2\2,\u0113\3\2\2\2.\u012f\3\2\2\2\60\u013f\3\2\2\2\62\u0143\3\2\2"+
+		"\2\64\66\5\4\3\2\65\64\3\2\2\2\66\67\3\2\2\2\67\65\3\2\2\2\678\3\2\2\2"+
+		"89\3\2\2\29:\7\2\2\3:\3\3\2\2\2;I\5\6\4\2<I\5\b\5\2=I\5\n\6\2>I\5\f\7"+
+		"\2?I\5\16\b\2@I\5\20\t\2AI\5\22\n\2BI\5\24\13\2CI\5\26\f\2DI\5\30\r\2"+
+		"EI\5\32\16\2FI\5\34\17\2GI\5\36\20\2H;\3\2\2\2H<\3\2\2\2H=\3\2\2\2H>\3"+
+		"\2\2\2H?\3\2\2\2H@\3\2\2\2HA\3\2\2\2HB\3\2\2\2HC\3\2\2\2HD\3\2\2\2HE\3"+
+		"\2\2\2HF\3\2\2\2HG\3\2\2\2I\5\3\2\2\2JK\7.\2\2K\7\3\2\2\2LM\7\16\2\2M"+
+		"N\5,\27\2NO\7#\2\2OX\7\30\2\2PU\5\26\f\2QR\7\33\2\2RT\5\26\f\2SQ\3\2\2"+
+		"\2TW\3\2\2\2US\3\2\2\2UV\3\2\2\2VY\3\2\2\2WU\3\2\2\2XP\3\2\2\2XY\3\2\2"+
+		"\2YZ\3\2\2\2Z\\\7\31\2\2[]\5*\26\2\\[\3\2\2\2\\]\3\2\2\2]\t\3\2\2\2^_"+
+		"\7\13\2\2_`\5*\26\2`\13\3\2\2\2ab\7\4\2\2bc\5\36\20\2cd\5*\26\2d\r\3\2"+
+		"\2\2ef\7\b\2\2fg\5\36\20\2gj\5*\26\2hi\7\t\2\2ik\5*\26\2jh\3\2\2\2jk\3"+
+		"\2\2\2k\17\3\2\2\2lm\7\5\2\2mp\5,\27\2no\7\6\2\2oq\5.\30\2pn\3\2\2\2p"+
+		"q\3\2\2\2qr\3\2\2\2rs\5*\26\2s\21\3\2\2\2tu\7\7\2\2ux\5,\27\2vw\7\6\2"+
+		"\2wy\5.\30\2xv\3\2\2\2xy\3\2\2\2yz\3\2\2\2z{\5*\26\2{\23\3\2\2\2|}\7\n"+
+		"\2\2}~\5\36\20\2~\25\3\2\2\2\177\u0080\5,\27\2\u0080\u0081\7#\2\2\u0081"+
+		"\27\3\2\2\2\u0082\u0083\5\36\20\2\u0083\u0084\7!\2\2\u0084\u0085\5\36"+
+		"\20\2\u0085\u008b\3\2\2\2\u0086\u0087\5\26\f\2\u0087\u0088\7!\2\2\u0088"+
+		"\u0089\5\36\20\2\u0089\u008b\3\2\2\2\u008a\u0082\3\2\2\2\u008a\u0086\3"+
+		"\2\2\2\u008b\31\3\2\2\2\u008c\u008d\7\3\2\2\u008d\u008e\5,\27\2\u008e"+
+		"\u008f\5*\26\2\u008f\33\3\2\2\2\u0090\u0091\7\17\2\2\u0091\u0092\5\36"+
+		"\20\2\u0092\u0093\7\20\2\2\u0093\u0094\5\36\20\2\u0094\u0095\5*\26\2\u0095"+
+		"\35\3\2\2\2\u0096\u0097\b\20\1\2\u0097\u0098\5 \21\2\u0098\u00a4\3\2\2"+
+		"\2\u0099\u009a\f\6\2\2\u009a\u009b\7*\2\2\u009b\u00a3\5 \21\2\u009c\u009d"+
+		"\f\5\2\2\u009d\u009e\7+\2\2\u009e\u00a3\5 \21\2\u009f\u00a0\f\4\2\2\u00a0"+
+		"\u00a1\7,\2\2\u00a1\u00a3\5 \21\2\u00a2\u0099\3\2\2\2\u00a2\u009c\3\2"+
+		"\2\2\u00a2\u009f\3\2\2\2\u00a3\u00a6\3\2\2\2\u00a4\u00a2\3\2\2\2\u00a4"+
+		"\u00a5\3\2\2\2\u00a5\37\3\2\2\2\u00a6\u00a4\3\2\2\2\u00a7\u00a8\b\21\1"+
+		"\2\u00a8\u00a9\5\"\22\2\u00a9\u00be\3\2\2\2\u00aa\u00ab\f\t\2\2\u00ab"+
+		"\u00ac\7\23\2\2\u00ac\u00bd\5\"\22\2\u00ad\u00ae\f\b\2\2\u00ae\u00af\7"+
+		"\24\2\2\u00af\u00bd\5\"\22\2\u00b0\u00b1\f\7\2\2\u00b1\u00b2\7\25\2\2"+
+		"\u00b2\u00bd\5\"\22\2\u00b3\u00b4\f\6\2\2\u00b4\u00b5\7&\2\2\u00b5\u00bd"+
+		"\5\"\22\2\u00b6\u00b7\f\5\2\2\u00b7\u00b8\7\21\2\2\u00b8\u00bd\5\"\22"+
+		"\2\u00b9\u00ba\f\4\2\2\u00ba\u00bb\7\22\2\2\u00bb\u00bd\5\"\22\2\u00bc"+
+		"\u00aa\3\2\2\2\u00bc\u00ad\3\2\2\2\u00bc\u00b0\3\2\2\2\u00bc\u00b3\3\2"+
+		"\2\2\u00bc\u00b6\3\2\2\2\u00bc\u00b9\3\2\2\2\u00bd\u00c0\3\2\2\2\u00be"+
+		"\u00bc\3\2\2\2\u00be\u00bf\3\2\2\2\u00bf!\3\2\2\2\u00c0\u00be\3\2\2\2"+
+		"\u00c1\u00c2\b\22\1\2\u00c2\u00c3\5$\23\2\u00c3\u00cc\3\2\2\2\u00c4\u00c5"+
+		"\f\5\2\2\u00c5\u00c6\7\34\2\2\u00c6\u00cb\5$\23\2\u00c7\u00c8\f\4\2\2"+
+		"\u00c8\u00c9\7\35\2\2\u00c9\u00cb\5$\23\2\u00ca\u00c4\3\2\2\2\u00ca\u00c7"+
+		"\3\2\2\2\u00cb\u00ce\3\2\2\2\u00cc\u00ca\3\2\2\2\u00cc\u00cd\3\2\2\2\u00cd"+
+		"#\3\2\2\2\u00ce\u00cc\3\2\2\2\u00cf\u00d0\b\23\1\2\u00d0\u00d1\5&\24\2"+
+		"\u00d1\u00e3\3\2\2\2\u00d2\u00d3\f\b\2\2\u00d3\u00d4\7\36\2\2\u00d4\u00e2"+
+		"\5&\24\2\u00d5\u00d6\f\7\2\2\u00d6\u00d7\7\37\2\2\u00d7\u00e2\5&\24\2"+
+		"\u00d8\u00d9\f\6\2\2\u00d9\u00da\7 \2\2\u00da\u00e2\5&\24\2\u00db\u00dc"+
+		"\f\5\2\2\u00dc\u00dd\7(\2\2\u00dd\u00e2\5&\24\2\u00de\u00df\f\4\2\2\u00df"+
+		"\u00e0\7)\2\2\u00e0\u00e2\5&\24\2\u00e1\u00d2\3\2\2\2\u00e1\u00d5\3\2"+
+		"\2\2\u00e1\u00d8\3\2\2\2\u00e1\u00db\3\2\2\2\u00e1\u00de\3\2\2\2\u00e2"+
+		"\u00e5\3\2\2\2\u00e3\u00e1\3\2\2\2\u00e3\u00e4\3\2\2\2\u00e4%\3\2\2\2"+
+		"\u00e5\u00e3\3\2\2\2\u00e6\u00e7\7\35\2\2\u00e7\u00ea\5\36\20\2\u00e8"+
+		"\u00ea\5(\25\2\u00e9\u00e6\3\2\2\2\u00e9\u00e8\3\2\2\2\u00ea\'\3\2\2\2"+
+		"\u00eb\u00ef\7\"\2\2\u00ec\u00ee\5\60\31\2\u00ed\u00ec\3\2\2\2\u00ee\u00f1"+
+		"\3\2\2\2\u00ef\u00ed\3\2\2\2\u00ef\u00f0\3\2\2\2\u00f0\u010a\3\2\2\2\u00f1"+
+		"\u00ef\3\2\2\2\u00f2\u00f6\5\62\32\2\u00f3\u00f5\5\60\31\2\u00f4\u00f3"+
+		"\3\2\2\2\u00f5\u00f8\3\2\2\2\u00f6\u00f4\3\2\2\2\u00f6\u00f7\3\2\2\2\u00f7"+
+		"\u010a\3\2\2\2\u00f8\u00f6\3\2\2\2\u00f9\u00fd\7#\2\2\u00fa\u00fc\5\60"+
+		"\31\2\u00fb\u00fa\3\2\2\2\u00fc\u00ff\3\2\2\2\u00fd\u00fb\3\2\2\2\u00fd"+
+		"\u00fe\3\2\2\2\u00fe\u010a\3\2\2\2\u00ff\u00fd\3\2\2\2\u0100\u0101\7\30"+
+		"\2\2\u0101\u0102\5\36\20\2\u0102\u0106\7\31\2\2\u0103\u0105\5\60\31\2"+
+		"\u0104\u0103\3\2\2\2\u0105\u0108\3\2\2\2\u0106\u0104\3\2\2\2\u0106\u0107"+
+		"\3\2\2\2\u0107\u010a\3\2\2\2\u0108\u0106\3\2\2\2\u0109\u00eb\3\2\2\2\u0109"+
+		"\u00f2\3\2\2\2\u0109\u00f9\3\2\2\2\u0109\u0100\3\2\2\2\u010a)\3\2\2\2"+
+		"\u010b\u010d\7$\2\2\u010c\u010e\5\4\3\2\u010d\u010c\3\2\2\2\u010e\u010f"+
+		"\3\2\2\2\u010f\u010d\3\2\2\2\u010f\u0110\3\2\2\2\u0110\u0111\3\2\2\2\u0111"+
+		"\u0112\7%\2\2\u0112+\3\2\2\2\u0113\u011f\7#\2\2\u0114\u0115\7\21\2\2\u0115"+
+		"\u011a\5,\27\2\u0116\u0117\7\33\2\2\u0117\u0119\5,\27\2\u0118\u0116\3"+
+		"\2\2\2\u0119\u011c\3\2\2\2\u011a\u0118\3\2\2\2\u011a\u011b\3\2\2\2\u011b"+
+		"\u011d\3\2\2\2\u011c\u011a\3\2\2\2\u011d\u011e\7\22\2\2\u011e\u0120\3"+
+		"\2\2\2\u011f\u0114\3\2\2\2\u011f\u0120\3\2\2\2\u0120-\3\2\2\2\u0121\u0130"+
+		"\5,\27\2\u0122\u0123\7\30\2\2\u0123\u0124\5,\27\2\u0124\u0125\7\33\2\2"+
+		"\u0125\u012a\5,\27\2\u0126\u0127\7\33\2\2\u0127\u0129\5,\27\2\u0128\u0126"+
+		"\3\2\2\2\u0129\u012c\3\2\2\2\u012a\u0128\3\2\2\2\u012a\u012b\3\2\2\2\u012b"+
+		"\u012d\3\2\2\2\u012c\u012a\3\2\2\2\u012d\u012e\7\31\2\2\u012e\u0130\3"+
+		"\2\2\2\u012f\u0121\3\2\2\2\u012f\u0122\3\2\2\2\u0130/\3\2\2\2\u0131\u013a"+
+		"\7\30\2\2\u0132\u0137\5\36\20\2\u0133\u0134\7\33\2\2\u0134\u0136\5\36"+
+		"\20\2\u0135\u0133\3\2\2\2\u0136\u0139\3\2\2\2\u0137\u0135\3\2\2\2\u0137"+
+		"\u0138\3\2\2\2\u0138\u013b\3\2\2\2\u0139\u0137\3\2\2\2\u013a\u0132\3\2"+
+		"\2\2\u013a\u013b\3\2\2\2\u013b\u013c\3\2\2\2\u013c\u0140\7\31\2\2\u013d"+
+		"\u013e\7\32\2\2\u013e\u0140\7#\2\2\u013f\u0131\3\2\2\2\u013f\u013d\3\2"+
+		"\2\2\u0140\61\3\2\2\2\u0141\u0144\7\f\2\2\u0142\u0144\7\r\2\2\u0143\u0141"+
+		"\3\2\2\2\u0143\u0142\3\2\2\2\u0144\63\3\2\2\2\"\67HUX\\jpx\u008a\u00a2"+
+		"\u00a4\u00bc\u00be\u00ca\u00cc\u00e1\u00e3\u00e9\u00ef\u00f6\u00fd\u0106"+
+		"\u0109\u010f\u011a\u011f\u012a\u012f\u0137\u013a\u013f\u0143";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

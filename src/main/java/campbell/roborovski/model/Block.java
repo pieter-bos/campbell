@@ -43,6 +43,9 @@ public class Block extends Statement {
         for(Statement stat : statements) {
             if(stat instanceof Block) {
                 ((Block) stat).calcOffsets();
+            } else if(stat instanceof If) {
+                ((If) stat).getThenBlock().calcOffsets();
+                ((If) stat).getElseBlock().calcOffsets();
             }
         }
     }
@@ -50,7 +53,7 @@ public class Block extends Statement {
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
         emitter.emitConst(size, SprockellRegister.a);
-        emitter.compute(SprockellCompute.Sub, SprockellRegister.sp, SprockellRegister.a, SprockellRegister.sp);
+        emitter.compute(SprockellCompute.Sub, SprockellRegister.sp, SprockellRegister.a, SprockellRegister.sp, ">>> ENTER SCOPE");
 
         for(Statement stat : statements) {
             stat.compile(emitter, this);
@@ -61,7 +64,7 @@ public class Block extends Statement {
         }
 
         emitter.emitConst(size, SprockellRegister.a);
-        emitter.compute(SprockellCompute.Add, SprockellRegister.sp, SprockellRegister.a, SprockellRegister.sp);
+        emitter.compute(SprockellCompute.Add, SprockellRegister.sp, SprockellRegister.a, SprockellRegister.sp, "<<< EXIT SCOPE");
     }
 
     @Override
@@ -72,7 +75,12 @@ public class Block extends Statement {
 
         for(Statement stat : statements) {
             stat.setOffset(current);
+
             current += stat.getSize();
+
+            if(stat instanceof Expression) {
+                current += 1;
+            }
         }
     }
 

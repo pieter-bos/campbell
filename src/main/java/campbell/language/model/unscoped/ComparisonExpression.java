@@ -48,20 +48,29 @@ public class ComparisonExpression extends Expression {
     }
 
     public static ComparisonExpression fromContext(CampbellParser.LtContext ctx) {
-        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.LessThan, Expression.fromContext(ctx.expr1(1))));
+        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.LessThan, Expression.fromContext(ctx.expr1())));
     }
 
     public static ComparisonExpression fromContext(CampbellParser.LteContext ctx) {
-        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.LessThanEquals, Expression.fromContext(ctx.expr1(1))));
+        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.LessThanEquals, Expression.fromContext(ctx.expr1())));
     }
 
     public static ComparisonExpression fromContext(CampbellParser.GtContext ctx) {
-        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.GreaterThan, Expression.fromContext(ctx.expr1(1))));
+        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.GreaterThan, Expression.fromContext(ctx.expr1())));
     }
 
     public static ComparisonExpression fromContext(CampbellParser.GteContext ctx) {
-        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr1(0)), ComparisonOp.GreaterThanEquals, Expression.fromContext(ctx.expr1(1))));
+        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.GreaterThanEquals, Expression.fromContext(ctx.expr1())));
     }
+
+    public static ComparisonExpression fromContext(CampbellParser.EqContext ctx) {
+        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.Equals, Expression.fromContext(ctx.expr1())));
+    }
+
+    public static ComparisonExpression fromContext(CampbellParser.NeqContext ctx) {
+        return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.NotEquals, Expression.fromContext(ctx.expr1())));
+    }
+
 
     @Override
     public void setScope(Scope scope) {
@@ -82,6 +91,10 @@ public class ComparisonExpression extends Expression {
                 return indent(indent) + "(" + left.toString(0) + " > " + right.toString(0) + ")";
             case GreaterThanEquals:
                 return indent(indent) + "(" + left.toString(0) + " >= " + right.toString(0) + ")";
+            case Equals:
+                return indent(indent) + "(" + left.toString(0) + " == " + right.toString(0) + ")";
+            case NotEquals:
+                return indent(indent) + "(" + left.toString(0) + " != " + right.toString(0) + ")";
         }
 
         return null;

@@ -6,7 +6,8 @@ program
     ;
 
 statement
-    : fun
+    : haskell
+    | fun
     | unsafe
     | whileNode
     | ifNode
@@ -18,6 +19,10 @@ statement
     | classNode
     | forNode
     | expr
+    ;
+
+haskell
+    : HASKELL
     ;
 
 fun
@@ -66,10 +71,19 @@ forNode
     ;
 
 expr
-    : expr1 LTE expr1 # lte
-    | expr1 GTE expr1 # gte
-    | expr1 BROKET_OPEN expr1 # lt
-    | expr1 BROKET_CLOSE expr1 # gt
+    : expr AND expr0 # and
+    | expr OR expr0 # or
+    | expr XOR expr0 # xor
+    | expr0 # superExpr
+    ;
+
+expr0
+    : expr0 LTE expr1 # lte
+    | expr0 GTE expr1 # gte
+    | expr0 EQ expr1 # eq
+    | expr0 NEQ expr1 # neq
+    | expr0 BROKET_OPEN expr1 # lt
+    | expr0 BROKET_CLOSE expr1 # gt
     | expr1 # simpleExpr
     ;
 
@@ -83,6 +97,8 @@ expr2
     : expr2 STAR expr3 # multiply
     | expr2 SLASH expr3 # divide
     | expr2 PERCENT expr3 # modulo
+    | expr2 LSH expr3 # lsh
+    | expr2 RSH expr3 # rsh
     | expr3 # simpleExpr2
     ;
 

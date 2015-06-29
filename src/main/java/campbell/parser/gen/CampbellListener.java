@@ -29,6 +29,16 @@ public interface CampbellListener extends ParseTreeListener {
 	 */
 	void exitStatement(@NotNull CampbellParser.StatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CampbellParser#haskell}.
+	 * @param ctx the parse tree
+	 */
+	void enterHaskell(@NotNull CampbellParser.HaskellContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CampbellParser#haskell}.
+	 * @param ctx the parse tree
+	 */
+	void exitHaskell(@NotNull CampbellParser.HaskellContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CampbellParser#fun}.
 	 * @param ctx the parse tree
 	 */
@@ -139,65 +149,137 @@ public interface CampbellListener extends ParseTreeListener {
 	 */
 	void exitForNode(@NotNull CampbellParser.ForNodeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code lte}
+	 * Enter a parse tree produced by the {@code superExpr}
 	 * labeled alternative in {@link CampbellParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterLte(@NotNull CampbellParser.LteContext ctx);
+	void enterSuperExpr(@NotNull CampbellParser.SuperExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code lte}
+	 * Exit a parse tree produced by the {@code superExpr}
 	 * labeled alternative in {@link CampbellParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitLte(@NotNull CampbellParser.LteContext ctx);
+	void exitSuperExpr(@NotNull CampbellParser.SuperExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code gte}
+	 * Enter a parse tree produced by the {@code or}
 	 * labeled alternative in {@link CampbellParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterGte(@NotNull CampbellParser.GteContext ctx);
+	void enterOr(@NotNull CampbellParser.OrContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code gte}
+	 * Exit a parse tree produced by the {@code or}
 	 * labeled alternative in {@link CampbellParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitGte(@NotNull CampbellParser.GteContext ctx);
+	void exitOr(@NotNull CampbellParser.OrContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code lt}
+	 * Enter a parse tree produced by the {@code and}
 	 * labeled alternative in {@link CampbellParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterLt(@NotNull CampbellParser.LtContext ctx);
+	void enterAnd(@NotNull CampbellParser.AndContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code lt}
+	 * Exit a parse tree produced by the {@code and}
 	 * labeled alternative in {@link CampbellParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitLt(@NotNull CampbellParser.LtContext ctx);
+	void exitAnd(@NotNull CampbellParser.AndContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code gt}
+	 * Enter a parse tree produced by the {@code xor}
 	 * labeled alternative in {@link CampbellParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterGt(@NotNull CampbellParser.GtContext ctx);
+	void enterXor(@NotNull CampbellParser.XorContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code gt}
+	 * Exit a parse tree produced by the {@code xor}
 	 * labeled alternative in {@link CampbellParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitGt(@NotNull CampbellParser.GtContext ctx);
+	void exitXor(@NotNull CampbellParser.XorContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code simpleExpr}
-	 * labeled alternative in {@link CampbellParser#expr}.
+	 * labeled alternative in {@link CampbellParser#expr0}.
 	 * @param ctx the parse tree
 	 */
 	void enterSimpleExpr(@NotNull CampbellParser.SimpleExprContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code simpleExpr}
-	 * labeled alternative in {@link CampbellParser#expr}.
+	 * labeled alternative in {@link CampbellParser#expr0}.
 	 * @param ctx the parse tree
 	 */
 	void exitSimpleExpr(@NotNull CampbellParser.SimpleExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code lt}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void enterLt(@NotNull CampbellParser.LtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code lt}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void exitLt(@NotNull CampbellParser.LtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code gte}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void enterGte(@NotNull CampbellParser.GteContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code gte}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void exitGte(@NotNull CampbellParser.GteContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code neq}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void enterNeq(@NotNull CampbellParser.NeqContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code neq}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void exitNeq(@NotNull CampbellParser.NeqContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code lte}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void enterLte(@NotNull CampbellParser.LteContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code lte}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void exitLte(@NotNull CampbellParser.LteContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code eq}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void enterEq(@NotNull CampbellParser.EqContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code eq}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void exitEq(@NotNull CampbellParser.EqContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code gt}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void enterGt(@NotNull CampbellParser.GtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code gt}
+	 * labeled alternative in {@link CampbellParser#expr0}.
+	 * @param ctx the parse tree
+	 */
+	void exitGt(@NotNull CampbellParser.GtContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code add}
 	 * labeled alternative in {@link CampbellParser#expr1}.
@@ -234,6 +316,30 @@ public interface CampbellListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSimpleExpr1(@NotNull CampbellParser.SimpleExpr1Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code lsh}
+	 * labeled alternative in {@link CampbellParser#expr2}.
+	 * @param ctx the parse tree
+	 */
+	void enterLsh(@NotNull CampbellParser.LshContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code lsh}
+	 * labeled alternative in {@link CampbellParser#expr2}.
+	 * @param ctx the parse tree
+	 */
+	void exitLsh(@NotNull CampbellParser.LshContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code rsh}
+	 * labeled alternative in {@link CampbellParser#expr2}.
+	 * @param ctx the parse tree
+	 */
+	void enterRsh(@NotNull CampbellParser.RshContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code rsh}
+	 * labeled alternative in {@link CampbellParser#expr2}.
+	 * @param ctx the parse tree
+	 */
+	void exitRsh(@NotNull CampbellParser.RshContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code simpleExpr2}
 	 * labeled alternative in {@link CampbellParser#expr2}.

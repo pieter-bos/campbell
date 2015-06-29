@@ -19,7 +19,12 @@ public class BinaryExpression extends Expression {
         Subtract(SprockellCompute.Sub),
         Multiply(SprockellCompute.Mul),
         Divide(SprockellCompute.Div),
-        Modulo(SprockellCompute.Mod);
+        Modulo(SprockellCompute.Mod),
+        LSH(SprockellCompute.LShift),
+        RSH(SprockellCompute.RShift),
+        And(SprockellCompute.And),
+        Or(SprockellCompute.Or),
+        Xor(SprockellCompute.Xor);
 
         private SprockellCompute compute;
 
@@ -44,11 +49,14 @@ public class BinaryExpression extends Expression {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        left.stackOffset = stackOffset;
+        right.stackOffset = stackOffset + 1;
+
         left.compile(emitter, block);
         right.compile(emitter, block);
         emitter.pop(SprockellRegister.b);
         emitter.pop(SprockellRegister.a);
-        emitter.compute(op.getCompute(), SprockellRegister.a, SprockellRegister.b, SprockellRegister.a);
+        emitter.compute(op.getCompute(), SprockellRegister.a, SprockellRegister.b, SprockellRegister.a, "compute " + op);
         emitter.push(SprockellRegister.a);
     }
 

@@ -20,15 +20,17 @@ public class If extends Statement {
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
         condition.compile(emitter, block);
         emitter.pop(SprockellRegister.a);
-        emitter.branchAbsolute(SprockellRegister.a, thenBlock.getOffset());
-        emitter.jumpAbsolute(elseBlock.getOffset());
+        emitter.branchAbsolute(SprockellRegister.a, thenBlock.getOffset(), "if true");
+        emitter.jumpAbsolute(elseBlock.getOffset(), "if false");
         thenBlock.compile(emitter, block);
-        emitter.jumpAbsolute(getOffset() + getSize());
+        System.out.println("If is at " + getOffset() + " size " + getSize());
+        emitter.jumpAbsolute(getOffset() + getSize(), "then end");
         elseBlock.compile(emitter, block);
     }
 
     @Override
     public void setOffset(int offset) {
+        this.offset = offset;
         condition.setOffset(offset);
         thenBlock.setOffset(offset + condition.getSize() + 3);
         elseBlock.setOffset(offset + condition.getSize() + 3 + thenBlock.getSize() + 1);

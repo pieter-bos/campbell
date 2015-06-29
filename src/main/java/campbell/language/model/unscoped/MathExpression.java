@@ -38,7 +38,13 @@ public class MathExpression extends Expression {
         Subtract(BinaryExpression.BinaryOp.Subtract),
         Multiply(BinaryExpression.BinaryOp.Multiply),
         Divide(BinaryExpression.BinaryOp.Divide),
-        Modulo(BinaryExpression.BinaryOp.Modulo);
+        Modulo(BinaryExpression.BinaryOp.Modulo),
+        LSH(BinaryExpression.BinaryOp.LSH),
+        RSH(BinaryExpression.BinaryOp.RSH),
+        And(BinaryExpression.BinaryOp.And),
+        Or(BinaryExpression.BinaryOp.Or),
+        Xor(BinaryExpression.BinaryOp.Xor)
+        ;
 
         private BinaryExpression.BinaryOp roborovskiOp;
 
@@ -75,6 +81,25 @@ public class MathExpression extends Expression {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Modulo, Expression.fromContext(ctx.expr3())));
     }
 
+    public static MathExpression fromContext(CampbellParser.LshContext ctx) {
+        return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.LSH, Expression.fromContext(ctx.expr3())));
+    }
+
+    public static MathExpression fromContext(CampbellParser.RshContext ctx) {
+        return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.RSH, Expression.fromContext(ctx.expr3())));
+    }
+    public static MathExpression fromContext(CampbellParser.AndContext ctx) {
+        return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr()), MathOp.And, Expression.fromContext(ctx.expr0())));
+    }
+
+    public static MathExpression fromContext(CampbellParser.OrContext ctx) {
+        return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr()), MathOp.Or, Expression.fromContext(ctx.expr0())));
+    }
+
+    public static MathExpression fromContext(CampbellParser.XorContext ctx) {
+        return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr()), MathOp.Xor, Expression.fromContext(ctx.expr0())));
+    }
+
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -96,6 +121,16 @@ public class MathExpression extends Expression {
                 return indent(indent) + "(" + left.toString(0) + " / " + right.toString(0) + ")";
             case Modulo:
                 return indent(indent) + "(" + left.toString(0) + " % " + right.toString(0) + ")";
+            case LSH:
+                return indent(indent) + "(" + left.toString(0) + " << " + right.toString(0) + ")";
+            case RSH:
+                return indent(indent) + "(" + left.toString(0) + " >> " + right.toString(0) + ")";
+            case And:
+                return indent(indent) + "(" + left.toString(0) + " & " + right.toString(0) + ")";
+            case Or:
+                return indent(indent) + "(" + left.toString(0) + " | " + right.toString(0) + ")";
+            case Xor:
+                return indent(indent) + "(" + left.toString(0) + " ^ " + right.toString(0) + ")";
         }
 
         return null;

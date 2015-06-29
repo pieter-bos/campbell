@@ -11,6 +11,20 @@ import java.util.List;
 
 public abstract class Expression extends Statement {
     public static Expression fromContext(CampbellParser.ExprContext expr) {
+        if (expr instanceof CampbellParser.AndContext) {
+            return MathExpression.fromContext((CampbellParser.AndContext) expr);
+        } else if (expr instanceof CampbellParser.OrContext) {
+            return MathExpression.fromContext((CampbellParser.OrContext) expr);
+        } else if (expr instanceof CampbellParser.XorContext) {
+            return MathExpression.fromContext((CampbellParser.XorContext) expr);
+        } else if(expr instanceof CampbellParser.SuperExprContext) {
+            return fromContext(((CampbellParser.SuperExprContext) expr).expr0());
+        }
+
+        throw new NotImplementedException(expr);
+    }
+
+    public static Expression fromContext(CampbellParser.Expr0Context expr) {
         if(expr instanceof CampbellParser.LtContext) {
             return ComparisonExpression.fromContext((CampbellParser.LtContext) expr);
         } else if(expr instanceof CampbellParser.GtContext) {
@@ -19,6 +33,10 @@ public abstract class Expression extends Statement {
             return ComparisonExpression.fromContext((CampbellParser.LteContext) expr);
         } else if(expr instanceof  CampbellParser.GteContext) {
             return ComparisonExpression.fromContext((CampbellParser.GteContext) expr);
+        } else if(expr instanceof CampbellParser.EqContext) {
+            return ComparisonExpression.fromContext((CampbellParser.EqContext) expr);
+        } else if(expr instanceof CampbellParser.NeqContext) {
+            return ComparisonExpression.fromContext((CampbellParser.NeqContext) expr);
         } else if(expr instanceof CampbellParser.SimpleExprContext) {
             return fromContext(((CampbellParser.SimpleExprContext) expr).expr1());
         }
@@ -45,6 +63,10 @@ public abstract class Expression extends Statement {
             return MathExpression.fromContext((CampbellParser.DivideContext) expr);
         } else if(expr instanceof CampbellParser.ModuloContext) {
             return MathExpression.fromContext((CampbellParser.ModuloContext) expr);
+        } else if(expr instanceof CampbellParser.LshContext) {
+            return MathExpression.fromContext((CampbellParser.LshContext) expr);
+        } else if(expr instanceof CampbellParser.RshContext) {
+            return MathExpression.fromContext((CampbellParser.RshContext) expr);
         } else if(expr instanceof CampbellParser.SimpleExpr2Context) {
             return fromContext(((CampbellParser.SimpleExpr2Context) expr).expr3());
         }

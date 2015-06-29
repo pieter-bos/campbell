@@ -132,6 +132,16 @@ public class CampbellLexer implements TokenSource {
 
             // Special characters
 
+            if(expect("\\")) {
+                accept(0);
+
+                while(!finished() && peekc() != '\n' && peekc() != '\r') {
+                    readc();
+                }
+
+                return accept(CampbellTokens.HASKELL);
+            }
+
             if(expect("(")) {
                 return accept(CampbellTokens.PAREN_OPEN);
             }
@@ -152,6 +162,9 @@ public class CampbellLexer implements TokenSource {
                 if(!finished() && peekc() == '=') {
                     readc();
                     return accept(CampbellTokens.LTE);
+                } else if (!finished() && peekc() == '<') {
+                    readc();
+                    return accept(CampbellTokens.LSH);
                 } else {
                     return accept(CampbellTokens.BROKET_OPEN);
                 }
@@ -161,6 +174,9 @@ public class CampbellLexer implements TokenSource {
                 if(!finished() && peekc() == '=') {
                     readc();
                     return accept(CampbellTokens.GTE);
+                } else if (!finished() && peekc() == '>') {
+                    readc();
+                    return accept(CampbellTokens.RSH);
                 } else {
                     return accept(CampbellTokens.BROKET_CLOSE);
                 }
@@ -194,8 +210,33 @@ public class CampbellLexer implements TokenSource {
                 return accept(CampbellTokens.PERCENT);
             }
 
+            if(expect("&")) {
+                return accept(CampbellTokens.AND);
+            }
+
+            if(expect("|")) {
+                return accept(CampbellTokens.OR);
+            }
+
+            if(expect("^")) {
+                return accept(CampbellTokens.XOR);
+            }
+
+            if(expect("!")) {
+                if (!finished() && peekc() == '=') {
+                    return accept(CampbellTokens.NEQ);
+                } else {
+                    return accept(CampbellTokens.NOT);
+                }
+            }
+
             if(expect("=")) {
-                return accept(CampbellTokens.EQUALS);
+                if(!finished() && peekc() == '=') {
+                    readc();
+                    return accept(CampbellTokens.EQ);
+                } else {
+                    return accept(CampbellTokens.EQUALS);
+                }
             }
 
             // Integer

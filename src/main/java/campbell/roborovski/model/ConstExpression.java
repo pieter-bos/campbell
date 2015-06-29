@@ -16,7 +16,12 @@ public class ConstExpression extends Expression {
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
         emitter.emitConst(data, SprockellRegister.a);
-        emitter.push(SprockellRegister.a);
+        emitter.push(SprockellRegister.a, "Const: " + data);
+    }
+
+    @Override
+    public void compileReference(SprockellEmitter emitter, Block block) throws IOException {
+        compile(emitter, block);
     }
 
     @Override

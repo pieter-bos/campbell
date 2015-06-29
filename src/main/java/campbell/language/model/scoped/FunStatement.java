@@ -97,6 +97,10 @@ public class FunStatement extends Scope implements Symbol {
     public void replaceType(Type replace, Type replaceWith) {
         returnType.replaceType(replace, replaceWith);
 
+        if(returnType.getName().equals(replace.getName())) {
+            returnType = replaceWith;
+        }
+
         for(DeclStatement stat : arguments) {
             stat.replaceType(replace, replaceWith);
         }

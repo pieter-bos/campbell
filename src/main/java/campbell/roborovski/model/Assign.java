@@ -16,11 +16,13 @@ public class Assign extends Statement {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        right.stackOffset = 1;
+
         left.compileReference(emitter, block);
         right.compile(emitter, block);
         emitter.pop(SprockellRegister.a);
         emitter.pop(SprockellRegister.b);
-        emitter.store(SprockellRegister.a, SprockellRegister.b);
+        emitter.store(SprockellRegister.a, SprockellRegister.b, "assign");
     }
 
     @Override

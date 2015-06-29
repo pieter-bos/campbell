@@ -20,6 +20,7 @@ public class DotExpression extends Expression {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        expr.stackOffset = stackOffset;
         expr.compile(emitter, block);
         emitter.pop(SprockellRegister.a);
         emitter.emitConst(struct.getOffset(property), SprockellRegister.b);

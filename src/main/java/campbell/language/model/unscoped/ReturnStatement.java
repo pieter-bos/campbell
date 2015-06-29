@@ -24,6 +24,7 @@ public class ReturnStatement extends Statement {
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
+        returnExpression.setScope(scope);
     }
 
     @Override

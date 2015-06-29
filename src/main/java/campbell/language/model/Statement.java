@@ -44,6 +44,8 @@ public abstract class Statement implements Node {
             return ClassStatement.fromContext(ctx.classNode());
         } else if(ctx.forNode() != null) {
             return ForStatement.fromContext(ctx.forNode());
+        } else if(ctx.haskell() != null) {
+            return HaskellStatement.fromContext(ctx.haskell());
         }
 
         throw new campbell.language.model.NotImplementedException(ctx);
@@ -107,6 +109,7 @@ public abstract class Statement implements Node {
     }
 
     public Symbol findSymbol(String name) {
+        System.out.println(this + " " + getScope());
         return getScope().findSymbol(name);
     }
 

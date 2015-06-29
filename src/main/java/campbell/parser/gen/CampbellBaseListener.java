@@ -41,6 +41,18 @@ public class CampbellBaseListener implements CampbellListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterHaskell(@NotNull CampbellParser.HaskellContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitHaskell(@NotNull CampbellParser.HaskellContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFun(@NotNull CampbellParser.FunContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -173,25 +185,61 @@ public class CampbellBaseListener implements CampbellListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLte(@NotNull CampbellParser.LteContext ctx) { }
+	@Override public void enterSuperExpr(@NotNull CampbellParser.SuperExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLte(@NotNull CampbellParser.LteContext ctx) { }
+	@Override public void exitSuperExpr(@NotNull CampbellParser.SuperExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGte(@NotNull CampbellParser.GteContext ctx) { }
+	@Override public void enterOr(@NotNull CampbellParser.OrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGte(@NotNull CampbellParser.GteContext ctx) { }
+	@Override public void exitOr(@NotNull CampbellParser.OrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAnd(@NotNull CampbellParser.AndContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAnd(@NotNull CampbellParser.AndContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterXor(@NotNull CampbellParser.XorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitXor(@NotNull CampbellParser.XorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSimpleExpr(@NotNull CampbellParser.SimpleExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSimpleExpr(@NotNull CampbellParser.SimpleExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -209,6 +257,54 @@ public class CampbellBaseListener implements CampbellListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterGte(@NotNull CampbellParser.GteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGte(@NotNull CampbellParser.GteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNeq(@NotNull CampbellParser.NeqContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNeq(@NotNull CampbellParser.NeqContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLte(@NotNull CampbellParser.LteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLte(@NotNull CampbellParser.LteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEq(@NotNull CampbellParser.EqContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEq(@NotNull CampbellParser.EqContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterGt(@NotNull CampbellParser.GtContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -216,18 +312,6 @@ public class CampbellBaseListener implements CampbellListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGt(@NotNull CampbellParser.GtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSimpleExpr(@NotNull CampbellParser.SimpleExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSimpleExpr(@NotNull CampbellParser.SimpleExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -264,6 +348,30 @@ public class CampbellBaseListener implements CampbellListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSimpleExpr1(@NotNull CampbellParser.SimpleExpr1Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLsh(@NotNull CampbellParser.LshContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLsh(@NotNull CampbellParser.LshContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRsh(@NotNull CampbellParser.RshContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRsh(@NotNull CampbellParser.RshContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

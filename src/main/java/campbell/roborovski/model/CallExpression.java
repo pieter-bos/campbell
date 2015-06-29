@@ -17,14 +17,19 @@ public class CallExpression extends Expression {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
-        emitter.push(SprockellRegister.sp);
+        emitter.push(SprockellRegister.sp, "Save SP");
         emitter.emitConst(getOffset() + getSize() - 1, SprockellRegister.a);
-        emitter.push(SprockellRegister.a);
+        emitter.push(SprockellRegister.a, "Save PC");
+
+        int offset = 2;
 
         for(Expression arg : arguments) {
+            arg.stackOffset = stackOffset + offset;
             arg.compile(emitter, block);
+            offset++;
         }
 
+        callee.stackOffset = stackOffset + offset;
         callee.compile(emitter, block);
 
         emitter.pop(SprockellRegister.a);

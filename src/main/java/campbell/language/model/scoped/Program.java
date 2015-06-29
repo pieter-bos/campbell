@@ -53,6 +53,9 @@ public class Program extends Scope {
         p.setScope(null);
         p.findDefinitions();
         p.findImpls();
+
+        System.out.println(p);
+
         campbell.roborovski.model.Program program = p.toRoborovski();
         program.compile(new SprockellEmitter(new FileWriter("/home/pieter/programming/haskell/campbell/example.hs")));
     }

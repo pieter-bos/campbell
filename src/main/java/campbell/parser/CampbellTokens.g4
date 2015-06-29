@@ -21,6 +21,7 @@ BROKET_OPEN : '';
 BROKET_CLOSE : '';
 LTE : '';
 GTE : '';
+EQ : '';
 BRACKET_OPEN : '';
 BRACKET_CLOSE : '';
 PAREN_OPEN : '';
@@ -41,4 +42,15 @@ IDENTIFIER: '';
 OPEN_BLOCK: '';
 CLOSE_BLOCK: '';
 
+NEQ: '';
+NOT: '';
+LSH: '';
+RSH: '';
+AND: '';
+OR: '';
+XOR: '';
+
 ERROR : '';
+
+HASKELL : '';
+
