@@ -1,22 +1,34 @@
 package campbell.language.model.scoped;
 
-import campbell.language.model.unscoped.DeclStatement;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
+import campbell.language.model.unscoped.DeclStatement;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
-import campbell.roborovski.model.*;
+import campbell.roborovski.model.Block;
+import campbell.roborovski.model.Function;
 import campbell.roborovski.model.Program;
-import org.antlr.v4.codegen.model.decl.Decl;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FunStatement extends Scope implements Symbol {
+    /**
+     * Return type of the function
+     */
     private Type returnType;
+    /**
+     * Name of the function
+     */
     private String name;
+    /**
+     * List of the arguments of the function
+     */
     private List<DeclStatement> arguments;
+    /**
+     * List containing all statements in this function
+     */
     private List<? extends Statement> statements;
     private Function func;
 
@@ -45,6 +57,11 @@ public class FunStatement extends Scope implements Symbol {
         }
     }
 
+    /**
+     * Makes a string representation of this function with correct indenting and all its statements
+     * @param indent - indent level of this function
+     * @return string representation of this function
+     */
     @Override
     public String toString(int indent) {
         String result = indent(indent) + "fun " + returnType.toString() + " " + name + "(";
@@ -72,6 +89,11 @@ public class FunStatement extends Scope implements Symbol {
         return result;
     }
 
+    /**
+     * Converts this function to the IR Roborovski
+     * @param program
+     * @param block
+     */
     @Override
     public void toRoborovski(Program program, Block block) {
         func = new Function();
@@ -88,6 +110,10 @@ public class FunStatement extends Scope implements Symbol {
         }
     }
 
+    /**
+     * Makes a deep copy of this function
+     * @return deep copy of this function
+     */
     @Override
     public FunStatement deepCopy() {
         if(statements == null) {
@@ -99,6 +125,11 @@ public class FunStatement extends Scope implements Symbol {
         }
     }
 
+    /**
+     * Replaces a given type by another given type within this function
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         returnType.replaceType(replace, replaceWith);
@@ -118,6 +149,10 @@ public class FunStatement extends Scope implements Symbol {
         }
     }
 
+    /**
+     * Sets the scope for this function, its arguments and statements
+     * @param scope - Scope of this function
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -133,6 +168,10 @@ public class FunStatement extends Scope implements Symbol {
         }
     }
 
+    /**
+     * Finds definitions in this function.
+     * Definition can be a function, declaration or a class.
+     */
     @Override
     public void findDefinitions() {
         if(!isAbstract()) {
@@ -156,6 +195,9 @@ public class FunStatement extends Scope implements Symbol {
         }
     }
 
+    /**
+     * Finds implementations in this scope
+     */
     @Override
     public void findImpls() {
         if(statements != null) {
@@ -167,23 +209,43 @@ public class FunStatement extends Scope implements Symbol {
         }
     }
 
+    /**
+     * Returns the name of this function
+     * @return name of this function
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the Function of this function
+     * @return Function of this function
+     */
     public Function getFunction() {
         return func;
     }
 
+    /**
+     * Returns list of all arguments of this function
+     * @return list of arguments of this function
+     */
     public List<DeclStatement> getArguments() {
         return arguments;
     }
 
+    /**
+     * Returns the type of this function (which is always null at the moment)
+     */
     @Override
     public Type getType() {
         return null;
     }
 
+    /**
+     * Checks whether this function is abstract
+     * A function is abstract if it has no statements
+     * @return whether a function is abstract
+     */
     public boolean isAbstract() {
         return statements == null;
     }

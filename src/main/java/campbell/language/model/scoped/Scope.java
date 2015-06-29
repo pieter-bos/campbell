@@ -15,7 +15,13 @@ public abstract class Scope extends Statement implements Node {
      * find(naam) -> definitie:type
      */
 
+    /**
+     * Map containing all types in this scope
+     */
     protected TypeMap<String, Type> types = new TypeMap<>();
+    /**
+     * Map containing all symbols in this scope
+     */
     protected SymbolMap<String, Symbol> symbols = new SymbolMap<>();
 
     /**
@@ -26,9 +32,22 @@ public abstract class Scope extends Statement implements Node {
      *
      */
 
+    /**
+     * Method to find definitions in a scope
+     * Definition can be a function, declaration or class
+     */
     public abstract void findDefinitions();
+
+    /**
+     * Method to find implementations in a scope
+     */
     public abstract void findImpls();
 
+    /**
+     * Method to find type of a given name in this scope
+     * @param name - Name of which the type should be found
+     * @return type of the given name
+     */
     @Override
     public Type findType(String name) {
         if(types.containsKey(name)) {
@@ -40,6 +59,11 @@ public abstract class Scope extends Statement implements Node {
         }
     }
 
+    /**
+     * Method to find symbol of a given name in this scope
+     * @param name - Name of which the symbol should be found
+     * @return symbol of the given name
+     */
     @Override
     public Symbol findSymbol(String name) {
         if(symbols.containsKey(name)) {
@@ -51,6 +75,10 @@ public abstract class Scope extends Statement implements Node {
         }
     }
 
+    /**
+     * Returns the comment of this scope which describes the symbols and types of this scope
+     * @return string representation of this scope's symbols and types
+     */
     public String getComment() {
         String result = "# ";
 

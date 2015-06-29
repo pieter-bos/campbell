@@ -12,12 +12,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BlockStatement extends Scope implements Iterable<Statement> {
+    /**
+     * List containing all statements in this block
+     */
     private List<? extends Statement> statements;
 
+    /**
+     * Constructor of a BlockStatement
+     * @param statements - list of all statements that appear in the block
+     */
     public BlockStatement(List<? extends Statement> statements) {
         this.statements = statements;
     }
 
+    /**
+     * Finds definitions in this block.
+     * Definition can be a function, declaration or a class.
+     */
     @Override
     public void findDefinitions() {
         for(Statement stat : statements) {
@@ -35,6 +46,9 @@ public class BlockStatement extends Scope implements Iterable<Statement> {
         }
     }
 
+    /**
+     * Finds implementations in this scope
+     */
     @Override
     public void findImpls() {
         for(Statement stat : statements) {
@@ -44,6 +58,10 @@ public class BlockStatement extends Scope implements Iterable<Statement> {
         }
     }
 
+    /**
+     * Sets the scope of this block and all its statements
+     * @param scope - Scope of this block
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -53,6 +71,11 @@ public class BlockStatement extends Scope implements Iterable<Statement> {
         }
     }
 
+    /**
+     * Makes a string representation of this block with correct indenting and all its statements
+     * @param indent - indent level of this block
+     * @return string representation of this block
+     */
     @Override
     public String toString(int indent) {
         String result = indent(indent) + getComment();
@@ -65,6 +88,11 @@ public class BlockStatement extends Scope implements Iterable<Statement> {
         return result;
     }
 
+    /**
+     * Converts this block to the IR Roborovski
+     * @param program
+     * @param block
+     */
     @Override
     public void toRoborovski(Program program, Block block) {
         Block innerBlock = new Block();
@@ -76,11 +104,20 @@ public class BlockStatement extends Scope implements Iterable<Statement> {
         }
     }
 
+    /**
+     * Makes a deep copy of this block
+     * @return deep copy of this block
+     */
     @Override
     public BlockStatement deepCopy() {
         return new BlockStatement(statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
     }
 
+    /**
+     * Replaces a given type by another given type within this block
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         for(Statement stat : statements) {
@@ -88,6 +125,10 @@ public class BlockStatement extends Scope implements Iterable<Statement> {
         }
     }
 
+    /**
+     * Make an iterator that iterates over the statements of this block
+     * @return iterator over statements of block
+     */
     @Override
     public Iterator<Statement> iterator() {
         return statements.stream().map(s -> ((Statement) s)).iterator();
