@@ -13,7 +13,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WhileStatement extends Scope {
+    /**
+     * Condition of the while loop
+     */
     private final Expression condition;
+    /**
+     * List containing all statements in the while-loop
+     */
     private final List<? extends Statement> statements;
 
     public WhileStatement(Expression condition, List<? extends Statement> statements) {
@@ -25,6 +31,10 @@ public class WhileStatement extends Scope {
         return at(whileNodeContext.getStart(), new WhileStatement(Expression.fromContext(whileNodeContext.expr()), Statement.fromContexts(whileNodeContext.block().statement())));
     }
 
+    /**
+     * Sets the scope of this while-loop and all its statements
+     * @param scope
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -36,6 +46,11 @@ public class WhileStatement extends Scope {
         }
     }
 
+    /**
+     * Makes a string representation of this while-loop with correct indenting and all its statements
+     * @param indent - indent level of this while-loop
+     * @return string representation of this while-loop
+     */
     @Override
     public String toString(int indent) {
         String result = indent(indent) + "while " + condition.toString(0) + " " + getComment();
@@ -47,6 +62,12 @@ public class WhileStatement extends Scope {
         return result;
     }
 
+    /**
+     * Converts this while-loop to the IR Roborovski
+     *
+     * @param program
+     * @param block
+     */
     @Override
     public void toRoborovski(Program program, Block block) {
         While wh = new While(condition.toRoborovski(program));
@@ -57,11 +78,20 @@ public class WhileStatement extends Scope {
         }
     }
 
+    /**
+     * Makes a deep copy of this while-loop and its statements
+     * @return deep copy of this while-loop
+     */
     @Override
     public Statement deepCopy() {
         return new WhileStatement(condition.deepCopy(), statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
     }
 
+    /**
+     * Replaces a given type by another given type within this while-loop
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         condition.replaceType(replace, replaceWith);
@@ -71,6 +101,10 @@ public class WhileStatement extends Scope {
         }
     }
 
+    /**
+     * Finds definitions in this while-loop
+     * Definition can be a function, declaration or a class.
+     */
     @Override
     public void findDefinitions() {
         for(Statement stat : statements) {
@@ -88,6 +122,9 @@ public class WhileStatement extends Scope {
         }
     }
 
+    /**
+     * Finds implementations in this scope
+     */
     @Override
     public void findImpls() {
         for(Statement stat : statements) {

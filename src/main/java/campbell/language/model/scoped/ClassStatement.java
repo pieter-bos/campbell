@@ -131,7 +131,7 @@ public class ClassStatement extends Scope {
     }
 
     /**
-     * Converts this block to the IR Roborovski
+     * Converts this class to the IR Roborovski
      *
      * Classes are not an element in Roborovski thus nothing is done
      * @param program

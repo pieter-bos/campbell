@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UnsafeStatement extends Scope {
+    /**
+     * List containing all statements in this unsafe block
+     */
     private List<? extends Statement> statements;
 
     public UnsafeStatement(List<? extends Statement> statements) {
@@ -22,6 +25,10 @@ public class UnsafeStatement extends Scope {
         return at(unsafe.getStart(), new UnsafeStatement(Statement.fromContexts(unsafe.block().statement())));
     }
 
+    /**
+     * Sets the scope of this unsafe block and all its statements
+     * @param scope
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -31,6 +38,11 @@ public class UnsafeStatement extends Scope {
         }
     }
 
+    /**
+     * Makes a string representation of this unsafe block with correct indenting and all its statements
+     * @param indent - indent level of this unsafe block
+     * @return string representation of this unsafe block
+     */
     @Override
     public String toString(int indent) {
         String result = indent(indent) + "unsafe " + getComment();
@@ -42,6 +54,12 @@ public class UnsafeStatement extends Scope {
         return result;
     }
 
+    /**
+     * Converts this unsafe block to the IR Roborovski
+     *
+     * @param program
+     * @param block
+     */
     @Override
     public void toRoborovski(Program program, Block block) {
         Block innerBlock = new Block();
@@ -52,11 +70,20 @@ public class UnsafeStatement extends Scope {
         }
     }
 
+    /**
+     * Makes a deep copy of this unsafe block and its statements
+     * @return deep copy of this unsafe block
+     */
     @Override
     public UnsafeStatement deepCopy() {
         return new UnsafeStatement(statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
     }
 
+    /**
+     * Replaces a given type by another given type within this unsafe block
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         for (Statement s : statements) {
@@ -64,6 +91,10 @@ public class UnsafeStatement extends Scope {
         }
     }
 
+    /**
+     * Finds definitions in this unsafe block
+     * Definition can be a function, declaration or a class.
+     */
     @Override
     public void findDefinitions() {
         for(Statement stat : statements) {
@@ -81,6 +112,10 @@ public class UnsafeStatement extends Scope {
         }
     }
 
+    /**
+     * Finds implementations in this scope
+     *
+     */
     @Override
     public void findImpls() {
         for(Statement stat : statements) {

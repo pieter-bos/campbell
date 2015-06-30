@@ -12,8 +12,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TraitStatement extends Scope {
+    /**
+     * Type of this trait
+     */
     private final Type type;
     private final List<? extends Type> of;
+    /**
+     * List containing all statements in this trait
+     */
     private final List<? extends Statement> statements;
 
     public TraitStatement(Type type, List<? extends Statement> statements) {
@@ -40,6 +46,10 @@ public class TraitStatement extends Scope {
         }
     }
 
+    /**
+     * Sets the scope of this trait and all its statements
+     * @param scope
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -49,6 +59,11 @@ public class TraitStatement extends Scope {
         }
     }
 
+    /**
+     * Makes a string representation of this trait with correct indenting and all its statements
+     * @param indent - indent level of this trait
+     * @return string representation of this trait
+     */
     @Override
     public String toString(int indent) {
         String result = indent(indent) + "trait " + type.toString();
@@ -86,11 +101,22 @@ public class TraitStatement extends Scope {
         return result;
     }
 
+    /**
+     * Converts this trait to the IR Roborovski
+     *
+     * Traits are not an element in Roborovski thus nothing is done
+     * @param program
+     * @param block
+     */
     @Override
     public void toRoborovski(Program program, Block block) {
         // nop
     }
 
+    /**
+     * Makes a deep copy of this trait and its types and statements
+     * @return deep copy of this trait
+     */
     @Override
     public TraitStatement deepCopy() {
         if(of == null) {
@@ -100,6 +126,11 @@ public class TraitStatement extends Scope {
         }
     }
 
+    /**
+     * Replaces a given type by another given type within this trait
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         type.replaceType(replace, replaceWith);
@@ -115,6 +146,10 @@ public class TraitStatement extends Scope {
         }
     }
 
+    /**
+     * Finds definitions in this trait
+     * Definition can be a function, declaration or a class.
+     */
     @Override
     public void findDefinitions() {
         for(Statement stat : statements) {
@@ -132,6 +167,11 @@ public class TraitStatement extends Scope {
         }
     }
 
+    /**
+     * Finds implementations in this scope
+     *
+     * Is impossible as traits do not contain implementations
+     */
     @Override
     public void findImpls() {
         // Impossible
