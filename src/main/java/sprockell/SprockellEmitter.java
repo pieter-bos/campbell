@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.Writer;
 
 public class SprockellEmitter {
+    public static final int HEAP_START = 65536;
+
     private static final String PRELUDE = "import Sprockell.System\n\nprog = [Nop,\n    ";
     private static final String EPILOGUE = "EndProg]\n\nmain = run 1 prog";
     private final Writer writer;

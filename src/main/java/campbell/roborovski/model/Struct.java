@@ -1,5 +1,8 @@
 package campbell.roborovski.model;
 
+import campbell.language.model.unscoped.*;
+import campbell.language.model.unscoped.Expression;
+
 import java.util.LinkedList;
 
 public class Struct {
@@ -21,5 +24,15 @@ public class Struct {
         }
 
         throw new RuntimeException("Internal error: Unknown variable " + varName + " in struct");
+    }
+
+    public int getSize() {
+        int size = 0;
+
+        for(Variable var : variables) {
+            size += var.getSize();
+        }
+
+        return size;
     }
 }
