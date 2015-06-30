@@ -3,7 +3,9 @@ package campbell.language.model.scoped;
 import campbell.language.model.CompileException;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
-import campbell.language.model.unscoped.DeclStatement;
+import campbell.language.model.unscoped.*;
+import campbell.language.model.unscoped.CallExpression;
+import campbell.language.model.unscoped.DotExpression;
 import campbell.language.types.ClassType;
 import campbell.language.types.GenericType;
 import campbell.language.types.Type;
@@ -12,9 +14,7 @@ import campbell.roborovski.model.*;
 import campbell.roborovski.model.Program;
 import util.HashList;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ClassStatement extends Scope {
@@ -39,7 +39,6 @@ public class ClassStatement extends Scope {
         } else {
             throw new CompileException(classNodeContext.getStart(), "ClassStatement", "Expected a class type, but got " + type.toString());
         }
-
     }
 
     public Type getType() {
@@ -82,6 +81,24 @@ public class ClassStatement extends Scope {
                 }
             }
 
+            Symbol constructor = result.requireSymbol("init", result);
+
+            if(!(constructor instanceof FunStatement)) {
+                throw new CompileException(constructor, "Constructor must be a function named init");
+            }
+
+            result.symbols.put("#construct", new FunStatement(
+                result.getType(),
+                "#construct",
+                ((FunStatement) constructor).getArguments().stream().map(DeclStatement::deepCopy).collect(Collectors.toList()),
+                Arrays.asList(
+                    new DeclStatement(result.getType(), "#this"),
+                    new AssignStatement(new IdentifierExpression("#this"),
+                        new CallExpression(new IdentifierExpression("alloc"), Arrays.asList(new IntLiteralExpression(result.getStruct().getSize() + "")))),
+                    new CallExpression(new DotExpression(new IdentifierExpression("#this"), "init"),
+                            ((FunStatement) constructor).getArguments().stream().map(decl -> new IdentifierExpression(decl.getName())).collect(Collectors.toList())),
+                    new ReturnStatement(new IdentifierExpression("#this"))
+                )));
 
             return result;
         }
