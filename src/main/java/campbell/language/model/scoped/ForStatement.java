@@ -12,8 +12,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ForStatement extends Scope {
+    /**
+     * Expression that iterates
+     */
     private final Expression var;
+    /**
+     * Expression where the for should iterate over
+     */
     private final Expression iterable;
+    /**
+     * List containing all statements in this for-loop
+     */
     private final List<? extends Statement> statements;
 
     public ForStatement(Expression var, Expression iterable, List<? extends Statement> statements) {
@@ -30,6 +39,10 @@ public class ForStatement extends Scope {
         return at(forNodeContext.getStart(), new ForStatement(arg, args, block));
     }
 
+    /**
+     * Sets the scope of this for, its var, iterable and statements
+     * @param scope - Scope of this for
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -42,6 +55,11 @@ public class ForStatement extends Scope {
         }
     }
 
+    /**
+     * Makes a string representation of this for with correct indenting and all its statements
+     * @param indent - indent level of this block
+     * @return string representation of this block
+     */
     @Override
     public String toString(int indent) {
         String result = indent(indent) + "for " + var.toString(0) + " in " + iterable.toString(0) + " " + getComment();
@@ -53,6 +71,11 @@ public class ForStatement extends Scope {
         return result;
     }
 
+    /**
+     * Converts this for to the IR Roborovski
+     * @param program
+     * @param block
+     */
     @Override
     public void toRoborovski(campbell.roborovski.model.Program program, Block block) {
         Block forBlock = new Block();
@@ -72,11 +95,20 @@ public class ForStatement extends Scope {
         new WhileStatement(whileCondition, whileBody).toRoborovski(program, block);
     }
 
+    /**
+     * Makes a deep copy of this for
+     * @return deep copy of this for
+     */
     @Override
     public ForStatement deepCopy() {
         return new ForStatement(var.deepCopy(), iterable.deepCopy(), statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
     }
 
+    /**
+     * Replaces a given type by another given type within this for
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         var.replaceType(replace, replaceWith);
@@ -87,6 +119,10 @@ public class ForStatement extends Scope {
         }
     }
 
+    /**
+     * Finds definitions in this for.
+     * Definition can be a function, declaration or a class.
+     */
     @Override
     public void findDefinitions() {
         for(Statement stat : statements) {
@@ -104,6 +140,9 @@ public class ForStatement extends Scope {
         }
     }
 
+    /**
+     * Finds implementations in this scope
+     */
     @Override
     public void findImpls() {
         for(Statement stat : statements) {

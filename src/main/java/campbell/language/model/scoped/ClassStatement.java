@@ -18,9 +18,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ClassStatement extends Scope {
+    /**
+     * Type of this class
+     */
     private ClassType type;
+
+    /**
+     * List containing all statements in this class
+     */
     private final List<? extends Statement> statements;
 
+    /**
+     * Map containing all implementations and their types
+     */
     private final HashMap<HashList<Type>, ClassStatement> implementations = new HashMap<>();
     private Struct struct = null;
 
@@ -41,6 +51,10 @@ public class ClassStatement extends Scope {
         }
     }
 
+    /**
+     * Returns the type of this class
+     * @return type of this class
+     */
     public Type getType() {
         return type;
     }
@@ -104,6 +118,10 @@ public class ClassStatement extends Scope {
         }
     }
 
+    /**
+     * Sets the scope of this class and its statements
+     * @param scope - Scope of this class
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -113,6 +131,11 @@ public class ClassStatement extends Scope {
         }
     }
 
+    /**
+     * Makes a string representation of this class and its statements
+     * @param indent - indent level of this class
+     * @return string representation of this class
+     */
     @Override
     public String toString(int indent) {
         String result = indent(indent) + "class " + type + " " + getComment();
@@ -124,11 +147,22 @@ public class ClassStatement extends Scope {
         return result;
     }
 
+    /**
+     * Converts this class to the IR Roborovski
+     *
+     * Classes are not an element in Roborovski thus nothing is done
+     * @param program
+     * @param block
+     */
     @Override
     public void toRoborovski(Program program, Block block) {
         // nop
     }
 
+    /**
+     * Finds definitions in this class.
+     * Definition can be a function, declaration or a class.
+     */
     @Override
     public void findDefinitions() {
         for(Type param : type.getParametricTypes()) {
@@ -154,6 +188,9 @@ public class ClassStatement extends Scope {
         }
     }
 
+    /**
+     * Find implementations in this scope
+     */
     @Override
     public void findImpls() {
         for(Statement stat : statements) {
@@ -163,15 +200,28 @@ public class ClassStatement extends Scope {
         }
     }
 
+    /**
+     * Returns the name of this class
+     * @return name of this class
+     */
     public String getName() {
         return type.getName();
     }
 
+    /**
+     * Makes a deep copy of this class
+     * @return deep copy of this class
+     */
     @Override
     public ClassStatement deepCopy() {
         return new ClassStatement(type, statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
     }
 
+    /**
+     * Replaces a given type by another given type within this class
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         for(Statement stat : statements) {
@@ -179,6 +229,10 @@ public class ClassStatement extends Scope {
         }
     }
 
+    /**
+     * Returns the struct of this class
+     * @return struct of this class
+     */
     public Struct getStruct() {
         return struct;
     }

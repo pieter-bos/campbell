@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Program extends Scope {
+    /**
+     * List containing all statements in this program
+     */
     private List<? extends Statement> statements;
 
     public Program(List<? extends Statement> statements) {
@@ -23,6 +26,14 @@ public class Program extends Scope {
         return at(context.getStart(), new Program(Statement.fromContexts(context.statement())));
     }
 
+    public static Program parseFrom(InputStream input) {
+        return Program.fromContext(CampbellStreamParser.parse(input));
+    }
+
+    /**
+     * Sets the scope for this program and all its statements
+     * @param scope - Scope of this program
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -32,6 +43,11 @@ public class Program extends Scope {
         }
     }
 
+    /**
+     * Makes a string representation of this program with correct indenting and all its statements
+     * @param indent - indent level of this program
+     * @return string representation of this program
+     */
     @Override
     public String toString(int indent) {
         String result = indent(indent) + getComment();
@@ -42,10 +58,6 @@ public class Program extends Scope {
         }
 
         return result;
-    }
-
-    public static Program parseFrom(InputStream input) {
-        return Program.fromContext(CampbellStreamParser.parse(input));
     }
 
     public static void main(String[] args) throws IOException {
@@ -60,6 +72,10 @@ public class Program extends Scope {
         program.compile(new SprockellEmitter(new FileWriter("/home/pieter/programming/haskell/campbell/example.hs")));
     }
 
+    /**
+     * Finds definitions in this program.
+     * Definition can be a function, declaration or a class.
+     */
     @Override
     public void findDefinitions() {
         for(Statement stat : statements) {
@@ -77,6 +93,9 @@ public class Program extends Scope {
         }
     }
 
+    /**
+     * Finds implementations in this scope
+     */
     @Override
     public void findImpls() {
         for(Statement stat : statements) {
@@ -86,6 +105,11 @@ public class Program extends Scope {
         }
     }
 
+    /**
+     * Converts this program to the IR Roborovski
+     * @param program
+     * @param block
+     */
     @Override
     public void toRoborovski(campbell.roborovski.model.Program program, campbell.roborovski.model.Block block) {
         /**
@@ -106,11 +130,20 @@ public class Program extends Scope {
         }
     }
 
+    /**
+     * Makes a deep copy of this program
+     * @return deep copy of this program
+     */
     @Override
     public Statement deepCopy() {
         return new Program(statements.stream().map(Statement::deepCopy).collect(Collectors.toList()));
     }
 
+    /**
+     * Replaces a given type by another given type within this program
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         for (Statement s : statements) {

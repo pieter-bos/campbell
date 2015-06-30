@@ -1,21 +1,29 @@
 package campbell.language.model.scoped;
 
-import campbell.language.model.unscoped.Expression;
 import campbell.language.model.Statement;
+import campbell.language.model.unscoped.Expression;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
-import campbell.roborovski.model.*;
+import campbell.roborovski.model.Block;
+import campbell.roborovski.model.If;
 import campbell.roborovski.model.Program;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class IfStatement extends Scope {
+    /**
+     * Expression that is the condition of the if
+     */
     private final Expression condition;
+    /**
+     * List containing all statements in the then-block of the if
+     */
     private final BlockStatement statements;
+    /**
+     * List containing all statements in the else-block of the if
+     */
     private final BlockStatement elseStatements;
 
     public IfStatement(Expression condition, List<? extends Statement> statements) {
@@ -41,6 +49,10 @@ public class IfStatement extends Scope {
         }
     }
 
+    /**
+     * Sets the scope of this if and all its statements
+     * @param scope - Scope of this if
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -53,6 +65,11 @@ public class IfStatement extends Scope {
         }
     }
 
+    /**
+     * Makes a string representation of this if with correct indenting and all its statements
+     * @param indent - indent level of this if
+     * @return string representation of this if
+     */
     @Override
     public String toString(int indent) {
         String result = indent(indent) + "if " + condition.toString(0) + "\n";
@@ -67,6 +84,11 @@ public class IfStatement extends Scope {
         return result;
     }
 
+    /**
+     * Converts this if to the IR Roborovski
+     * @param program
+     * @param block
+     */
     @Override
     public void toRoborovski(Program program, Block block) {
         Block ifBlock = new Block();
@@ -81,6 +103,10 @@ public class IfStatement extends Scope {
         block.addStatement(new If(condition.toRoborovski(program), ifBlock, elseBlock));
     }
 
+    /**
+     * Makes a deep copy of this if
+     * @return deep copy of this if
+     */
     @Override
     public IfStatement deepCopy() {
         if(elseStatements == null) {
@@ -93,6 +119,11 @@ public class IfStatement extends Scope {
         }
     }
 
+    /**
+     * Replaces a given type by another given type within this function
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         condition.replaceType(replace, replaceWith);
@@ -108,6 +139,10 @@ public class IfStatement extends Scope {
         }
     }
 
+    /**
+     * Finds definitions in this if.
+     * Definition can be a function, declaration or a class.
+     */
     @Override
     public void findDefinitions() {
         statements.findDefinitions();
@@ -117,6 +152,9 @@ public class IfStatement extends Scope {
         }
     }
 
+    /**
+     * Finds implementations in this scope
+     */
     @Override
     public void findImpls() {
         statements.findImpls();

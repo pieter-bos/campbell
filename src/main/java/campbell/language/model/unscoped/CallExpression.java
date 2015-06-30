@@ -1,7 +1,6 @@
 package campbell.language.model.unscoped;
 
 import campbell.language.model.CompileException;
-import campbell.language.model.Statement;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.FunctionType;
 import campbell.language.types.Type;
@@ -14,6 +13,9 @@ import java.util.stream.Collectors;
 
 public class CallExpression extends Expression {
     private final Expression callee;
+    /**
+     * List containing all arguments given when a function is called
+     */
     private final List<? extends Expression> arguments;
 
     public CallExpression(Expression callee, List<? extends Expression> arguments) {
@@ -25,6 +27,10 @@ public class CallExpression extends Expression {
         return at(call.getStart(), new CallExpression(callee, Expression.fromContexts(call.expr())));
     }
 
+    /**
+     * Sets the scope of this call-expression
+     * @param scope
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -35,6 +41,11 @@ public class CallExpression extends Expression {
         }
     }
 
+    /**
+     * Makes a string representation of this call-expression with correct indenting
+     * @param indent - indent level of this call-expression
+     * @return string representation of this call-expression
+     */
     @Override
     public String toString(int indent) {
         String result = callee.toString(indent) + "(";
@@ -55,11 +66,21 @@ public class CallExpression extends Expression {
         return result;
     }
 
+    /**
+     * Makes a deep copy of this call-expression
+     * @return deep copy of this call-expression
+     */
     @Override
     public CallExpression deepCopy() {
         return new CallExpression(callee.deepCopy(), arguments.stream().map(Expression::deepCopy).collect(Collectors.toList()));
     }
 
+    /**
+     * Replaces a given type by another given type within this call-expression
+     *
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         callee.replaceType(replace, replaceWith);
@@ -68,6 +89,10 @@ public class CallExpression extends Expression {
         }
     }
 
+    /**
+     * Returns the type of the expression
+     * @return
+     */
     @Override
     public Type getType() {
         Type currentType = callee.getType();
@@ -83,6 +108,11 @@ public class CallExpression extends Expression {
         return currentType;
     }
 
+    /**
+     * Converts this call-expression to the IR Roborovski
+     *
+     * @param program
+     */
     @Override
     public campbell.roborovski.model.Expression toRoborovski(Program program) {
         LinkedList<campbell.roborovski.model.Expression> args = new LinkedList<>();
