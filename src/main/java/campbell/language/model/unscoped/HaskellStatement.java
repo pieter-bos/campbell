@@ -1,13 +1,12 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.Statement;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
 import campbell.roborovski.model.Haskell;
 import campbell.roborovski.model.Program;
-import org.antlr.v4.runtime.misc.Pair;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class HaskellStatement extends Statement {
     private String haskell;

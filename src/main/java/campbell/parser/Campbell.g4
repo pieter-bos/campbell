@@ -26,7 +26,8 @@ haskell
     ;
 
 fun
-    : FUN className IDENTIFIER PAREN_OPEN (decl (COMMA decl)*)? PAREN_CLOSE block?
+    : FUN className IDENTIFIER PAREN_OPEN
+      (decl (COMMA decl)*)? PAREN_CLOSE block?
     ;
 
 unsafe
@@ -119,12 +120,14 @@ block
     ;
 
 className
-    : IDENTIFIER (BROKET_OPEN className (COMMA className)* BROKET_CLOSE)?
+    : IDENTIFIER (BROKET_OPEN className
+      (COMMA className)* BROKET_CLOSE)?
     ;
 
 classList
     : className
-    | PAREN_OPEN className COMMA className (COMMA className)* PAREN_CLOSE
+    | PAREN_OPEN className COMMA className
+      (COMMA className)* PAREN_CLOSE
     ;
 
 exprAddon
