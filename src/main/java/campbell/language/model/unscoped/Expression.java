@@ -136,14 +136,33 @@ public abstract class Expression extends Statement {
         return result;
     }
 
+    /**
+     * Method to return the type of the expression
+     * @return type of expression
+     */
     public abstract Type getType();
 
+    /**
+     * Converts expression to the IR Roborovski
+     * @param program
+     * @return
+     */
     public abstract campbell.roborovski.model.Expression toRoborovski(Program program);
 
+    /**
+     * Converts expression to the IR Roborovski
+     * This is then added to the given block
+     * @param program
+     * @param block
+     */
     @Override
     public void toRoborovski(Program program, Block block) {
         block.addStatement(toRoborovski(program));
     }
 
+    /**
+     * Method to return a deep copy of the expression
+     * @return
+     */
     public abstract Expression deepCopy();
 }

@@ -8,31 +8,67 @@ import campbell.roborovski.model.BinaryExpression;
 import campbell.roborovski.model.Program;
 
 public class MathExpression extends Expression {
+    /**
+     * Expression on the left hand side of the math expression
+     */
     private final Expression left;
+    /**
+     * Operand of the math expression
+     */
     private final MathOp op;
+    /**
+     * Expression on the right hand side of the math expression
+     */
     private final Expression right;
 
+    /**
+     * Returns the type of the math expression
+     *
+     * Math expressions are of type integer
+     * @return
+     */
     @Override
     public Type getType() {
         return new IntType();
     }
 
+    /**
+     * Converts this math expression to the IR Roborovski
+     * @param program
+     * @return
+     */
     @Override
     public campbell.roborovski.model.Expression toRoborovski(Program program) {
         return new BinaryExpression(left.toRoborovski(program), op.getRoborovskiOp(), right.toRoborovski(program));
     }
 
+    /**
+     * Makes a deep copy of this math expression
+     * @return deep copy of math expression
+     */
     @Override
     public Expression deepCopy() {
         return new MathExpression(left.deepCopy(), op, right.deepCopy());
     }
 
+    /**
+     * Replaces a given type by another given type within this math expression
+     *
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         left.replaceType(replace, replaceWith);
         right.replaceType(replace, replaceWith);
     }
 
+    /**
+     * Enum representing the possible operators for this expression:
+     * Add, Subtract, Multiply, Divide, Modulo,
+     * Left shift, Right shift,
+     * And, Or and Xor
+     */
     public enum MathOp {
         Add(BinaryExpression.BinaryOp.Add),
         Subtract(BinaryExpression.BinaryOp.Subtract),
@@ -46,12 +82,19 @@ public class MathExpression extends Expression {
         Xor(BinaryExpression.BinaryOp.Xor)
         ;
 
+        /**
+         * Operator used to express this expression's operator in the IR Roborovski
+         */
         private BinaryExpression.BinaryOp roborovskiOp;
 
         MathOp(BinaryExpression.BinaryOp roborovskiOp) {
             this.roborovskiOp = roborovskiOp;
         }
 
+        /**
+         * Returns the Roborovski form of the operator
+         * @return
+         */
         public BinaryExpression.BinaryOp getRoborovskiOp() {
             return roborovskiOp;
         }
@@ -100,6 +143,10 @@ public class MathExpression extends Expression {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr()), MathOp.Xor, Expression.fromContext(ctx.expr0())));
     }
 
+    /**
+     * Sets the scope of this math expression and its sub-expressions
+     * @param scope
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -108,6 +155,11 @@ public class MathExpression extends Expression {
         right.setScope(scope);
     }
 
+    /**
+     * Makes a string representation of this math expression with correct indenting
+     * @param indent - indent level of this math expression
+     * @return string representation of this math expression
+     */
     @Override
     public String toString(int indent) {
         switch(op) {

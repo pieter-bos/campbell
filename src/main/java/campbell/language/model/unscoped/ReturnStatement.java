@@ -11,6 +11,9 @@ import campbell.roborovski.model.Program;
 import campbell.roborovski.model.Return;
 
 public class ReturnStatement extends Statement {
+    /**
+     * Expression that should be returned
+     */
     private Expression returnExpression;
 
     public ReturnStatement(Expression returnExpression) {
@@ -21,17 +24,31 @@ public class ReturnStatement extends Statement {
         return at(returnNodeContext.getStart(), new ReturnStatement(Expression.fromContext(returnNodeContext.expr())));
     }
 
+    /**
+     * Sets the scope of this return statement
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
         returnExpression.setScope(scope);
     }
 
+    /**
+     * Makes a string representation of this return statement with correct indenting
+     * @param indent - indent level of this return statement
+     * @return string representation of this return statement
+     */
     @Override
     public String toString(int indent) {
         return indent(indent) + "return " + returnExpression.toString(0);
     }
 
+    /**
+     * Converts this return statement to the IR Roborovski
+     * @param program
+     * @param block
+     * @return
+     */
     @Override
     public void toRoborovski(Program program, Block block) {
         Scope s = getScope();
@@ -47,11 +64,21 @@ public class ReturnStatement extends Statement {
         block.addStatement(new Return(returnExpression.toRoborovski(program), ((FunStatement) s).getFunction()));
     }
 
+    /**
+     * Makes a deep copy of this return statement
+     * @return deep copy of return statement
+     */
     @Override
     public Statement deepCopy() {
         return new ReturnStatement(returnExpression.deepCopy());
     }
 
+    /**
+     * Replaces a given type by another given type within this return statement
+     *
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         returnExpression.replaceType(replace, replaceWith);
