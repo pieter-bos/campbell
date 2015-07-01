@@ -1,6 +1,7 @@
 package campbell.language.model.scoped;
 
 import campbell.language.model.Symbol;
+import campbell.language.model.unscoped.BoolLiteralExpression;
 import campbell.language.model.unscoped.DeclStatement;
 import campbell.language.model.unscoped.Expression;
 import campbell.language.model.Statement;
@@ -130,6 +131,23 @@ public class WhileStatement extends Scope {
         for(Statement stat : statements) {
             if(stat instanceof Scope) {
                 ((Scope) stat).findImpls();
+            }
+        }
+    }
+
+    /**
+     * Type checking for a while loop
+     *
+     * It checks whether the condition is a boolean expression,
+     * as well as all statements within the while loop
+     */
+    @Override
+    public void checkType() {
+        if (condition instanceof BoolLiteralExpression) {
+            if (statements != null) {
+                for (Statement stat : statements) {
+                    stat.checkType();
+                }
             }
         }
     }

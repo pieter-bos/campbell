@@ -1,6 +1,7 @@
 package campbell.language.model.unscoped;
 
 import campbell.language.model.CompileException;
+import campbell.language.model.NotImplementedException;
 import campbell.language.model.Symbol;
 import campbell.language.model.scoped.ClassStatement;
 import campbell.language.model.scoped.FunStatement;
@@ -114,6 +115,16 @@ public class DotExpression extends Expression {
             throw new CompileException(this, "Internal error: dot not implemented for type " + symbol.getClass());
         } else {
             throw new CompileException(this, "Cannot get a property of type " + expr.getType());
+        }
+    }
+
+    /**
+     * Type checking for dot expressions
+     */
+    @Override
+    public void checkType() {
+        if (expr.getType() instanceof ClassType && expr.getType().getImplementation() == null) {
+            throw new NotImplementedException(""+expr.getType().getName()+" not implemented");
         }
     }
 }

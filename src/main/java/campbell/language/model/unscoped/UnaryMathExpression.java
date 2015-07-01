@@ -1,5 +1,6 @@
 package campbell.language.model.unscoped;
 
+import campbell.language.model.CompileException;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.IntType;
 import campbell.language.types.Type;
@@ -85,6 +86,16 @@ public class UnaryMathExpression extends Expression {
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         expr.replaceType(replace, replaceWith);
+    }
+
+    /**
+     * Type checking for unary math expressions
+     */
+    @Override
+    public void checkType() {
+        if (!(expr.getType() instanceof IntType)) {
+            throw new CompileException(this, "Cannot negate expression of type "+expr.getType().getName());
+        }
     }
 
     /**

@@ -123,4 +123,12 @@ public class CallExpression extends Expression {
 
         return new campbell.roborovski.model.CallExpression(callee.toRoborovski(program), args);
     }
+
+    /**
+     * Type checking for call expressions
+     */
+    @Override
+    public void checkType() {
+        //nop
+    }
 }

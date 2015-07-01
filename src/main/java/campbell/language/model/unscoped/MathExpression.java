@@ -1,5 +1,6 @@
 package campbell.language.model.unscoped;
 
+import campbell.language.model.CompileException;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.IntType;
 import campbell.language.types.Type;
@@ -61,6 +62,20 @@ public class MathExpression extends Expression {
     public void replaceType(Type replace, Type replaceWith) {
         left.replaceType(replace, replaceWith);
         right.replaceType(replace, replaceWith);
+    }
+
+    /**
+     * Type checking for math expressions
+     *
+     * Left side and right side must evaluate to integers
+     */
+    @Override
+    public void checkType() {
+        if (left.getType() instanceof IntType && right.getType() instanceof  IntType) {
+            return;
+        }
+
+        throw new CompileException(this, "Incorrect type in expression: "+this.toString());
     }
 
     /**

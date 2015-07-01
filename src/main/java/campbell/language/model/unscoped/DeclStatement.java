@@ -1,8 +1,10 @@
 package campbell.language.model.unscoped;
 
-import campbell.language.model.scoped.Scope;
+import campbell.language.model.NotImplementedException;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
+import campbell.language.model.scoped.Scope;
+import campbell.language.types.ClassType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
@@ -133,5 +135,18 @@ public class DeclStatement extends Statement implements Symbol {
      */
     public Variable getVariable() {
         return variable;
+    }
+
+    /**
+     * Type checking of declarations
+     *
+     * Declarations may be of each type but if they are a class,
+     * then this class should be defined
+     */
+    @Override
+    public void checkType() {
+        if (type instanceof ClassType && type.getImplementation() == null) {
+            throw new NotImplementedException("Class of "+getName()+" is not implemented");
+        }
     }
 }

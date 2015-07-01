@@ -1,7 +1,9 @@
 package campbell.language.model.unscoped;
 
+import campbell.language.model.CompileException;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.BoolType;
+import campbell.language.types.IntType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.BinaryExpression;
@@ -40,6 +42,19 @@ public class ComparisonExpression extends Expression {
     @Override
     public campbell.roborovski.model.Expression toRoborovski(Program program) {
         return new BinaryExpression(left.toRoborovski(program), op.getRoborovski(), right.toRoborovski(program));
+    }
+
+    /**
+     * Type checking for comparisons
+     *
+     * At the moment only integers can be compared
+     * Later on may be used for classes implementing Comparable as well
+     */
+    @Override
+    public void checkType() {
+        if (left.getType() instanceof IntType && !left.getType().equals(right.getType())) {
+            throw new CompileException(this, ""+left.toString()+" does not have the same type as "+right.toString());
+        }
     }
 
     /**

@@ -92,4 +92,14 @@ public class IdentifierExpression extends Expression {
     public void replaceType(Type replace, Type replaceWith) {
         // Nop
     }
+
+    /**
+     * Type checking for identifiers
+     *
+     * Nothing to be done.
+     */
+    @Override
+    public void checkType() {
+        // Nop
+    }
 }

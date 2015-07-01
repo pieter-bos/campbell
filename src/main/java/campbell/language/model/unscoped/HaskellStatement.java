@@ -43,4 +43,9 @@ public class HaskellStatement extends Statement {
     public static HaskellStatement fromContext(CampbellParser.HaskellContext ctx) {
         return new HaskellStatement(ctx.HASKELL().getText());
     }
+
+    @Override
+    public void checkType() {
+        //TODO: There is no way to check Haskell code?
+    }
 }

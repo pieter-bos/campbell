@@ -61,15 +61,16 @@ public class Program extends Scope {
     }
 
     public static void main(String[] args) throws IOException {
-        Program p = parseFrom(new FileInputStream("/home/pieter/programming/haskell/campbell/example.ham"));
+        Program p = parseFrom(new FileInputStream("/home/sophie/Downloads/Campbell/campbell/example.ham"));
         p.setScope(null);
         p.findDefinitions();
         p.findImpls();
+        p.checkType();
 
         System.out.println(p);
 
         campbell.roborovski.model.Program program = p.toRoborovski();
-        program.compile(new SprockellEmitter(new FileWriter("/home/pieter/programming/haskell/campbell/example.hs")));
+        program.compile(new SprockellEmitter(new FileWriter("/home/sophie/Downloads/Campbell/campbell/example.hs")));
     }
 
     /**
@@ -148,6 +149,18 @@ public class Program extends Scope {
     public void replaceType(Type replace, Type replaceWith) {
         for (Statement s : statements) {
             s.replaceType(replace, replaceWith);
+        }
+    }
+
+    /**
+     * Type checking for a program
+     */
+    @Override
+    public void checkType() {
+        if (statements != null) {
+            for (Statement stat : statements) {
+                stat.checkType();
+            }
         }
     }
 }

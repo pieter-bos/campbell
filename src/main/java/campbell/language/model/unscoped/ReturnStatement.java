@@ -1,9 +1,10 @@
 package campbell.language.model.unscoped;
 
 import campbell.language.model.CompileException;
+import campbell.language.model.Statement;
 import campbell.language.model.scoped.FunStatement;
 import campbell.language.model.scoped.Scope;
-import campbell.language.model.Statement;
+import campbell.language.types.FunctionType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
@@ -82,5 +83,29 @@ public class ReturnStatement extends Statement {
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         returnExpression.replaceType(replace, replaceWith);
+    }
+
+    /**
+     * Type checking for return statements
+     *
+     * Return statements must return an expression of the same type as the function's return type
+     */
+    @Override
+    public void checkType() {
+        Scope s = getScope();
+
+        while (!(s instanceof FunStatement)) {
+            s = s.getScope();
+
+            if (s == null) {
+               throw new CompileException(this, "Cannot return outside of all functions");
+            }
+        }
+
+        System.out.println("Return type of function: "+((FunStatement) s).getType());
+        System.out.println("Type of expression: "+returnExpression.getType());
+        if (!(((FunctionType) ((FunStatement) s).getType()).getReturnType().equals(returnExpression.getType()))) {
+            throw new CompileException(this, "Type of return expression does not corresponds to the function's contract at "+this.getLine()+":"+this.getCol());
+        }
     }
 }

@@ -83,4 +83,14 @@ public class IntLiteralExpression extends Expression {
     public void replaceType(Type replace, Type replaceWith) {
         // Nop
     }
+
+    /**
+     * Type checking for int literal expressions
+     *
+     * Nothing to be done, type is always correct.
+     */
+    @Override
+    public void checkType() {
+        // Nop
+    }
 }

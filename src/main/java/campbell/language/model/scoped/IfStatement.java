@@ -1,6 +1,7 @@
 package campbell.language.model.scoped;
 
 import campbell.language.model.Statement;
+import campbell.language.model.unscoped.BoolLiteralExpression;
 import campbell.language.model.unscoped.Expression;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
@@ -161,6 +162,28 @@ public class IfStatement extends Scope {
 
         if(elseStatements != null) {
             elseStatements.findImpls();
+        }
+    }
+
+    /**
+     * Type checking for the if statement
+     *
+     * It checks whether the condition is a boolean expression,
+     * as well as the inner statements of the if/else blocks
+     */
+    @Override
+    public void checkType() {
+        if (condition instanceof BoolLiteralExpression) {
+            if (statements != null) {
+                for (Statement stat : statements) {
+                    stat.checkType();
+                }
+            }
+            if (elseStatements != null) {
+                for (Statement elseStat : elseStatements) {
+                    elseStat.checkType();
+                }
+            }
         }
     }
 }

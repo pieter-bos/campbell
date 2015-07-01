@@ -1,7 +1,8 @@
 package campbell.language.model.unscoped;
 
-import campbell.language.model.scoped.Scope;
+import campbell.language.model.CompileException;
 import campbell.language.model.Statement;
+import campbell.language.model.scoped.Scope;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Assign;
@@ -79,5 +80,17 @@ public class AssignStatement extends Statement {
     public void replaceType(Type replace, Type replaceWith) {
         left.replaceType(replace, replaceWith);
         right.replaceType(replace, replaceWith);
+    }
+
+    /**
+     * Type checking for assignments
+     *
+     * The left side of the assignment must be of the same type as the right side of the expression
+     */
+    @Override
+    public void checkType() {
+        if (!left.getType().equals(right.getType())) {
+            throw new CompileException(this, "Type error: left expression is of type "+left.getType()+" whereas right is of type "+ right.getType());
+        }
     }
 }
