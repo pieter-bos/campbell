@@ -5,6 +5,7 @@ import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.ClassType;
+import campbell.language.types.GenericType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
@@ -145,7 +146,7 @@ public class DeclStatement extends Statement implements Symbol {
      */
     @Override
     public void checkType() {
-        if (type instanceof ClassType && type.getImplementation() == null) {
+        if (type instanceof ClassType && type.getImplementation() == null && !(type instanceof GenericType)) {
             throw new NotImplementedException("Class of "+getName()+" is not implemented");
         }
     }

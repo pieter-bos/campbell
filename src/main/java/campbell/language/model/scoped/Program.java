@@ -61,7 +61,7 @@ public class Program extends Scope {
     }
 
     public static void main(String[] args) throws IOException {
-        Program p = parseFrom(new FileInputStream("/home/sophie/Downloads/Campbell/campbell/example.ham"));
+        Program p = parseFrom(new FileInputStream("/home/sophie/Downloads/Campbell/campbell/badExample.ham"));
         p.setScope(null);
         p.findDefinitions();
         p.findImpls();
@@ -70,7 +70,7 @@ public class Program extends Scope {
         System.out.println(p);
 
         campbell.roborovski.model.Program program = p.toRoborovski();
-        program.compile(new SprockellEmitter(new FileWriter("/home/sophie/Downloads/Campbell/campbell/example.hs")));
+        program.compile(new SprockellEmitter(new FileWriter("/home/sophie/Downloads/Campbell/campbell/badExample.hs")));
     }
 
     /**

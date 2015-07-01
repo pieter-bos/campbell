@@ -196,7 +196,7 @@ public class ImplStatement extends Scope {
             if (of != null) {
                 // Types may be of BoolLiteral, IntLiteral, Functions, Generics
                 // Geen Traits, Classes
-                //TODO::::: Implementation and trait type checking
+                //TODO: Implementation and trait type checking
             }
         }
     }

@@ -2,6 +2,7 @@ package campbell.language.model.unscoped;
 
 import campbell.language.model.CompileException;
 import campbell.language.model.scoped.Scope;
+import campbell.language.types.BoolType;
 import campbell.language.types.IntType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
@@ -30,7 +31,30 @@ public class MathExpression extends Expression {
      */
     @Override
     public Type getType() {
-        return new IntType();
+        switch(op) {
+            case Add:
+            case Subtract:
+            case Multiply:
+            case Divide:
+            case Modulo:
+            case LSH:
+            case RSH:
+                if (left.getType() instanceof IntType && right.getType() instanceof IntType) {
+                    return new IntType();
+                } else {
+                    throw new CompileException(this, "Cannot apply this operator to the given arguments: "+left.toString()+", "+right.toString());
+                }
+            case And:
+            case Or:
+            case Xor:
+                if (left.getType() instanceof BoolType && right.getType() instanceof BoolType) {
+                    return new BoolType();
+                } else {
+                    throw new CompileException(this, "Cannot apply this operator to the given arguments: "+left.toString()+", "+right.toString());
+                }
+            default:
+                throw new CompileException(this, "Incorrect operator, cannot find type of "+this.toString());
+        }
     }
 
     /**
@@ -71,8 +95,25 @@ public class MathExpression extends Expression {
      */
     @Override
     public void checkType() {
-        if (left.getType() instanceof IntType && right.getType() instanceof  IntType) {
-            return;
+        switch(op) {
+            case Add:
+            case Subtract:
+            case Multiply:
+            case Divide:
+            case Modulo:
+            case LSH:
+            case RSH:
+                if (left.getType() instanceof  IntType && right.getType() instanceof IntType) {
+                    return;
+                }
+                break;
+            case And:
+            case Or:
+            case Xor:
+                if (left.getType() instanceof BoolType && right.getType() instanceof BoolType) {
+                    return;
+                }
+                break;
         }
 
         throw new CompileException(this, "Incorrect type in expression: "+this.toString());

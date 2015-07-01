@@ -256,9 +256,11 @@ public class FunStatement extends Scope implements Symbol {
     @Override
     public void checkType() {
         if (returnType instanceof PrimitiveType || returnType instanceof ClassType ||
-                returnType instanceof GenericType || returnType instanceof FunctionType) {
+                returnType instanceof FunctionType || returnType instanceof GenericType) {
             for (DeclStatement decl : arguments) {
-                decl.checkType();
+                if (!(decl.getType() instanceof GenericType)) {
+                    decl.checkType();
+                }
             }
             for (Statement stat : statements) {
                 stat.checkType();

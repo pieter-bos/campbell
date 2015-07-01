@@ -101,11 +101,9 @@ public class ReturnStatement extends Statement {
                throw new CompileException(this, "Cannot return outside of all functions");
             }
         }
-
-        System.out.println("Return type of function: "+((FunStatement) s).getType());
-        System.out.println("Type of expression: "+returnExpression.getType());
-        if (!(((FunctionType) ((FunStatement) s).getType()).getReturnType().equals(returnExpression.getType()))) {
-            throw new CompileException(this, "Type of return expression does not corresponds to the function's contract at "+this.getLine()+":"+this.getCol());
+        Type functionReturnType = ((FunctionType) ((FunStatement) s).getType()).getReturnType();
+        if (!functionReturnType.equals(returnExpression.getType())) {
+            throw new CompileException(this, "Type of return expression ("+returnExpression.getType().toString()+") does not correspond to the function's contract ("+functionReturnType.getName()+")");
         }
     }
 }

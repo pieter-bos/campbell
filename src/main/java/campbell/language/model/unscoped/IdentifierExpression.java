@@ -51,7 +51,7 @@ public class IdentifierExpression extends Expression {
      */
     @Override
     public Type getType() {
-        return findSymbol(id).getType();
+        return requireSymbol(id, this).getType();
     }
 
     /**
