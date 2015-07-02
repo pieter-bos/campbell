@@ -9,17 +9,22 @@ import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.BinaryExpression;
 import campbell.roborovski.model.Program;
 
+/**
+ * Comparison expression represents an expression with a compare operator in Campbell
+ */
 public class ComparisonExpression extends Expression {
     /**
      * Expression on the left side of the comparison
      */
     private final Expression left;
+
     /**
      * Comparison operator
      *
      * Can be less than (equals), greater than (equals) and (not) equals
      */
     private final ComparisonOp op;
+
     /**
      * Expression on the right side of the comparison
      */
@@ -93,26 +98,68 @@ public class ComparisonExpression extends Expression {
         this.right = right;
     }
 
+    /**
+     * Tries to parse a ComparisonExpression from a given context
+     *
+     * This expects a LtContext, thus the operator will be LessThan
+     * @param ctx
+     * @return
+     */
     public static ComparisonExpression fromContext(CampbellParser.LtContext ctx) {
         return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.LessThan, Expression.fromContext(ctx.expr1())));
     }
 
+    /**
+     * Tries to parse a ComparisonExpression from a given context
+     *
+     * This expects a LtContext, thus the operator will be LessThanEquals
+     * @param ctx
+     * @return
+     */
     public static ComparisonExpression fromContext(CampbellParser.LteContext ctx) {
         return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.LessThanEquals, Expression.fromContext(ctx.expr1())));
     }
 
+    /**
+     * Tries to parse a ComparisonExpression from a given context
+     *
+     * This expects a LtContext, thus the operator will be GreaterThan
+     * @param ctx
+     * @return
+     */
     public static ComparisonExpression fromContext(CampbellParser.GtContext ctx) {
         return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.GreaterThan, Expression.fromContext(ctx.expr1())));
     }
 
+    /**
+     * Tries to parse a ComparisonExpression from a given context
+     *
+     * This expects a LtContext, thus the operator will be GreaterThanEquals
+     * @param ctx
+     * @return
+     */
     public static ComparisonExpression fromContext(CampbellParser.GteContext ctx) {
         return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.GreaterThanEquals, Expression.fromContext(ctx.expr1())));
     }
 
+    /**
+     * Tries to parse a ComparisonExpression from a given context
+     *
+     * This expects a LtContext, thus the operator will be Equals
+     * @param ctx
+     * @return
+     */
     public static ComparisonExpression fromContext(CampbellParser.EqContext ctx) {
         return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.Equals, Expression.fromContext(ctx.expr1())));
     }
 
+    /**
+     * Tries to parse a ComparisonExpression from a given context
+     *
+     * This expects a LtContext, thus the operator will be NotEquals
+     * @param ctx
+     * @return
+     */
     public static ComparisonExpression fromContext(CampbellParser.NeqContext ctx) {
         return at(ctx.getStart(), new ComparisonExpression(Expression.fromContext(ctx.expr0()), ComparisonOp.NotEquals, Expression.fromContext(ctx.expr1())));
     }

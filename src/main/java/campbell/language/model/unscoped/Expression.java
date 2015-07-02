@@ -9,7 +9,18 @@ import campbell.roborovski.model.Program;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Expression is an enveloping class for all expressions
+ */
 public abstract class Expression extends Statement {
+    /**
+     * Tries to parse an Expression based on the type of context given
+     * Expr: And/Or/Xor/Super
+     *
+     * If this fails, it shall throw a NotImplementedException
+     * @param expr
+     * @return
+     */
     public static Expression fromContext(CampbellParser.ExprContext expr) {
         if (expr instanceof CampbellParser.AndContext) {
             return MathExpression.fromContext((CampbellParser.AndContext) expr);
@@ -24,6 +35,14 @@ public abstract class Expression extends Statement {
         throw new NotImplementedException(expr);
     }
 
+    /**
+     * Tries to parse an Expression based on the type of context given
+     * Expr0: GreaterThan/GreaterThanEquals/LessThan/LessThanEquals/Equals/NotEquals/Negate
+     *
+     * If this fails, it shall throw a NotImplementedException
+     * @param expr
+     * @return
+     */
     public static Expression fromContext(CampbellParser.Expr0Context expr) {
         if(expr instanceof CampbellParser.LtContext) {
             return ComparisonExpression.fromContext((CampbellParser.LtContext) expr);

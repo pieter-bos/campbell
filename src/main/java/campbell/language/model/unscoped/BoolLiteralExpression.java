@@ -7,6 +7,9 @@ import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.ConstExpression;
 import campbell.roborovski.model.Program;
 
+/**
+ * Bool literal expression represents a boolean expression in Campbell
+ */
 public class BoolLiteralExpression extends Expression {
     /**
      * Boolean value of the expression
@@ -17,6 +20,11 @@ public class BoolLiteralExpression extends Expression {
         this.value = value;
     }
 
+    /**
+     * Tries to parse a BoolLiteralExpression from a given context
+     * @param ctx
+     * @return
+     */
     public static BoolLiteralExpression fromContext(CampbellParser.BoolContext ctx) {
         return at(ctx.getStart(), new BoolLiteralExpression(ctx instanceof CampbellParser.TrueContext));
     }

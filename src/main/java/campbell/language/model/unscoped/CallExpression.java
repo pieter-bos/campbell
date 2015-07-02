@@ -15,10 +15,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Call expression represents an expression used to call a function in Campbell
+ */
 public class CallExpression extends Expression {
-    private final Expression callee;
     /**
-     * List containing all arguments given when a function is called
+     * Name of the function to be called
+     */
+    private final Expression callee;
+
+    /**
+     * List containing all arguments given when the function is called
      */
     private final List<? extends Expression> arguments;
 
@@ -27,12 +34,18 @@ public class CallExpression extends Expression {
         this.arguments = arguments;
     }
 
+    /**
+     * Tries to parse a CallExpression from a given context
+     * @param call
+     * @param callee
+     * @return
+     */
     public static CallExpression fromContext(CampbellParser.CallContext call, Expression callee) {
         return at(call.getStart(), new CallExpression(callee, Expression.fromContexts(call.expr())));
     }
 
     /**
-     * Sets the scope of this call-expression
+     * Sets the scope of this call expression
      * @param scope
      */
     @Override
@@ -46,9 +59,9 @@ public class CallExpression extends Expression {
     }
 
     /**
-     * Makes a string representation of this call-expression with correct indenting
-     * @param indent - indent level of this call-expression
-     * @return string representation of this call-expression
+     * Makes a string representation of this call expression with correct indenting
+     * @param indent - indent level of this call expression
+     * @return string representation of this call expression
      */
     @Override
     public String toString(int indent) {
@@ -71,8 +84,8 @@ public class CallExpression extends Expression {
     }
 
     /**
-     * Makes a deep copy of this call-expression
-     * @return deep copy of this call-expression
+     * Makes a deep copy of this call expression
+     * @return deep copy of this call expression
      */
     @Override
     public CallExpression deepCopy() {
@@ -80,7 +93,7 @@ public class CallExpression extends Expression {
     }
 
     /**
-     * Replaces a given type by another given type within this call-expression
+     * Replaces a given type by another given type within this call expression
      *
      * @param replace - type that should be replaced
      * @param replaceWith - replacement type
@@ -113,7 +126,7 @@ public class CallExpression extends Expression {
     }
 
     /**
-     * Converts this call-expression to the IR Roborovski
+     * Converts this call expression to the IR Roborovski
      *
      * @param program
      */

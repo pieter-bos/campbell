@@ -15,11 +15,15 @@ import campbell.roborovski.model.Program;
 
 import java.util.LinkedList;
 
+/**
+ * Dot expression represents the getting of a variable from a class in Campbell
+ */
 public class DotExpression extends Expression {
     /**
      * Expression of which the property is wanteed
      */
     private final Expression expr;
+
     /**
      * Property that is wanted from the given expression
      */
@@ -30,6 +34,12 @@ public class DotExpression extends Expression {
         this.property = property;
     }
 
+    /**
+     * Tries to parse a DotExpression from a given context
+     * @param ctx
+     * @param expr
+     * @return
+     */
     public static DotExpression fromContext(CampbellParser.GetContext ctx, Expression expr) {
         return at(ctx.getStart(), new DotExpression(expr, ctx.IDENTIFIER().getText()));
     }
