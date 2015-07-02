@@ -69,7 +69,7 @@ fun int nest(int n)
 
 class Adder<T>
     fun void init()
-        return 0
+        int blaat
 
     fun T add(T x)
         return x + 137
