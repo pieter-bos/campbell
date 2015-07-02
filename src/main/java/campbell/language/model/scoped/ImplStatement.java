@@ -14,6 +14,9 @@ import campbell.roborovski.model.Program;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * ImplStatement represents an implementation of a Trait
+ */
 public class ImplStatement extends Scope {
     /**
      * Type of this implementation
@@ -37,6 +40,11 @@ public class ImplStatement extends Scope {
         this.statements = statements;
     }
 
+    /**
+     * Tries to parse an ImplStatement from a given context
+     * @param impl
+     * @return
+     */
     public static ImplStatement fromContext(CampbellParser.ImplContext impl) {
         Type type = Type.fromContext(impl.className());
         List<? extends Statement> statements = Statement.fromContexts(impl.block().statement());

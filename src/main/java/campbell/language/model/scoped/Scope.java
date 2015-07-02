@@ -3,34 +3,20 @@ package campbell.language.model.scoped;
 import campbell.language.model.*;
 import campbell.language.types.Type;
 
+/**
+ * Scope represents a new scope in a Campbell program
+ * It reminds what types and symbols can be found in this scope
+ */
 public abstract class Scope extends Statement implements Node {
-    /**
-     * Variabelen
-     * Functies
-     * Classes
-     * Implementations
-     * Traits
-     *
-     * Type, definitie, naam
-     * find(naam) -> definitie:type
-     */
-
     /**
      * Map containing all types in this scope
      */
     protected TypeMap<String, Type> types = new TypeMap<>();
+
     /**
      * Map containing all symbols in this scope
      */
     protected SymbolMap<String, Symbol> symbols = new SymbolMap<>();
-
-    /**
-     * plain functie
-     * functie in een class voor bepaalde generieke argumenten
-     *
-     * structs voor class voor bepaalde generieke argumenten
-     *
-     */
 
     /**
      * Method to find definitions in a scope

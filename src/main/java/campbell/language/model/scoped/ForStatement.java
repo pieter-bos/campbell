@@ -13,6 +13,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * For statement represents a for loop in Campbell
+ */
 public class ForStatement extends Scope {
     /**
      * Expression that iterates
@@ -33,6 +36,12 @@ public class ForStatement extends Scope {
         this.statements = statements;
     }
 
+    /**
+     * Tries to parse a ForStatement from a given context
+     *
+     * @param forNodeContext
+     * @return
+     */
     public static ForStatement fromContext(CampbellParser.ForNodeContext forNodeContext) {
         Expression arg = Expression.fromContext(forNodeContext.expr(0));
         Expression args = Expression.fromContext(forNodeContext.expr(1));

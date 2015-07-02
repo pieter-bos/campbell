@@ -11,6 +11,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A Campbell Block represents a list of statements
+ */
 public class BlockStatement extends Scope implements Iterable<Statement> {
     /**
      * List containing all statements in this block

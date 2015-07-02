@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * If statement represents an if statement in Campbell
+ */
 public class IfStatement extends Scope {
     /**
      * Expression that is the condition of the if
@@ -39,6 +42,11 @@ public class IfStatement extends Scope {
         this.elseStatements = new BlockStatement(elseStatements);
     }
 
+    /**
+     * Tries to parse an IfStatement from a given context
+     * @param ifNodeContext
+     * @return
+     */
     public static IfStatement fromContext(CampbellParser.IfNodeContext ifNodeContext) {
         Expression condition = Expression.fromContext(ifNodeContext.expr());
         List<? extends Statement> block1 = fromContexts(ifNodeContext.block(0).statement());

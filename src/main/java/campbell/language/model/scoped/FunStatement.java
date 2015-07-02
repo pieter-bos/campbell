@@ -13,6 +13,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Fun statement represents a function in Campbell
+ */
 public class FunStatement extends Scope implements Symbol {
     /**
      * Return type of the function
@@ -48,6 +51,11 @@ public class FunStatement extends Scope implements Symbol {
         this.statements = statements;
     }
 
+    /**
+     * Tries to parse a FunStatement from a given context
+     * @param fun
+     * @return
+     */
     public static FunStatement fromContext(CampbellParser.FunContext fun) {
         if(fun.block() == null) {
             return at(fun.getStart(), new FunStatement(Type.fromContext(fun.className()), fun.IDENTIFIER().getText(), DeclStatement.fromContexts(fun.decl())));

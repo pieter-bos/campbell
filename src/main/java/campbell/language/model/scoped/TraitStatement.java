@@ -11,12 +11,26 @@ import campbell.roborovski.model.Program;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * TraitStatement represents a trait in Campbell
+ *
+ * More about this feature in the report
+ */
 public class TraitStatement extends Scope {
+    //    Example trait:
+    //    trait Add<T> of (A, B)
+    //      fun T add(A a, B b)
+
     /**
-     * Type of this trait
+     * Type for which the trait should be implemented
      */
     private final Type type;
+
+    /**
+     * Type of arguments for which the trait should be implemented
+     */
     private final List<? extends Type> of;
+
     /**
      * List containing all statements in this trait
      */
@@ -34,6 +48,11 @@ public class TraitStatement extends Scope {
         this.statements = statements;
     }
 
+    /**
+     * Tries to parse a TraitStatement from a given context
+     * @param trait
+     * @return
+     */
     public static Statement fromContext(CampbellParser.TraitContext trait) {
         Type type = Type.fromContext(trait.className());
         List<? extends Statement> statements = Statement.fromContexts(trait.block().statement());

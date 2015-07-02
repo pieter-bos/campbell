@@ -20,6 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class statement represents a class in Campbell
+ */
 public class ClassStatement extends Scope {
     /**
      * Type of this class
@@ -42,6 +45,13 @@ public class ClassStatement extends Scope {
         this.statements = statements;
     }
 
+    /**
+     * Tries to parse a ClassStatement from a given context
+     *
+     * Throws a CompileException when it fails
+     * @param classNodeContext
+     * @return
+     */
     public static Statement fromContext(CampbellParser.ClassNodeContext classNodeContext) {
         Type type = Type.fromContext(classNodeContext.className());
 
