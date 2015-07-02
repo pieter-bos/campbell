@@ -16,13 +16,15 @@ public class Assign extends Statement {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
-        right.stackOffset = 1;
+        start(emitter);
 
         left.compileReference(emitter, block);
         right.compile(emitter, block);
         emitter.pop(SprockellRegister.a);
         emitter.pop(SprockellRegister.b);
         emitter.store(SprockellRegister.a, SprockellRegister.b, "assign");
+
+        end(emitter);
     }
 
     @Override
@@ -35,5 +37,11 @@ public class Assign extends Statement {
     @Override
     public int getSize() {
         return left.getSize() + right.getSize() + 3;
+    }
+
+    @Override
+    public int calcSpill() {
+        right.stackOffset = 1;
+        return Math.max(left.calcSpill(), right.calcSpill() + 1);
     }
 }

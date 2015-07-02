@@ -98,6 +98,10 @@ public class IdentifierExpression extends Expression {
         // Nop
     }
 
+    public String getId() {
+        return id;
+    }
+
     /**
      * Type checking for identifiers
      *

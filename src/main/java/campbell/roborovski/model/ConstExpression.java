@@ -15,8 +15,12 @@ public class ConstExpression extends Expression {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        start(emitter);
+
         emitter.emitConst(data, SprockellRegister.a);
         emitter.push(SprockellRegister.a, "Const: " + data);
+
+        end(emitter);
     }
 
     @Override
@@ -32,5 +36,10 @@ public class ConstExpression extends Expression {
     @Override
     public int getSize() {
         return 2;
+    }
+
+    @Override
+    public int calcSpill() {
+        return 1;
     }
 }

@@ -31,7 +31,7 @@ public class Block extends Statement {
     }
 
     public void calcOffsets() {
-        int currentOffset = 0;
+        int currentOffset = 1;
 
         for(Variable var : variables) {
             var.setOffset(currentOffset);
@@ -52,8 +52,11 @@ public class Block extends Statement {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
-        emitter.emitConst(size, SprockellRegister.a);
+        emitter.push(SprockellRegister.sp);
+        emitter.pop(SprockellRegister.b);
+        emitter.emitConst(size + 1 + calcSpill(), SprockellRegister.a);
         emitter.compute(SprockellCompute.Sub, SprockellRegister.sp, SprockellRegister.a, SprockellRegister.sp, ">>> ENTER SCOPE");
+        emitter.store(SprockellRegister.b, SprockellRegister.sp);
 
         for(Statement stat : statements) {
             stat.compile(emitter, this);
@@ -63,7 +66,7 @@ public class Block extends Statement {
             }
         }
 
-        emitter.emitConst(size, SprockellRegister.a);
+        emitter.emitConst(size + 1 + calcSpill(), SprockellRegister.a);
         emitter.compute(SprockellCompute.Add, SprockellRegister.sp, SprockellRegister.a, SprockellRegister.sp, "<<< EXIT SCOPE");
     }
 
@@ -71,7 +74,7 @@ public class Block extends Statement {
     public void setOffset(int offset) {
         this.offset = offset;
 
-        int current = offset + 2;
+        int current = offset + 5;
 
         for(Statement stat : statements) {
             stat.setOffset(current);
@@ -96,11 +99,22 @@ public class Block extends Statement {
             }
         }
 
-        return size + 4;
+        return size + 7;
+    }
+
+    @Override
+    public int calcSpill() {
+        int max = 0;
+
+        for(Statement stat : statements) {
+            max = Math.max(max, stat.calcSpill());
+        }
+
+        return max;
     }
 
     public int getVarStackSize() {
-        return size;
+        return size + 1;
     }
 
     public Block getSuperBlock() {

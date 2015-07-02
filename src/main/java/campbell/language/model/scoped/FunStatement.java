@@ -30,7 +30,7 @@ public class FunStatement extends Scope implements Symbol {
      * List containing all statements in this function
      */
     private List<? extends Statement> statements;
-    private Function func;
+    private Function func = new Function();
 
     public FunStatement(Type returnType, String name, List<? extends DeclStatement> arguments) {
         this.returnType = returnType;
@@ -96,8 +96,8 @@ public class FunStatement extends Scope implements Symbol {
      */
     @Override
     public void toRoborovski(Program program, Block block) {
-        func = new Function();
         program.addFunction(func);
+        func.setBlock(block);
 
         for(DeclStatement decl : arguments) {
             decl.toRoborovski(program, func);

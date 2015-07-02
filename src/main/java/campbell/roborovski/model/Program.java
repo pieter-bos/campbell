@@ -9,12 +9,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Program extends Block {
+    public static final int NEW = 65536;
+
     private List<Function> functions = new LinkedList<>();
     private List<Struct> structs = new LinkedList<>();
     private int internalNameNo = 0;
 
     public void addFunction(Function func) {
         functions.add(func);
+        func.superBlock = this;
     }
 
     public void addStruct(Struct struct) {
@@ -36,16 +39,30 @@ public class Program extends Block {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        // Calculate variable offsets recursively
         calcOffsets();
-        setOffset(1);
 
+        // Calculate code offsets recursively
+        setOffset(0);
+
+        start(emitter);
+
+        // Initialize heap
+        emitter.emitConst(NEW + 1, SprockellRegister.a);
+        emitter.store(SprockellRegister.a, NEW);
+
+        // Jump to start of program
         emitter.jumpAbsolute(getOffset());
 
+        // Compile all functions
         for(Function func : functions) {
             func.compile(emitter, this);
         }
 
+        // Compile the program code
         super.compile(emitter, this);
+
+        end(emitter);
 
         System.out.println("Program size is " + getSize());
     }
@@ -59,12 +76,14 @@ public class Program extends Block {
             current += function.getSize();
         }
 
+        this.offset = current;
+
         super.setOffset(current);
     }
 
     @Override
     public int getSize() {
-        int size = 1;
+        int size = 3;
 
         for(Function function : functions) {
             size += function.getSize();

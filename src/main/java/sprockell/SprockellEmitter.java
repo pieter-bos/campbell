@@ -145,4 +145,8 @@ public class SprockellEmitter {
 
         write("\n    ");
     }
+
+    public int getLoc() {
+        return loc;
+    }
 }

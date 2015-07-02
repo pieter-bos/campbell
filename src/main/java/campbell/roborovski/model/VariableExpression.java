@@ -15,20 +15,50 @@ public class VariableExpression extends Expression {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
-        System.out.println("Stack offset is " + stackOffset);
-        emitter.emitConst(var.getOffset(block) + stackOffset, SprockellRegister.a);
-        emitter.compute(SprockellCompute.Add, SprockellRegister.sp, SprockellRegister.a, SprockellRegister.a);
+        start(emitter);
+
+        emitter.push(SprockellRegister.sp);
+        emitter.pop(SprockellRegister.b);
+        emitter.emitConst(stackOffset, SprockellRegister.a);
+        emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.a, SprockellRegister.b);
+
+        emitter.emitConst(var.getScopeOffset(block), SprockellRegister.a);
+        emitter.branchAbsolute(SprockellRegister.a, getOffset() + 5);
+        emitter.jumpAbsolute(getOffset() + 9);
+        emitter.load(SprockellRegister.b, SprockellRegister.b);
+        emitter.emitConst(1, SprockellRegister.c);
+        emitter.compute(SprockellCompute.Sub, SprockellRegister.a, SprockellRegister.c, SprockellRegister.a);
+        emitter.jumpAbsolute(getOffset() + 3);
+
+        emitter.emitConst(var.getOffset() + stackOffset, SprockellRegister.a);
+        emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.a, SprockellRegister.a);
         emitter.load(SprockellRegister.a, SprockellRegister.a);
-        emitter.push(SprockellRegister.a, "SP[" + var.getOffset(block) + "]: " + var.getName());
+        emitter.push(SprockellRegister.a, "SP: " + var.getName());
+
+        end(emitter);
     }
 
     @Override
     public void compileReference(SprockellEmitter emitter, Block block) throws IOException {
-        System.out.println("Stack offset is " + stackOffset);
-        emitter.emitConst(var.getOffset(block) + stackOffset, SprockellRegister.a);
-        emitter.compute(SprockellCompute.Add, SprockellRegister.sp, SprockellRegister.a, SprockellRegister.a);
+        start(emitter);
+
+        emitter.push(SprockellRegister.sp);
+        emitter.pop(SprockellRegister.b);
+
+        emitter.emitConst(var.getScopeOffset(block), SprockellRegister.a);
+        emitter.branchAbsolute(SprockellRegister.a, getOffset() + 5);
+        emitter.jumpAbsolute(getOffset() + 9);
+        emitter.load(SprockellRegister.b, SprockellRegister.b);
+        emitter.emitConst(1, SprockellRegister.c);
+        emitter.compute(SprockellCompute.Sub, SprockellRegister.a, SprockellRegister.c, SprockellRegister.a);
+        emitter.jumpAbsolute(getOffset() + 3);
+
+        emitter.emitConst(var.getOffset() + stackOffset, SprockellRegister.a);
+        emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.a, SprockellRegister.a);
         emitter.nop();
-        emitter.push(SprockellRegister.a, "SP+" + var.getOffset(block) + ": " + var.getName());
+        emitter.push(SprockellRegister.a, "SP-ref: " + var.getName());
+
+        end(emitter);
     }
 
     @Override
@@ -38,6 +68,11 @@ public class VariableExpression extends Expression {
 
     @Override
     public int getSize() {
-        return 4;
+        return 15;
+    }
+
+    @Override
+    public int calcSpill() {
+        return 1;
     }
 }

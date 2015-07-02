@@ -68,8 +68,10 @@ fun int nest(int n)
     return nest2(n * 5)
 
 class Adder<T>
+    fun void init()
+        return 0
+
     fun T add(T x)
         return x + 137
 
-Adder<int> add
-writeNum(add.add(1))
+primes(100)

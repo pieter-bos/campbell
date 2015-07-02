@@ -20,6 +20,8 @@ public class DotExpression extends Expression {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        start(emitter);
+
         expr.stackOffset = stackOffset;
         expr.compile(emitter, block);
         emitter.pop(SprockellRegister.a);
@@ -27,6 +29,23 @@ public class DotExpression extends Expression {
         emitter.compute(SprockellCompute.Add, SprockellRegister.a, SprockellRegister.b, SprockellRegister.a);
         emitter.load(SprockellRegister.a, SprockellRegister.a);
         emitter.push(SprockellRegister.a);
+
+        end(emitter);
+    }
+
+    @Override
+    public void compileReference(SprockellEmitter emitter, Block block) throws IOException {
+        start(emitter);
+
+        expr.stackOffset = stackOffset;
+        expr.compile(emitter, block);
+        emitter.pop(SprockellRegister.a);
+        emitter.emitConst(struct.getOffset(property), SprockellRegister.b);
+        emitter.compute(SprockellCompute.Add, SprockellRegister.a, SprockellRegister.b, SprockellRegister.a);
+        emitter.nop();
+        emitter.push(SprockellRegister.a);
+
+        end(emitter);
     }
 
     @Override
@@ -38,5 +57,10 @@ public class DotExpression extends Expression {
     @Override
     public int getSize() {
         return expr.getSize() + 5;
+    }
+
+    @Override
+    public int calcSpill() {
+        return Math.max(expr.calcSpill(), 1);
     }
 }

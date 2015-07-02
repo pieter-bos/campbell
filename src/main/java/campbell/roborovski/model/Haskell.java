@@ -13,7 +13,11 @@ public class Haskell extends Statement {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        start(emitter);
+
         emitter.emitRaw(haskell);
+
+        end(emitter);
     }
 
     @Override
@@ -24,5 +28,10 @@ public class Haskell extends Statement {
     @Override
     public int getSize() {
         return 1;
+    }
+
+    @Override
+    public int calcSpill() {
+        return 0;
     }
 }

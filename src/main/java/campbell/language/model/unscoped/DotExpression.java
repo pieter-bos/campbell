@@ -107,7 +107,7 @@ public class DotExpression extends Expression {
             if(symbol instanceof FunStatement) {
                 LinkedList<campbell.roborovski.model.Expression> args = new LinkedList<>();
                 args.add(expr.toRoborovski(program));
-                return new CallExpression(new FunctionExpression(((FunStatement) symbol).getFunction()), args);
+                return new CallExpression(false, new FunctionExpression(((FunStatement) symbol).getFunction()), args);
             } else if(symbol instanceof DeclStatement) {
                 return new campbell.roborovski.model.DotExpression(expr.toRoborovski(program), specificClass.getStruct(), property);
             }

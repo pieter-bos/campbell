@@ -9,6 +9,7 @@ import java.util.List;
 public class Function extends Block {
     private Return ret = new Return(new ConstExpression(0), this);
     private Block statementBlock = new Block();
+    private Block block;
 
     public Function() {
         statementBlock.superBlock = this;
@@ -66,5 +67,13 @@ public class Function extends Block {
 
     public Block getStatementBlock() {
         return statementBlock;
+    }
+
+    public void setBlock(Block block) {
+        this.block = block;
+    }
+
+    public Block getBlock() {
+        return block;
     }
 }

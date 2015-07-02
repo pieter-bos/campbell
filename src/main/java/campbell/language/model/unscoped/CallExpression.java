@@ -1,12 +1,16 @@
 package campbell.language.model.unscoped;
 
 import campbell.language.model.CompileException;
+import campbell.language.model.scoped.ClassStatement;
+import campbell.language.model.scoped.FunStatement;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.FunctionType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.FunctionExpression;
 import campbell.roborovski.model.Program;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -121,7 +125,16 @@ public class CallExpression extends Expression {
             args.add(e.toRoborovski(program));
         }
 
-        return new campbell.roborovski.model.CallExpression(callee.toRoborovski(program), args);
+        boolean curried = getType() instanceof FunctionType;
+
+        if(callee instanceof IdentifierExpression
+                && findSymbol(((IdentifierExpression) callee).getId()) == null
+                && findType(((IdentifierExpression) callee).getId()) != null) {
+            ClassStatement type = (ClassStatement) findType(((IdentifierExpression) callee).getId()).getImplementation();
+            return new campbell.roborovski.model.CallExpression(curried, new FunctionExpression(((FunStatement) type.getImplementation(Collections.emptyList(), program).findSymbol("#construct")).getFunction()), args);
+        } else {
+            return new campbell.roborovski.model.CallExpression(curried, callee.toRoborovski(program), args);
+        }
     }
 
     /**

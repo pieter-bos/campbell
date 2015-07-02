@@ -85,6 +85,12 @@ public class ClassStatement extends Scope {
             result.struct = new Struct();
             program.addStruct(result.struct);
 
+            for(Statement stat : result.statements) {
+                if(stat instanceof FunStatement) {
+                    ((FunStatement) stat).getArguments().add(new DeclStatement(result.getType(), "this"));
+                }
+            }
+
             result.setScope(getScope());
             result.findDefinitions();
             result.findImpls();
@@ -93,7 +99,6 @@ public class ClassStatement extends Scope {
                 if(stat instanceof DeclStatement) {
                     result.struct.addVariable(new Variable(((DeclStatement) stat).getName()));
                 } else if(stat instanceof FunStatement) {
-                    ((FunStatement) stat).getArguments().add(new DeclStatement(result.getType(), "this"));
                     stat.toRoborovski(program, program);
                 }
             }
@@ -104,18 +109,24 @@ public class ClassStatement extends Scope {
                 throw new CompileException(constructor, "Constructor must be a function named init");
             }
 
-            result.symbols.put("#construct", new FunStatement(
+            FunStatement construct = new FunStatement(
                 result.getType(),
                 "#construct",
                 ((FunStatement) constructor).getArguments().stream().map(DeclStatement::deepCopy).collect(Collectors.toList()),
                 Arrays.asList(
                     new DeclStatement(result.getType(), "#this"),
                     new AssignStatement(new IdentifierExpression("#this"),
-                        new CallExpression(new IdentifierExpression("alloc"), Arrays.asList(new IntLiteralExpression(result.getStruct().getSize() + "")))),
+                            new CallExpression(new DotExpression(new IdentifierExpression("mem"), "alloc"), Arrays.asList(new IntLiteralExpression(result.getStruct().getSize() + "")))),
                     new CallExpression(new DotExpression(new IdentifierExpression("#this"), "init"),
-                            ((FunStatement) constructor).getArguments().stream().map(decl -> new IdentifierExpression(decl.getName())).collect(Collectors.toList())),
+                            ((FunStatement) constructor).getArguments().stream().skip(1).map(decl -> new IdentifierExpression(decl.getName())).collect(Collectors.toList())),
                     new ReturnStatement(new IdentifierExpression("#this"))
-                )));
+                ));
+
+            result.symbols.put("#construct", construct);
+            construct.setScope(result);
+            construct.findDefinitions();
+
+            construct.toRoborovski(program, program);
 
             return result;
         }

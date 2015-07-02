@@ -49,6 +49,8 @@ public class BinaryExpression extends Expression {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        start(emitter);
+
         left.stackOffset = stackOffset;
         right.stackOffset = stackOffset + 1;
 
@@ -58,6 +60,8 @@ public class BinaryExpression extends Expression {
         emitter.pop(SprockellRegister.a);
         emitter.compute(op.getCompute(), SprockellRegister.a, SprockellRegister.b, SprockellRegister.a, "compute " + op);
         emitter.push(SprockellRegister.a);
+
+        end(emitter);
     }
 
     @Override
@@ -70,5 +74,13 @@ public class BinaryExpression extends Expression {
     @Override
     public int getSize() {
         return left.getSize() + right.getSize() + 4;
+    }
+
+    @Override
+    public int calcSpill() {
+        left.stackOffset = stackOffset;
+        right.stackOffset = stackOffset + 1;
+
+        return Math.max(left.calcSpill(), right.calcSpill() + 1);
     }
 }
