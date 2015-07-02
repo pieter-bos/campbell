@@ -1,0 +1,6 @@
+bool a
+bool b
+a = true
+b = false
+bool c
+c = a + b

@@ -1,0 +1,5 @@
+fun int get5()
+    return 5
+
+int j
+j = get5(-3)

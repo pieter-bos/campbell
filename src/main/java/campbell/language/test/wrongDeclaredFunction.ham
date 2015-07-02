@@ -1,0 +1,5 @@
+funnn int get()
+    return 0
+
+int i
+i = get()

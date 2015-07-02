@@ -238,7 +238,7 @@ public class FunStatement extends Scope implements Symbol {
      */
     @Override
     public Type getType() {
-        return new FunctionType(returnType, arguments.get(0).getType());
+         return new FunctionType(returnType, arguments.get(0).getType());
     }
 
     /**

@@ -1,7 +1,5 @@
 package campbell.roborovski.model;
 
-import campbell.language.types.Type;
-
 public class Variable {
     public static final Variable RET = new Variable("ret");
     public static final Variable SP = new Variable("sp");

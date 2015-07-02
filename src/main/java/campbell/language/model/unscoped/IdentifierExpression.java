@@ -7,6 +7,7 @@ import campbell.language.model.scoped.Scope;
 import campbell.language.types.Type;
 import campbell.roborovski.model.FunctionExpression;
 import campbell.roborovski.model.Program;
+import campbell.roborovski.model.Variable;
 import campbell.roborovski.model.VariableExpression;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -66,7 +67,11 @@ public class IdentifierExpression extends Expression {
         if(symbol instanceof FunStatement) {
             return new FunctionExpression(((FunStatement) symbol).getFunction());
         } else if(symbol instanceof DeclStatement) {
-            return new VariableExpression(((DeclStatement) symbol).getVariable());
+            Variable v = ((DeclStatement) symbol).getVariable();
+            if (v == null) {
+                throw new CompileException(this, "Undeclared variable "+symbol.getName()+" used");
+            }
+            return new VariableExpression(v);
         }
 
         throw new CompileException(this, "Internal error: Unknown identifier implementation type " + symbol.getClass());

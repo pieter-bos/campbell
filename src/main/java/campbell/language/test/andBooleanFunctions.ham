@@ -1,0 +1,13 @@
+fun bool getFuture(int x)
+    if (x > 10120)
+        return false
+    else
+        return false
+
+bool i
+i = getFuture(47014701)
+bool j
+j = getFuture(0)
+
+bool k
+k = i & j

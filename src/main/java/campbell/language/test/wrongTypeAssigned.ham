@@ -1,0 +1,4 @@
+fun int add(int a, int b)
+    return a + b
+bool j
+j = add(1, 3)

@@ -89,8 +89,20 @@ public class AssignStatement extends Statement {
      */
     @Override
     public void checkType() {
-        if (!left.getType().equals(right.getType())) {
+        if (hasDef(left) && !left.getType().equals(right.getType())) {
             throw new CompileException(this, "Type error: left expression is of type "+left.getType()+" whereas right is of type "+ right.getType());
         }
+    }
+
+    private boolean hasDef(Expression left) {
+        Scope s = getScope();
+        while (s == null || (s.findSymbol(left.toString()) == null  && s.findType(left.toString()) == null)) {
+            if (s == null) {
+                throw new CompileException(this, "No definition of " + left.toString() + " can be found");
+            } else {
+                s = s.getScope();
+            }
+        }
+        return true;
     }
 }

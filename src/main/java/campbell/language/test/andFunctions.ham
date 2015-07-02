@@ -1,0 +1,7 @@
+fun bool returnTrue()
+    return true
+fun bool returnFalse()
+    return false
+
+bool done
+done  = false() & true()

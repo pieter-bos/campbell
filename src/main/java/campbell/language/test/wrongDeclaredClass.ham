@@ -1,0 +1,8 @@
+claass Adder<T>
+    fun T add(T x)
+        return x + 137
+
+
+Adder<int> add
+int j
+j = add.add(5)
