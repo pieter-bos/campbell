@@ -11,6 +11,7 @@ import sprockell.SprockellEmitter;
 import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Program extends Scope {
     /**
@@ -61,7 +62,9 @@ public class Program extends Scope {
     }
 
     public static void main(String[] args) throws IOException {
+        Program std = parseFrom(ClassLoader.getSystemResourceAsStream("std.ham"));
         Program p = parseFrom(new FileInputStream("/home/pieter/programming/haskell/campbell/example.ham"));
+        p = p.merge(std);
         p.setScope(null);
         p.findDefinitions();
         p.findImpls();
@@ -70,6 +73,10 @@ public class Program extends Scope {
 
         campbell.roborovski.model.Program program = p.toRoborovski();
         program.compile(new SprockellEmitter(new FileWriter("/home/pieter/programming/haskell/campbell/example.hs")));
+    }
+
+    private Program merge(Program other) {
+        return new Program(Stream.concat(statements.stream(), other.statements.stream()).collect(Collectors.toList()));
     }
 
     /**

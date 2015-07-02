@@ -33,7 +33,7 @@ public class IdentifierExpression extends Expression {
 
     @Override
     public Type getType() {
-        return findSymbol(id).getType();
+        return requireSymbol(id, this).getType();
     }
 
     @Override
@@ -57,5 +57,9 @@ public class IdentifierExpression extends Expression {
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         // Nop
+    }
+
+    public String getId() {
+        return id;
     }
 }

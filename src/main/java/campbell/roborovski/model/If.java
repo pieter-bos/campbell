@@ -18,14 +18,17 @@ public class If extends Statement {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        start(emitter);
+
         condition.compile(emitter, block);
         emitter.pop(SprockellRegister.a);
         emitter.branchAbsolute(SprockellRegister.a, thenBlock.getOffset(), "if true");
         emitter.jumpAbsolute(elseBlock.getOffset(), "if false");
         thenBlock.compile(emitter, block);
-        System.out.println("If is at " + getOffset() + " size " + getSize());
         emitter.jumpAbsolute(getOffset() + getSize(), "then end");
         elseBlock.compile(emitter, block);
+
+        end(emitter);
     }
 
     @Override
@@ -39,6 +42,11 @@ public class If extends Statement {
     @Override
     public int getSize() {
         return condition.getSize() + thenBlock.getSize() + elseBlock.getSize() + 4;
+    }
+
+    @Override
+    public int calcSpill() {
+        return Math.max(Math.max(thenBlock.calcSpill(), elseBlock.calcSpill()), condition.calcSpill());
     }
 
     public Block getThenBlock() {

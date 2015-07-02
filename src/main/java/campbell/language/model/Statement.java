@@ -109,7 +109,6 @@ public abstract class Statement implements Node {
     }
 
     public Symbol findSymbol(String name) {
-        System.out.println(this + " " + getScope());
         return getScope().findSymbol(name);
     }
 

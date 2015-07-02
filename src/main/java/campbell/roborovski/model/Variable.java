@@ -1,11 +1,6 @@
 package campbell.roborovski.model;
 
-import campbell.language.types.Type;
-
 public class Variable {
-    public static final Variable RET = new Variable("ret");
-    public static final Variable SP = new Variable("sp");
-
     private final String name;
     private Integer offset = null;
     private Block block;
@@ -26,15 +21,11 @@ public class Variable {
         return offset;
     }
 
-    public Integer getOffset(Block block) {
-        if(offset == null) {
-            return null;
-        }
-
-        int offset = this.offset;
+    public int getScopeOffset(Block block) {
+        int offset = 0;
 
         while(block != this.block) {
-            offset += block.getVarStackSize();
+            offset++;
             block = block.getSuperBlock();
         }
 
