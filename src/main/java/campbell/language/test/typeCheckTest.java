@@ -13,7 +13,7 @@ import java.io.IOException;
 import static campbell.language.model.scoped.Program.parseFrom;
 
 /**
- * Created by sophie on 7/1/15.
+ * Type checking test
  */
 public class typeCheckTest {
     String[] files = {"/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/correctAssignmentDeclaration",
@@ -43,6 +43,12 @@ public class typeCheckTest {
             "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongDeclaredClass",
             "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongArgumentsClass"};
 
+    /**
+     * Method that compiles a program from a given input to a given output
+     * @param input - .ham file (path) to be compiled
+     * @param output - .hs file (path) to be made
+     * @throws IOException
+     */
     public static void compileProgram(String input, String output) throws IOException {
         Program p = parseFrom(new FileInputStream(input));
         p.setScope(null);
@@ -56,6 +62,9 @@ public class typeCheckTest {
         program.compile(new SprockellEmitter(new FileWriter(output)));
     }
 
+    /**
+     *
+     */
     @Test
     public void testCorrectAssignment() {
         try {

@@ -1,6 +1,14 @@
 package campbell.language.types;
 
+/**
+ * Type for pointers
+ *
+ * TODO: Unused at the moment?
+ */
 public class PointerType extends Type {
+    /**
+     * Type that is referenced to by the pointer
+     */
     private Type referencedType;
 
     public PointerType(Type referencedType) {
