@@ -1,5 +1,8 @@
 package sprockell;
 
+/**
+ * Enum containing all operators that can be used in Sprockell
+ */
 public enum SprockellCompute {
     Add("Add"),
     Sub("Sub"),
@@ -18,12 +21,19 @@ public enum SprockellCompute {
     LShift("LShift"),
     RShift("RShift");
 
+    /**
+     * Haskell code used for this computation
+     */
     private String haskell;
 
     SprockellCompute(String haskell) {
         this.haskell = haskell;
     }
 
+    /**
+     * Returns a string representation of the Haskell code
+     * @return
+     */
     @Override
     public String toString() {
         return haskell;
