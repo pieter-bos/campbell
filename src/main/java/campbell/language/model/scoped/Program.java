@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Program represents a Campbell program
+ */
 public class Program extends Scope {
     /**
      * List containing all statements in this program
@@ -23,10 +26,20 @@ public class Program extends Scope {
         this.statements = statements;
     }
 
+    /**
+     * Tries to parse a Program from a given context
+     * @param context
+     * @return
+     */
     public static Program fromContext(CampbellParser.ProgramContext context) {
         return at(context.getStart(), new Program(Statement.fromContexts(context.statement())));
     }
 
+    /**
+     * Tries to parse a Program from a given inputstream
+     * @param input
+     * @return
+     */
     public static Program parseFrom(InputStream input) {
         return Program.fromContext(CampbellStreamParser.parse(input));
     }
@@ -61,6 +74,11 @@ public class Program extends Scope {
         return result;
     }
 
+    /**
+     * Main method, used to compile a given Campbell program to a .hs file
+     * @param args // Unused
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         Program std = parseFrom(ClassLoader.getSystemResourceAsStream("std.ham"));
         Program p = parseFrom(new FileInputStream("/home/pieter/programming/haskell/campbell/example.ham"));
@@ -76,6 +94,13 @@ public class Program extends Scope {
         program.compile(new SprockellEmitter(new FileWriter("/home/sophie/Downloads/Campbell/campbell/badExample.hs")));
     }
 
+    /**
+     * Merges two programs
+     *
+     * This enables the including of other .ham files and compile them together (enables use of libraries)
+     * @param other
+     * @return
+     */
     private Program merge(Program other) {
         return new Program(Stream.concat(statements.stream(), other.statements.stream()).collect(Collectors.toList()));
     }

@@ -13,11 +13,15 @@ import campbell.roborovski.model.Program;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * While statement represents a while loop in Campbell
+ */
 public class WhileStatement extends Scope {
     /**
      * Condition of the while loop
      */
     private final Expression condition;
+
     /**
      * List containing all statements in the while-loop
      */
@@ -28,6 +32,11 @@ public class WhileStatement extends Scope {
         this.statements = statements;
     }
 
+    /**
+     * Tries to parse a WhileStatement from a given context
+     * @param whileNodeContext
+     * @return
+     */
     public static Statement fromContext(CampbellParser.WhileNodeContext whileNodeContext) {
         return at(whileNodeContext.getStart(), new WhileStatement(Expression.fromContext(whileNodeContext.expr()), Statement.fromContexts(whileNodeContext.block().statement())));
     }

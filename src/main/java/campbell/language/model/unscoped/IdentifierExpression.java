@@ -7,9 +7,14 @@ import campbell.language.model.scoped.Scope;
 import campbell.language.types.Type;
 import campbell.roborovski.model.FunctionExpression;
 import campbell.roborovski.model.Program;
+import campbell.roborovski.model.Variable;
 import campbell.roborovski.model.VariableExpression;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+/**
+ * Identifier expression represents an identifier in Haskell
+ * Identifiers are used as names for variables, functions, classes, traits, etc.
+ */
 public class IdentifierExpression extends Expression {
     /**
      * Identifier's string representation
@@ -20,6 +25,11 @@ public class IdentifierExpression extends Expression {
         this.id = id;
     }
 
+    /**
+     * Tries to parse an IdentifierExpression from the given context
+     * @param ctx
+     * @return
+     */
     public static IdentifierExpression fromContext(TerminalNode ctx) {
         return at(ctx.getSymbol(), new IdentifierExpression(ctx.getText()));
     }
@@ -66,7 +76,11 @@ public class IdentifierExpression extends Expression {
         if(symbol instanceof FunStatement) {
             return new FunctionExpression(((FunStatement) symbol).getFunction());
         } else if(symbol instanceof DeclStatement) {
-            return new VariableExpression(((DeclStatement) symbol).getVariable());
+            Variable v = ((DeclStatement) symbol).getVariable();
+            if (v == null) {
+                throw new CompileException(this, "Undeclared variable "+symbol.getName()+" used");
+            }
+            return new VariableExpression(v);
         }
 
         throw new CompileException(this, "Internal error: Unknown identifier implementation type " + symbol.getClass());

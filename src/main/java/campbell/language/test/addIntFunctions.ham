@@ -1,0 +1,5 @@
+fun int getX(int x)
+    return x
+
+int i
+i = getX(5) + getX(3)

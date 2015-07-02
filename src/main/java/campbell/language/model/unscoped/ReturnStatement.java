@@ -11,6 +11,9 @@ import campbell.roborovski.model.Block;
 import campbell.roborovski.model.Program;
 import campbell.roborovski.model.Return;
 
+/**
+ * Return statement represents a return in Campbell
+ */
 public class ReturnStatement extends Statement {
     /**
      * Expression that should be returned
@@ -21,6 +24,11 @@ public class ReturnStatement extends Statement {
         this.returnExpression = returnExpression;
     }
 
+    /**
+     * Tries to parse a ReturnStatement from a given context
+     * @param returnNodeContext
+     * @return
+     */
     public static Statement fromContext(CampbellParser.ReturnNodeContext returnNodeContext) {
         return at(returnNodeContext.getStart(), new ReturnStatement(Expression.fromContext(returnNodeContext.expr())));
     }

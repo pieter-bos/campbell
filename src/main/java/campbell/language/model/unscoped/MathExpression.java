@@ -9,6 +9,11 @@ import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.BinaryExpression;
 import campbell.roborovski.model.Program;
 
+/**
+ * Math expressions represent expressions with an mathematical operator in Campbell
+ *
+ * Possible operators: Add, Subtract, Multiply, Divide, Modulo, Left shift, Right shift, And, Or, Xor
+ */
 public class MathExpression extends Expression {
     /**
      * Expression on the left hand side of the math expression
@@ -160,41 +165,83 @@ public class MathExpression extends Expression {
         this.op = op;
         this.right = right;
     }
+
+    /**
+     * Tries to parse an MathExpression based on the type of context given (AddContext)
+     * @return
+     */
     public static MathExpression fromContext(CampbellParser.AddContext ctx) {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr1()), MathOp.Add, Expression.fromContext(ctx.expr2())));
     }
 
+    /**
+     * Tries to parse an MathExpression based on the type of context given (SubtractContext)
+     * @return
+     */
     public static MathExpression fromContext(CampbellParser.SubtractContext ctx) {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr1()), MathOp.Subtract, Expression.fromContext(ctx.expr2())));
     }
 
+    /**
+     * Tries to parse an MathExpression based on the type of context given (MultiplyContext)
+     * @return
+     */
     public static MathExpression fromContext(CampbellParser.MultiplyContext ctx) {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Multiply, Expression.fromContext(ctx.expr3())));
     }
 
+    /**
+     * Tries to parse an MathExpression based on the type of context given (DivideContext)
+     * @return
+     */
     public static MathExpression fromContext(CampbellParser.DivideContext ctx) {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Divide, Expression.fromContext(ctx.expr3())));
     }
 
+    /**
+     * Tries to parse an MathExpression based on the type of context given (ModuloContext)
+     * @return
+     */
     public static MathExpression fromContext(CampbellParser.ModuloContext ctx) {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.Modulo, Expression.fromContext(ctx.expr3())));
     }
 
+    /**
+     * Tries to parse an MathExpression based on the type of context given (LshContext)
+     * @return
+     */
     public static MathExpression fromContext(CampbellParser.LshContext ctx) {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.LSH, Expression.fromContext(ctx.expr3())));
     }
 
+    /**
+     * Tries to parse an MathExpression based on the type of context given (RshContext)
+     * @return
+     */
     public static MathExpression fromContext(CampbellParser.RshContext ctx) {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr2()), MathOp.RSH, Expression.fromContext(ctx.expr3())));
     }
+
+    /**
+     * Tries to parse an MathExpression based on the type of context given (AndContext)
+     * @return
+     */
     public static MathExpression fromContext(CampbellParser.AndContext ctx) {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr()), MathOp.And, Expression.fromContext(ctx.expr0())));
     }
 
+    /**
+     * Tries to parse an MathExpression based on the type of context given (OrContext)
+     * @return
+     */
     public static MathExpression fromContext(CampbellParser.OrContext ctx) {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr()), MathOp.Or, Expression.fromContext(ctx.expr0())));
     }
 
+    /**
+     * Tries to parse an MathExpression based on the type of context given (XorContext)
+     * @return
+     */
     public static MathExpression fromContext(CampbellParser.XorContext ctx) {
         return at(ctx.getStart(), new MathExpression(Expression.fromContext(ctx.expr()), MathOp.Xor, Expression.fromContext(ctx.expr0())));
     }

@@ -1,0 +1,8 @@
+class Adder<intt, T>
+    fun int add(int x)
+        return x + 137
+
+
+Adder<int> add
+int j
+j = add.add(5)

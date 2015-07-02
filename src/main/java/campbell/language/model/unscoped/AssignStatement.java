@@ -9,11 +9,15 @@ import campbell.roborovski.model.Assign;
 import campbell.roborovski.model.Block;
 import campbell.roborovski.model.Program;
 
+/**
+ * Assign statement represents an assignment in Campbell
+ */
 public class AssignStatement extends Statement {
     /**
      * Expression representing left side of the assignment
      */
     private final Expression left;
+
     /**
      * Expression representing right side of the assignment
      */
@@ -24,8 +28,13 @@ public class AssignStatement extends Statement {
         this.right = right;
     }
 
+    /**
+     * Tries to parse an AssignStatement from a given context
+     * @param assign
+     * @return
+     */
     public static AssignStatement fromContext(CampbellParser.AssignContext assign) {
-        // TODO decl
+        // TODO nested assignment/declaration
         return at(assign.getStart(), new AssignStatement(Expression.fromContext(assign.expr(0)), Expression.fromContext(assign.expr(1))));
     }
 
@@ -89,8 +98,27 @@ public class AssignStatement extends Statement {
      */
     @Override
     public void checkType() {
-        if (!left.getType().equals(right.getType())) {
+        if (hasDef(left) && !left.getType().equals(right.getType())) {
             throw new CompileException(this, "Type error: left expression is of type "+left.getType()+" whereas right is of type "+ right.getType());
         }
+    }
+
+    /**
+     * Tries to find definition of a given expression
+     *
+     * Used for type checking
+     * @param expr
+     * @return
+     */
+    private boolean hasDef(Expression expr) {
+        Scope s = getScope();
+        while (s == null || (s.findSymbol(expr.toString()) == null  && s.findType(expr.toString()) == null)) {
+            if (s == null) {
+                throw new CompileException(this, "No definition of " + expr.toString() + " can be found");
+            } else {
+                s = s.getScope();
+            }
+        }
+        return true;
     }
 }

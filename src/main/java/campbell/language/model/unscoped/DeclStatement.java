@@ -15,15 +15,20 @@ import campbell.roborovski.model.Variable;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Decl statement represents the declaration of a variable in Campbell
+ */
 public class DeclStatement extends Statement implements Symbol {
     /**
      * Type of the variable that is declared in this statement
      */
     private Type type;
+
     /**
      * Name of the variable that is declared in this statement
      */
     private final String name;
+
     /**
      * Variable form of the variable that is declared in this statement
      * This is used by IR Roborovski
@@ -35,11 +40,23 @@ public class DeclStatement extends Statement implements Symbol {
         this.name = name;
     }
 
+    /**
+     * Tries to parse a DeclStatement from a given context
+     * @param decl
+     * @return
+     */
     public static DeclStatement fromContext(CampbellParser.DeclContext decl) {
         return at(decl.getStart(), new DeclStatement(Type.fromContext(decl.className()), decl.IDENTIFIER().getText()));
     }
 
+    /**
+     * Tries to parse DeclStatements from multiple given contexts
+     * @param decl
+     * @param javaIsStom
+     * @return
+     */
     public static List<DeclStatement> fromContexts(List<CampbellParser.DeclContext> decl, boolean... javaIsStom) {
+        //TODO: Remove boolean javaIsStom? Or at least rename it
         List<DeclStatement> result = new LinkedList<>();
         for (CampbellParser.DeclContext i : decl) {
             result.add(fromContext(i));
@@ -47,6 +64,11 @@ public class DeclStatement extends Statement implements Symbol {
         return result;
     }
 
+    /**
+     * Tries to parse DeclStatements from a list of untyped statements
+     * @param untypedStatements
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public static List<? extends DeclStatement> fromContexts(List untypedStatements) {
         List<CampbellParser.DeclContext> statements = (List<CampbellParser.DeclContext>) untypedStatements;

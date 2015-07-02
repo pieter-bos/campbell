@@ -11,6 +11,10 @@ import campbell.roborovski.model.Program;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Unsafe statement represents a block in which anything may happen in Campbell
+ * It is the programmer's responsibility to think really carefully when using this
+ */
 public class UnsafeStatement extends Scope {
     /**
      * List containing all statements in this unsafe block
@@ -21,6 +25,11 @@ public class UnsafeStatement extends Scope {
         this.statements = statements;
     }
 
+    /**
+     * Tries to parse an UnsafeStatement from a given context
+     * @param unsafe
+     * @return
+     */
     public static Statement fromContext(CampbellParser.UnsafeContext unsafe) {
         return at(unsafe.getStart(), new UnsafeStatement(Statement.fromContexts(unsafe.block().statement())));
     }
