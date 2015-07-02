@@ -5,7 +5,16 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.InputStream;
 
+/**
+ * Parser, uses the ANTLR generated parser and own lexer
+ */
 public class CampbellStreamParser {
+
+    /**
+     * Parses a given input
+     * @param input
+     * @return
+     */
     public static CampbellParser.ProgramContext parse(InputStream input) {
         CampbellParser parser = new CampbellParser(new CommonTokenStream(new CampbellLexer(input)));
         return parser.program();
