@@ -176,4 +176,12 @@ public class TraitStatement extends Scope {
     public void findImpls() {
         // Impossible
     }
+
+    /**
+     * Type checking for traits
+     */
+    @Override
+    public void checkType() {
+        // TODO: lastig...
+    }
 }

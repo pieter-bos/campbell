@@ -4,17 +4,20 @@ import campbell.language.model.CompileException;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.*;
-import campbell.language.model.unscoped.CallExpression;
-import campbell.language.model.unscoped.DotExpression;
 import campbell.language.types.ClassType;
 import campbell.language.types.GenericType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
-import campbell.roborovski.model.*;
+import campbell.roborovski.model.Block;
 import campbell.roborovski.model.Program;
+import campbell.roborovski.model.Struct;
+import campbell.roborovski.model.Variable;
 import util.HashList;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ClassStatement extends Scope {
@@ -246,5 +249,23 @@ public class ClassStatement extends Scope {
      */
     public Struct getStruct() {
         return struct;
+    }
+
+    /**
+     * Type checking function for class statement
+     * It checks each individual statement in the class
+     */
+    @Override
+    public void checkType() {
+        // TODO: Check the type of the class
+        for (Type t : this.type.getParametricTypes()) {
+            if (t instanceof GenericType) {
+                System.out.printf("Generic type in Class found");
+            } else if (statements != null) {
+                for (Statement stat : statements) {
+                    stat.checkType();
+                }
+            }
+        }
     }
 }

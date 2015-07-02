@@ -1,13 +1,10 @@
 package campbell.language.model;
 
 import campbell.language.model.scoped.*;
-import campbell.language.model.unscoped.AssignStatement;
-import campbell.language.model.unscoped.DeclStatement;
+import campbell.language.model.unscoped.*;
 import campbell.language.model.unscoped.Expression;
-import campbell.language.model.unscoped.ReturnStatement;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
-import campbell.roborovski.model.*;
 import campbell.roborovski.model.Program;
 import org.antlr.v4.runtime.Token;
 

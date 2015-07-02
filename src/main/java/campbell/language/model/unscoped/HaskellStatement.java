@@ -1,13 +1,12 @@
-package campbell.language.model;
+package campbell.language.model.unscoped;
 
+import campbell.language.model.Statement;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
 import campbell.roborovski.model.Haskell;
 import campbell.roborovski.model.Program;
-import org.antlr.v4.runtime.misc.Pair;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class HaskellStatement extends Statement {
     private String haskell;
@@ -43,5 +42,10 @@ public class HaskellStatement extends Statement {
 
     public static HaskellStatement fromContext(CampbellParser.HaskellContext ctx) {
         return new HaskellStatement(ctx.HASKELL().getText());
+    }
+
+    @Override
+    public void checkType() {
+        //TODO: There is no way to check Haskell code?
     }
 }

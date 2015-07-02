@@ -136,4 +136,12 @@ public class CallExpression extends Expression {
             return new campbell.roborovski.model.CallExpression(curried, callee.toRoborovski(program), args);
         }
     }
+
+    /**
+     * Type checking for call expressions
+     */
+    @Override
+    public void checkType() {
+        //nop
+    }
 }

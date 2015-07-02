@@ -8,7 +8,7 @@ import java.io.IOException;
 public class SprockellEmitterTest {
     @Test
     public void test() throws IOException {
-        SprockellEmitter emitter = new SprockellEmitter(new FileWriter("/home/pieter/blaat.hs"));
+        SprockellEmitter emitter = new SprockellEmitter(new FileWriter("/home/sophie/Downloads/Campbell/campbell/example.ham"));
 
         emitter.close();
     }

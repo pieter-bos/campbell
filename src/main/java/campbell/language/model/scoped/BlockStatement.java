@@ -133,4 +133,17 @@ public class BlockStatement extends Scope implements Iterable<Statement> {
     public Iterator<Statement> iterator() {
         return statements.stream().map(s -> ((Statement) s)).iterator();
     }
+
+    /**
+     * Type checking function for block statements
+     * It checks the type of each individual statement
+     */
+    @Override
+    public void checkType() {
+        if (statements != null) {
+            for (Statement stat : statements) {
+                stat.checkType();
+            }
+        }
+    }
 }

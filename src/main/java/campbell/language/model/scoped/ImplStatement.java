@@ -3,9 +3,12 @@ package campbell.language.model.scoped;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
+import campbell.language.types.FunctionType;
+import campbell.language.types.GenericType;
+import campbell.language.types.PrimitiveType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
-import campbell.roborovski.model.*;
+import campbell.roborovski.model.Block;
 import campbell.roborovski.model.Program;
 
 import java.util.List;
@@ -180,6 +183,20 @@ public class ImplStatement extends Scope {
 
             if(stat instanceof FunStatement) {
                 getScope().symbols.put(((FunStatement) stat).getName(), (Symbol) stat);
+            }
+        }
+    }
+
+    /**
+     * Type checking for implementations
+     */
+    @Override
+    public void checkType() {
+        if (type instanceof PrimitiveType || (type instanceof GenericType && type.getImplementation()!= null) || type instanceof FunctionType) {
+            if (of != null) {
+                // Types may be of BoolLiteral, IntLiteral, Functions, Generics
+                // Geen Traits, Classes
+                //TODO: Implementation and trait type checking
             }
         }
     }

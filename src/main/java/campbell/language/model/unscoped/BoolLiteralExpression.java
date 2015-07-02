@@ -79,4 +79,14 @@ public class BoolLiteralExpression extends Expression {
     public campbell.roborovski.model.Expression toRoborovski(Program program) {
         return new ConstExpression(value ? 1 : 0);
     }
+
+    /**
+     * Type checking for boolean expressions
+     *
+     * Type of a boolean expression is always correct
+     */
+    @Override
+    public void checkType() {
+        // nop
+    }
 }

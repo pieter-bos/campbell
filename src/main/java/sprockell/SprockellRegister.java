@@ -14,7 +14,6 @@ public enum SprockellRegister {
     private final String haskell;
 
     SprockellRegister(String haskell) {
-
         this.haskell = haskell;
     }
 

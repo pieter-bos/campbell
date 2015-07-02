@@ -3,7 +3,7 @@ package campbell.language.model.scoped;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
-import campbell.language.types.Type;
+import campbell.language.types.*;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
 import campbell.roborovski.model.Function;
@@ -238,7 +238,7 @@ public class FunStatement extends Scope implements Symbol {
      */
     @Override
     public Type getType() {
-        return null;
+        return new FunctionType(returnType, arguments.get(0).getType());
     }
 
     /**
@@ -248,5 +248,23 @@ public class FunStatement extends Scope implements Symbol {
      */
     public boolean isAbstract() {
         return statements == null;
+    }
+
+    /**
+     * Type checking for functions
+     */
+    @Override
+    public void checkType() {
+        if (returnType instanceof PrimitiveType || returnType instanceof ClassType ||
+                returnType instanceof FunctionType || returnType instanceof GenericType) {
+            for (DeclStatement decl : arguments) {
+                if (!(decl.getType() instanceof GenericType)) {
+                    decl.checkType();
+                }
+            }
+            for (Statement stat : statements) {
+                stat.checkType();
+            }
+        }
     }
 }

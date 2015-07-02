@@ -124,4 +124,15 @@ public class UnsafeStatement extends Scope {
             }
         }
     }
+
+    /**
+     * Type checking for the unsafe statement
+     *
+     * This does nothing as this is an unsafe block,
+     * the programmer is responsible here
+     */
+    @Override
+    public void checkType() {
+        // Nop
+    }
 }

@@ -1,10 +1,8 @@
 package campbell.parser;
 
 import campbell.parser.gen.CampbellParser;
-import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 public class CampbellStreamParser {

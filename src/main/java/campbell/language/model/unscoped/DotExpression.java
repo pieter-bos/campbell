@@ -1,6 +1,7 @@
 package campbell.language.model.unscoped;
 
 import campbell.language.model.CompileException;
+import campbell.language.model.NotImplementedException;
 import campbell.language.model.Symbol;
 import campbell.language.model.scoped.ClassStatement;
 import campbell.language.model.scoped.FunStatement;
@@ -8,13 +9,20 @@ import campbell.language.model.scoped.Scope;
 import campbell.language.types.ClassType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
-import campbell.roborovski.model.*;
 import campbell.roborovski.model.CallExpression;
+import campbell.roborovski.model.FunctionExpression;
+import campbell.roborovski.model.Program;
 
 import java.util.LinkedList;
 
 public class DotExpression extends Expression {
+    /**
+     * Expression of which the property is wanteed
+     */
     private final Expression expr;
+    /**
+     * Property that is wanted from the given expression
+     */
     private final String property;
 
     public DotExpression(Expression expr, String property) {
@@ -26,6 +34,10 @@ public class DotExpression extends Expression {
         return at(ctx.getStart(), new DotExpression(expr, ctx.IDENTIFIER().getText()));
     }
 
+    /**
+     * Sets the scope of this dot expression
+     * @param scope
+     */
     @Override
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -33,21 +45,40 @@ public class DotExpression extends Expression {
         expr.setScope(scope);
     }
 
+    /**
+     * Makes a string representation of this dot expression with correct indenting
+     * @param indent - indent level of this dot expression
+     * @return string representation of this dot expression
+     */
     @Override
     public String toString(int indent) {
         return indent(indent) + "(" + expr.toString(0) + "." + property + ")";
     }
 
+    /**
+     * Makes a deep copy of this dot expression
+     * @return deep copy of this dot expression
+     */
     @Override
     public DotExpression deepCopy() {
         return new DotExpression(expr.deepCopy(), property);
     }
 
+    /**
+     * Replaces a given type by another given type within this dot expression
+     *
+     * @param replace - type that should be replaced
+     * @param replaceWith - replacement type
+     */
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         expr.replaceType(replace, replaceWith);
     }
 
+    /**
+     * Returns the type of the property of the given expression
+     * @return type of the dot expression
+     */
     @Override
     public Type getType() {
         if(expr.getType() instanceof ClassType) {
@@ -57,6 +88,11 @@ public class DotExpression extends Expression {
         }
     }
 
+    /**
+     * Converts this dot expression to the IR Roborovski
+     * @param program
+     * @return
+     */
     @Override
     public campbell.roborovski.model.Expression toRoborovski(Program program) {
         if(expr.getType() instanceof ClassType) {
@@ -79,6 +115,16 @@ public class DotExpression extends Expression {
             throw new CompileException(this, "Internal error: dot not implemented for type " + symbol.getClass());
         } else {
             throw new CompileException(this, "Cannot get a property of type " + expr.getType());
+        }
+    }
+
+    /**
+     * Type checking for dot expressions
+     */
+    @Override
+    public void checkType() {
+        if (expr.getType() instanceof ClassType && expr.getType().getImplementation() == null) {
+            throw new NotImplementedException(""+expr.getType().getName()+" not implemented");
         }
     }
 }
