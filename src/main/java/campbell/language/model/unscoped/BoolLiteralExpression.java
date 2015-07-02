@@ -71,6 +71,8 @@ public class BoolLiteralExpression extends Expression {
 
     /**
      * Returns the type of the expression
+     *
+     * BoolLiteralExpressions are of type Boolean
      * @return
      */
     @Override

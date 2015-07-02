@@ -11,6 +11,10 @@ import campbell.roborovski.model.Variable;
 import campbell.roborovski.model.VariableExpression;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+/**
+ * Identifier expression represents an identifier in Haskell
+ * Identifiers are used as names for variables, functions, classes, traits, etc.
+ */
 public class IdentifierExpression extends Expression {
     /**
      * Identifier's string representation
@@ -21,6 +25,11 @@ public class IdentifierExpression extends Expression {
         this.id = id;
     }
 
+    /**
+     * Tries to parse an IdentifierExpression from the given context
+     * @param ctx
+     * @return
+     */
     public static IdentifierExpression fromContext(TerminalNode ctx) {
         return at(ctx.getSymbol(), new IdentifierExpression(ctx.getText()));
     }

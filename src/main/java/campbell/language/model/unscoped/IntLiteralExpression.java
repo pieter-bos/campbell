@@ -9,6 +9,9 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.math.BigInteger;
 
+/**
+ * Int literal expression represents an integer in Campbell
+ */
 public class IntLiteralExpression extends Expression {
     /**
      * Value of the expression
@@ -19,6 +22,11 @@ public class IntLiteralExpression extends Expression {
         this.value = new BigInteger(value);
     }
 
+    /**
+     * Tries to parse an IntLiteralExpression from a given context
+     * @param ctx
+     * @return
+     */
     public static IntLiteralExpression fromContext(TerminalNode ctx) {
         return at(ctx.getSymbol(), new IntLiteralExpression(ctx.getText()));
     }
@@ -45,7 +53,7 @@ public class IntLiteralExpression extends Expression {
     /**
      * Returns the type of this int literal expression.
      *
-     * Int literal expression are of integers
+     * Int literal expression are of type Integer
      * @return
      */
     @Override

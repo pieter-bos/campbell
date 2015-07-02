@@ -9,6 +9,9 @@ import campbell.roborovski.model.BinaryExpression;
 import campbell.roborovski.model.ConstExpression;
 import campbell.roborovski.model.Program;
 
+/**
+ * Unary math expression represents an expression that is negated in Campbell
+ */
 public class UnaryMathExpression extends Expression {
     /**
      * Operand of this unary math expression
@@ -105,11 +108,17 @@ public class UnaryMathExpression extends Expression {
     public enum UnaryMathOp {
         Negate;
     }
+
     public UnaryMathExpression(UnaryMathOp op, Expression expr) {
         this.op = op;
         this.expr = expr;
     }
 
+    /**
+     * Tries to parse a UnaryMathExpression from a given context
+     * @param ctx
+     * @return
+     */
     public static Expression fromContext(CampbellParser.NegateContext ctx) {
         return new UnaryMathExpression(UnaryMathOp.Negate, Expression.fromContext(ctx.expr()));
     }

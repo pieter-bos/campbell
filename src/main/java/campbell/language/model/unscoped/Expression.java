@@ -37,7 +37,7 @@ public abstract class Expression extends Statement {
 
     /**
      * Tries to parse an Expression based on the type of context given
-     * Expr0: GreaterThan/GreaterThanEquals/LessThan/LessThanEquals/Equals/NotEquals/Negate
+     * Expr0: GreaterThan/GreaterThanEquals/LessThan/LessThanEquals/Equals/NotEquals/Simple
      *
      * If this fails, it shall throw a NotImplementedException
      * @param expr
@@ -63,6 +63,14 @@ public abstract class Expression extends Statement {
         throw new NotImplementedException(expr);
     }
 
+    /**
+     * Tries to parse an Expression based on the type of context given
+     * Expr1: Add/Subtract/Simple1
+     *
+     * If this fails, it shall throw a NotImplementedException
+     * @param expr
+     * @return
+     */
     public static Expression fromContext(CampbellParser.Expr1Context expr) {
         if(expr instanceof CampbellParser.AddContext) {
             return MathExpression.fromContext((CampbellParser.AddContext) expr);
@@ -75,6 +83,14 @@ public abstract class Expression extends Statement {
         throw new NotImplementedException(expr);
     }
 
+    /**
+     * Tries to parse an Expression based on the type of context given
+     * Expr2: Multiply/Divide/Modulo/Left shift/Right shift/Simple2
+     *
+     * If this fails, it shall throw a NotImplementedException
+     * @param expr
+     * @return
+     */
     public static Expression fromContext(CampbellParser.Expr2Context expr) {
         if(expr instanceof CampbellParser.MultiplyContext) {
             return MathExpression.fromContext((CampbellParser.MultiplyContext) expr);
@@ -93,6 +109,14 @@ public abstract class Expression extends Statement {
         throw new NotImplementedException(expr);
     }
 
+    /**
+     * Tries to parse an Expression based on the type of context given
+     * Expr3: Negate/Simple3
+     *
+     * If this fails, it shall throw a NotImplementedException
+     * @param expr
+     * @return
+     */
     public static Expression fromContext(CampbellParser.Expr3Context expr) {
         if(expr instanceof CampbellParser.NegateContext) {
             return UnaryMathExpression.fromContext((CampbellParser.NegateContext) expr);
@@ -103,6 +127,14 @@ public abstract class Expression extends Statement {
         throw new NotImplementedException(expr);
     }
 
+    /**
+     * Tries to parse an Expression based on the type of context given
+     * Expr4: Integer/Boolean/Identifier/(Expression) (with possible add-on)
+     *
+     * If this fails, it shall throw a NotImplementedException
+     * @param expr
+     * @return
+     */
     private static Expression fromContext(CampbellParser.Expr4Context expr) {
         Expression current = null;
         List<CampbellParser.ExprAddonContext> addons = null;
@@ -132,6 +164,15 @@ public abstract class Expression extends Statement {
         return current;
     }
 
+    /**
+     * Tries to parse an Expression based on the type of context given
+     * ExprAddOn: Call/Dot expression
+     *
+     * If this fails, it shall throw a NotImplementedException
+     * @param addon
+     * @param current
+     * @return
+     */
     private static Expression fromContext(CampbellParser.ExprAddonContext addon, Expression current) {
         if(addon instanceof CampbellParser.CallContext) {
             return CallExpression.fromContext((CampbellParser.CallContext) addon, current);
@@ -142,7 +183,11 @@ public abstract class Expression extends Statement {
         throw new NotImplementedException(addon);
     }
 
-
+    /**
+     * Tries to parse multiple Expressions from a list of untyped expressions
+     * @param untypedExpressions
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public static List<? extends Expression> fromContexts(List/*<CampbellParser.ExprContext>*/ untypedExpressions) {
         List<CampbellParser.ExprContext> expressions = (List<CampbellParser.ExprContext>) untypedExpressions;
