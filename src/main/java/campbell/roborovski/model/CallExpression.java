@@ -1,6 +1,5 @@
 package campbell.roborovski.model;
 
-import campbell.parser.gen.CampbellParser;
 import sprockell.SprockellCompute;
 import sprockell.SprockellEmitter;
 import sprockell.SprockellRegister;
@@ -8,9 +7,23 @@ import sprockell.SprockellRegister;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * CallExpression represents the calling of expressions in Roborovski
+ */
 public class CallExpression extends Expression {
+    /**
+     * Tells whether the function is curried
+     */
     private boolean curried;
+
+    /**
+     * Function to be called
+     */
     private final Expression callee;
+
+    /**
+     * List containing all arguments to be given to the callee
+     */
     private final List<Expression> arguments;
 
     public CallExpression(boolean curried, Expression callee, List<Expression> arguments) {
@@ -19,6 +32,12 @@ public class CallExpression extends Expression {
         this.arguments = arguments;
     }
 
+    /**
+     * Generates SprIl/Sprockell code for this call expression
+     * @param emitter
+     * @param block
+     * @throws IOException
+     */
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
         start(emitter);
@@ -182,6 +201,10 @@ public class CallExpression extends Expression {
         end(emitter);
     }
 
+    /**
+     * Sets the offset of this call expression and all its arguments
+     * @param offset
+     */
     @Override
     public void setOffset(int offset) {
         this.offset = offset;
@@ -196,6 +219,10 @@ public class CallExpression extends Expression {
         callee.setOffset(current);
     }
 
+    /**
+     * Returns the number of instructions of this call expression
+     * @return
+     */
     @Override
     public int getSize() {
         if(curried) {
@@ -205,6 +232,10 @@ public class CallExpression extends Expression {
         }
     }
 
+    /**
+     * Calculates how many values are spilled on the stack
+     * @return
+     */
     @Override
     public int calcSpill() {
         int result = callee.calcSpill();

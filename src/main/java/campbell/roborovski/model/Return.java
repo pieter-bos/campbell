@@ -6,8 +6,18 @@ import sprockell.SprockellRegister;
 
 import java.io.IOException;
 
+/**
+ * Return representation in Roborovski
+ */
 public class Return extends Statement {
+    /**
+     * Function from which you return
+     */
     private final Function func;
+
+    /**
+     * Value to be returned
+     */
     private Expression value;
 
     public Return(Expression value, Function func) {
@@ -15,6 +25,12 @@ public class Return extends Statement {
         this.func = func;
     }
 
+    /**
+     * Generates SprIl/Sprockell code for this return statement
+     * @param emitter
+     * @param block
+     * @throws IOException
+     */
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
         start(emitter);
@@ -57,17 +73,29 @@ public class Return extends Statement {
         end(emitter);
     }
 
+    /**
+     * Sets the offset for this and its value
+     * @param offset
+     */
     @Override
     public void setOffset(int offset) {
         this.offset = offset;
         value.setOffset(offset);
     }
 
+    /**
+     * Returns the number of instructions for this return
+     * @return
+     */
     @Override
     public int getSize() {
         return value.getSize() + 26;
     }
 
+    /**
+     * Calculates how many values are spilled on the stack
+     * @return
+     */
     @Override
     public int calcSpill() {
         return Math.max(1, value.calcSpill());
