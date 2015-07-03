@@ -8,17 +8,43 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Block represents a block of statements in Roborovski
+ */
 public class Block extends Statement {
+    /**
+     * List containing all variables in this block
+     */
     protected List<Variable> variables = new LinkedList<>();
+
+    /**
+     * List containing all statements in this block
+     */
     private List<Statement> statements = new LinkedList<>();
+
+    /**
+     * Size of the block, intial value is 0
+     */
     private int size = 0;
+
+    /**
+     * super block is the scope which contains this block
+     */
     protected Block superBlock = null;
 
+    /**
+     * Add a variable to this block
+     * @param var
+     */
     public void addVariable(Variable var) {
         variables.add(var);
         var.setBlock(this);
     }
 
+    /**
+     * Add a statement to this block
+     * @param stat
+     */
     public void addStatement(Statement stat) {
         statements.add(stat);
 
@@ -30,6 +56,9 @@ public class Block extends Statement {
         }
     }
 
+    /**
+     * Calculates the offset of all variables and statements in this block
+     */
     public void calcOffsets() {
         int currentOffset = 1;
 
@@ -50,6 +79,12 @@ public class Block extends Statement {
         }
     }
 
+    /**
+     * Generates SprIl/Sprockell code for this block
+     * @param emitter
+     * @param block
+     * @throws IOException
+     */
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
         emitter.load(Program.NEW, SprockellRegister.a);
@@ -73,6 +108,10 @@ public class Block extends Statement {
         emitter.load(SprockellRegister.sp, SprockellRegister.sp);
     }
 
+    /**
+     * Sets the offset of this block and all its statements
+     * @param offset
+     */
     @Override
     public void setOffset(int offset) {
         this.offset = offset;
@@ -90,6 +129,10 @@ public class Block extends Statement {
         }
     }
 
+    /**
+     * Returns the number of instructions of this block
+     * @return
+     */
     @Override
     public int getSize() {
         int size = 0;
@@ -105,6 +148,10 @@ public class Block extends Statement {
         return size + 10;
     }
 
+    /**
+     * Calculates how many values are spilled on the stack
+     * @return
+     */
     @Override
     public int calcSpill() {
         int max = 0;
@@ -116,19 +163,37 @@ public class Block extends Statement {
         return Math.max(max, 1);
     }
 
+    /**
+     * Returns the variable stack size
+     * @return
+     */
     public int getVarStackSize() {
         return size + 1;
     }
 
+    /**
+     * Returns the super block of (/scope above) this block
+     * @return
+     */
     public Block getSuperBlock() {
         return superBlock;
     }
 
+    /**
+     * Generates SprIl/Sprockell code for this block
+     * @param emitter
+     * @throws IOException
+     */
     public void compile(SprockellEmitter emitter) throws IOException {
         compile(emitter, this);
         emitter.close();
     }
 
+    /**
+     * Searches for a varialbe with a given name in this block
+     * @param name - name of variable to find
+     * @return Variable
+     */
     public Variable requireVariable(String name) {
         for(Variable var : variables) {
             if(var.getName().equals(name)) {

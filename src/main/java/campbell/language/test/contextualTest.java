@@ -1,7 +1,6 @@
 package campbell.language.test;
 
 import campbell.language.model.CompileException;
-import campbell.language.model.NotImplementedException;
 import campbell.language.model.scoped.Program;
 import org.junit.Test;
 import sprockell.SprockellEmitter;
@@ -13,9 +12,9 @@ import java.io.IOException;
 import static campbell.language.model.scoped.Program.parseFrom;
 
 /**
- * Type checking test
+ * Testing for contextual errors
  */
-public class typeCheckTest {
+public class contextualTest {
     String[] files = {"/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/correctAssignmentDeclaration",
             "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/declaredTypeAfterAssign",
             "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/declaredTypeScopeAbove",
@@ -36,12 +35,8 @@ public class typeCheckTest {
             "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/addIntFunctions",
             "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/addBooleans",
             "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/andBooleanFunctions",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongDeclaredFunction",
             "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/noArgumentsGivenFunction",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/unneededArgumentsGivenFunction",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongDeclaredIf",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongDeclaredClass",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongArgumentsClass"};
+            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/unneededArgumentsGivenFunction"};
 
     /**
      * Method that compiles a program from a given input to a given output
@@ -80,6 +75,10 @@ public class typeCheckTest {
             compileProgram(files[1] + ".ham", files[1] + ".hs");
         } catch (CompileException e) {
             // Expect a compile exception: Undeclared variable i used
+            String error = e.getMessage().substring(95);
+            String shouldBe = new String("Undeclared variable i used");
+            System.out.println("Exception thrown: "+error);
+            System.out.println("Expected: "+shouldBe);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -99,7 +98,11 @@ public class typeCheckTest {
         try {
             compileProgram(files[3] + ".ham", files[3] + ".hs");
         } catch (CompileException e) {
-            // Expect a compile exception: Undeclared variable i used
+            // Expect a compile exception: No definition of i can be found
+            String error = e.getMessage().substring(90);
+            String shouldBe = new String("No definition of i can be found");
+            System.out.println("Exception thrown: "+error);
+            System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,7 +111,7 @@ public class typeCheckTest {
     @Test
     public void testWrongTypedAssignment() {
 //        try {
-//            //compileProgram(files[4]+".ham", files[4] + ".hs");
+//            compileProgram(files[4]+".ham", files[4] + ".hs");
 //            // TODO: Deze krijgt niet de juiste compile exception, 2e argument heeft niet meer het juiste type "not callable"
 //        } catch (IOException e) {
 //            e.printStackTrace();
@@ -130,6 +133,10 @@ public class typeCheckTest {
             compileProgram(files[6] + ".ham", files[6] + ".hs");
         } catch (CompileException e) {
             // Expected compile exception: Type of return expression (bool) does not correspond to the function's contract (int)
+            String error = e.getMessage().substring(90);
+            String shouldBe = new String("Type of return expression (bool) does not correspond to the function's contract (int)");
+            System.out.println("Exception thrown: "+error);
+            System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -182,6 +189,10 @@ public class typeCheckTest {
             compileProgram(files[11] + ".ham", files[11] + ".hs");
         } catch (CompileException e) {
             // Expected compile exception: Incorrect type in expression: (i + j)
+            String error = e.getMessage().substring(89);
+            String shouldBe = new String("Incorrect type in expression: (i + j)");
+            System.out.println("Exception thrown: "+error);
+            System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -194,6 +205,10 @@ public class typeCheckTest {
             compileProgram(files[12] + ".ham", files[12] + ".hs");
         } catch (CompileException e) {
             // Expected compile exception: Incorrect type in expression: (i & j)
+            String error = e.getMessage().substring(89);
+            String shouldBe = new String("Incorrect type in expression: (i & j)");
+            System.out.println("Exception thrown: "+error);
+            System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -216,6 +231,10 @@ public class typeCheckTest {
             compileProgram(files[14] + ".ham", files[14] + ".hs");
         } catch (CompileException e) {
             // Expected compile exception: Incorrect type in expression: (i & j)
+            String error = e.getMessage().substring(89);
+            String shouldBe = new String("Incorrect type in expression: (i & j)");
+            System.out.println("Exception thrown: "+error);
+            System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -259,6 +278,10 @@ public class typeCheckTest {
             compileProgram(files[18] + ".ham", files[18] + ".hs");
         } catch (CompileException e) {
             // Expected compile exception : Cannot apply this operator to the given arguments: a, b
+            String error = e.getMessage().substring(89);
+            String shouldBe = new String("Cannot apply this operator to the given arguments: a, b");
+            System.out.println("Exception thrown: "+error);
+            System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -276,21 +299,9 @@ public class typeCheckTest {
     }
 
     @Test
-    public void testWrongDeclaredFunction() {
-        try {
-            compileProgram(files[20] + ".ham", files[20] + ".hs");
-        } catch (NotImplementedException e) {
-            //Expected NotImplementedException : Class of int is not implemented (it parses funn as a class because it does not correspond to the fun keyword
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
-    @Test
     public void testNoArgumentsGivenFunction() {
 //        try {
-//            compileProgram(files[21] + ".ham", files[21] + ".hs");
+//            compileProgram(files[20] + ".ham", files[20] + ".hs");
         // Should catch CompileException, TODO: Function gaat stuk indien geen argumenten gegeven die wel verwacht zijn
         // Het gaat niet echt stuk, maar het geeft wel een verkeerde error (namelijk n type error
 //        } catch (IOException e) {
@@ -302,47 +313,10 @@ public class typeCheckTest {
     @Test
     public void testUnneededArgumentsFunction() {
         try {
-            compileProgram(files[22] + ".ham", files[22] + ".hs");
+            compileProgram(files[21] + ".ham", files[21] + ".hs");
         } catch (CompileException e) {
             //Dit hoort net als bij alle andere dingen een andere foutmelding te geven, zal gefixt zijn als currying werkt
             // TODO: IndexOutOfBoundsException als je te veel argumenten aan function geeft
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
-    @Test
-    public void testWrongDeclaredIf() {
-        try {
-            compileProgram(files[23] + ".ham", files[23] + ".hs");
-        } catch (NotImplementedException e) {
-            // Expected NotImplementedException: Does not recognize keyword of if-statement as it is typed incorrectly
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
-    @Test
-    public void testWrongDeclaredClass() {
-        try {
-            compileProgram(files[24] + ".ham", files[24] + ".hs");
-        } catch (NotImplementedException e) {
-            // Expected NotImplementedException: Does not recognize keyword of class statement as it is typed incorrectly
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
-    @Test
-    public void testWrongArgumentsClass() {
-        try {
-            compileProgram(files[24] + ".ham", files[24] + ".hs");
-        } catch (NotImplementedException e) {
-            // Expected NotImplementedException: Does not recognize type of argument as it is typed incorrectly
-            // Thus it expects a class to be defined with this type
         } catch (IOException e) {
             e.printStackTrace();
 

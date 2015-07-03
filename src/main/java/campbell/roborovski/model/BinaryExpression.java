@@ -1,13 +1,20 @@
 package campbell.roborovski.model;
 
-import com.sun.org.apache.xpath.internal.operations.Div;
 import sprockell.SprockellCompute;
 import sprockell.SprockellEmitter;
 import sprockell.SprockellRegister;
 
 import java.io.IOException;
 
+/**
+ * BinaryExpression represents a binary expression in Roborvoski
+ */
 public class BinaryExpression extends Expression {
+    /**
+     * Enum containing all possible operands:
+     * LessThan, GreaterThan, LessThanEquals, GreaterThanEquals, Equals, NotEquals,
+     * Add, Subtract, Multiply, Divide, Modulo, Left shift, Right shift, And, Or and Xor
+     */
     public enum BinaryOp {
         LessThan(SprockellCompute.LessThan),
         GreaterThan(SprockellCompute.GreaterThan),
@@ -26,19 +33,38 @@ public class BinaryExpression extends Expression {
         Or(SprockellCompute.Or),
         Xor(SprockellCompute.Xor);
 
+        /**
+         * Compute operand for SprIl/Sprockell
+         */
         private SprockellCompute compute;
 
         BinaryOp(SprockellCompute compute) {
             this.compute = compute;
         }
 
+        /**
+         * Returns compute operand for SprIl/Sprockell
+         * @return
+         */
         public SprockellCompute getCompute() {
             return compute;
         }
 
     }
+
+    /**
+     * Expression on the left side
+     */
     private final Expression left;
+
+    /**
+     * Operand of the expression
+     */
     private final BinaryOp op;
+
+    /**
+     * Expression on the right side
+     */
     private final Expression right;
 
     public BinaryExpression(Expression left, BinaryOp op, Expression right) {
@@ -47,6 +73,12 @@ public class BinaryExpression extends Expression {
         this.right = right;
     }
 
+    /**
+     * Generates SprIl/Sprockell code for this binary expression
+     * @param emitter
+     * @param block
+     * @throws IOException
+     */
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
         start(emitter);
@@ -64,6 +96,10 @@ public class BinaryExpression extends Expression {
         end(emitter);
     }
 
+    /**
+     * Sets the offset of this expression
+     * @param offset
+     */
     @Override
     public void setOffset(int offset) {
         this.offset = offset;
@@ -71,11 +107,19 @@ public class BinaryExpression extends Expression {
         right.setOffset(offset + left.getSize());
     }
 
+    /**
+     * Returns the number of instructions for this expression
+     * @return
+     */
     @Override
     public int getSize() {
         return left.getSize() + right.getSize() + 4;
     }
 
+    /**
+     * Calculates how many values are spilled on the stack
+     * @return
+     */
     @Override
     public int calcSpill() {
         left.stackOffset = stackOffset;

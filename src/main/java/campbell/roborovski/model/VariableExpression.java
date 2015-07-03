@@ -6,13 +6,25 @@ import sprockell.SprockellRegister;
 
 import java.io.IOException;
 
+/**
+ * VariableExpression calculates a Variable in Roborovski
+ */
 public class VariableExpression extends Expression {
+    /**
+     * Variable that is wanted
+     */
     private Variable var;
 
     public VariableExpression(Variable var) {
         this.var = var;
     }
 
+    /**
+     * Generates SprIl/Sprockell code for this variable expression
+     * @param emitter
+     * @param block
+     * @throws IOException
+     */
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
         start(emitter);
@@ -38,6 +50,13 @@ public class VariableExpression extends Expression {
         end(emitter);
     }
 
+    /**
+     * Generates SprIl/Sprockell code for this variable expression
+     * Calculates memory address of where to find the variable
+     * @param emitter
+     * @param block
+     * @throws IOException
+     */
     @Override
     public void compileReference(SprockellEmitter emitter, Block block) throws IOException {
         start(emitter);
@@ -63,16 +82,28 @@ public class VariableExpression extends Expression {
         end(emitter);
     }
 
+    /**
+     * Sets the offset of this variable expression
+     * @param offset
+     */
     @Override
     public void setOffset(int offset) {
         this.offset = offset;
     }
 
+    /**
+     * Returns the number of instructinos for this variable expression
+     * @return
+     */
     @Override
     public int getSize() {
         return 15;
     }
 
+    /**
+     * Calculates how many values are spilled on the stack
+     * @return
+     */
     @Override
     public int calcSpill() {
         return 1;

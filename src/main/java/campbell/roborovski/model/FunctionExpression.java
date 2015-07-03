@@ -6,13 +6,25 @@ import sprockell.SprockellRegister;
 
 import java.io.IOException;
 
+/**
+ * Function makes a curried frame for functions in Roborovski
+ */
 public class FunctionExpression extends Expression {
+    /**
+     * Function
+     */
     private Function func;
 
     public FunctionExpression(Function func) {
         this.func = func;
     }
 
+    /**
+     * Generates SprIl/Sprockell code for this function expression
+     * @param emitter
+     * @param block
+     * @throws IOException
+     */
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
         start(emitter);
@@ -70,16 +82,28 @@ public class FunctionExpression extends Expression {
         end(emitter);
     }
 
+    /**
+     * Sets the offset of this function expression
+     * @param offset
+     */
     @Override
     public void setOffset(int offset) {
         this.offset = offset;
     }
 
+    /**
+     * Returns the number of instructions for this function expression
+     * @return
+     */
     @Override
     public int getSize() {
         return 25;
     }
 
+    /**
+     * Calculates how many values are spilled on the stack
+     * @return
+     */
     @Override
     public int calcSpill() {
         return 1;

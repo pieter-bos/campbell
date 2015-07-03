@@ -20,7 +20,7 @@ import java.util.LinkedList;
  */
 public class DotExpression extends Expression {
     /**
-     * Expression of which the property is wanteed
+     * Expression of which the property is wanted
      */
     private final Expression expr;
 
