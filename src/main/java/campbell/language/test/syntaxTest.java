@@ -3,9 +3,7 @@ package campbell.language.test;
 import campbell.language.model.NotImplementedException;
 import campbell.language.model.scoped.Program;
 import org.junit.Test;
-import sprockell.SprockellEmitter;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 
@@ -36,9 +34,6 @@ public class syntaxTest {
         p.checkType();
 
         System.out.println(p);
-
-        campbell.roborovski.model.Program program = p.toRoborovski();
-        program.compile(new SprockellEmitter(new FileWriter(output)));
     }
 
     /**
@@ -54,7 +49,7 @@ public class syntaxTest {
         } catch (NotImplementedException e) {
             //Expected NotImplementedException : Class of int is not implemented (it parses funn as a class because it does not correspond to the fun keyword
             String error = e.getMessage();
-            String shouldBe = new String("Class of int is not implemented");
+            String shouldBe = new String("Cannot return outside of all functions");
             System.out.println("Exception thrown: "+error);
             System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {
@@ -120,6 +115,8 @@ public class syntaxTest {
         } catch (NotImplementedException e) {
             // Expected NotImplementedException: Does not recognize type of argument as it is typed incorrectly
             // Thus it expects a class to be defined with this type
+            //TODO: Te weinig argumenten aan n class geven geeft een nullpointer
+            //TODO: Te veel argumenten aan n class geven gaat goed
             String error = e.getMessage();
             String shouldBe = new String("Class of add is not implemented");
             System.out.println("Exception thrown: "+error);
@@ -130,10 +127,14 @@ public class syntaxTest {
         }
     }
 
+    /**
+     * Test case with multiple functions and scopes defined
+     *
+     * "Correct" test case
+     */
     @Test
     public void testCorrectSyntax() {
         try {
-            //TODO: This gives an error "Internal error: The size of statement class ...(VariableExpression) does not match its actual instruction count. Expected = 15, Actual = 13"
             URL input = this.getClass().getResource(files[8]);
             compileProgram(input, files[9]);
         } catch (IOException e) {

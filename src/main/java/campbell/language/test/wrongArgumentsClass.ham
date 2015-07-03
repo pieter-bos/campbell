@@ -1,4 +1,4 @@
-class Adder<intt, T>
+class Adder<T, T, T>
     fun int add(int x)
         return x + 137
 
