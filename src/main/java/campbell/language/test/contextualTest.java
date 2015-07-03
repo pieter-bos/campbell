@@ -134,12 +134,17 @@ public class contextualTest {
      */
     @Test
     public void testWrongTypedAssignment() {
-//        try {
-//            compileProgram(files[4]+".ham", files[4] + ".hs");
-//            // TODO: Deze krijgt niet de juiste compile exception, 2e argument heeft niet meer het juiste type "not callable"
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            compileProgram(files[4] + ".ham", files[4] + ".hs");
+        } catch (CompileException e) {
+            // Expect a compile exception: Type error: left expression is of type bool whereas right is of type int
+            String error = e.getMessage().substring(102);
+            String shouldBe = new String("Type error: left expression is of type bool whereas right is of type int");
+            System.out.println("Exception thrown: "+error);
+            System.out.println("Expected: "+shouldBe);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -183,12 +188,12 @@ public class contextualTest {
      */
     @Test
     public void testWrongAmountArgumentsFunction() {
-//        try {
-//            //compileProgram(files[7]+".ham", files[7] + ".hs");
-//            //TODO: Deze krijgt niet de juiste compile exception, "Type int is not callable"
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            compileProgram(files[7]+".ham", files[7] + ".hs");
+            //TODO: Deze krijgt niet de juiste compile exception, "Type int is not callable"
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -198,12 +203,11 @@ public class contextualTest {
      */
     @Test
     public void testWrongTypedArgumentsFunction() {
-//        try {
-//            compileProgram(files[8]+".ham", files[8] + ".hs");
-        //TODO: Deze krijgt ook niet de juiste compile exception, "Type int is not callable"
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            compileProgram(files[8]+".ham", files[8] + ".hs");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -213,12 +217,11 @@ public class contextualTest {
      */
     @Test
     public void testCorrectAssignmentFunction() {
-//        try {
-//            compileProgram(files[10]+".ham", files[10] + ".hs");
-        // Hetzelfde issue als alle andere, currying werkt nog niet TODO: Fix currying, fix everything
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            compileProgram(files[10]+".ham", files[10] + ".hs");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -321,14 +324,13 @@ public class contextualTest {
      * "Correct" test case
      */
     @Test
-    public void testAndFunctions() {
-//        try {
-//            compileProgram(files[16] + ".ham", files[16] + ".hs");
-//            // TODO: Go fix, gaat stuk als functie geen argumenten krijgt, door aanname in FunStatement dat arguments niet leeg is
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//
-//        }
+    public void testAndBooleanFunctions() {
+        try {
+            compileProgram(files[19] + ".ham", files[19] + ".hs");
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
     }
 
     /**
@@ -375,14 +377,14 @@ public class contextualTest {
      */
     @Test
     public void testNoArgumentsGivenFunction() {
-//        try {
-//            compileProgram(files[20] + ".ham", files[20] + ".hs");
-        // Should catch CompileException, TODO: Function gaat stuk indien geen argumenten gegeven die wel verwacht zijn
-        // Het gaat niet echt stuk, maar het geeft wel een verkeerde error (namelijk n type error
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//
-//        }
+        try {
+            compileProgram(files[20] + ".ham", files[20] + ".hs");
+//         Should catch CompileException, TODO: Function gaat stuk indien geen argumenten gegeven die wel verwacht zijn
+//         Het gaat niet echt stuk, maar het geeft wel een verkeerde error (namelijk n type error
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
     }
 
     /**
@@ -396,7 +398,7 @@ public class contextualTest {
             compileProgram(files[21] + ".ham", files[21] + ".hs");
         } catch (CompileException e) {
             //Dit hoort net als bij alle andere dingen een andere foutmelding te geven, zal gefixt zijn als currying werkt
-            // TODO: IndexOutOfBoundsException als je te veel argumenten aan function geeft
+            // TODO: Gaat niet stuk terwijl dit wel hoort te gebeuren!
         } catch (IOException e) {
             e.printStackTrace();
 

@@ -92,7 +92,7 @@ public class DotExpression extends Expression {
     @Override
     public Type getType() {
         if(expr.getType() instanceof ClassType) {
-            return ((ClassStatement) expr.getType().getImplementation()).findSymbol(property).getType();
+            return ((ClassStatement) findType(expr.getType().getName()).getImplementation()).findSymbol(property).getType();
         } else {
             throw new CompileException(this, "Cannot get a property of type " + expr.getType());
         }
