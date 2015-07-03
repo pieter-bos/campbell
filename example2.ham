@@ -1,0 +1,10 @@
+fun int add(int a, int b)
+    return a + b
+
+int a
+int b
+int result
+
+a = 123
+b = 456
+result = add(a, b)

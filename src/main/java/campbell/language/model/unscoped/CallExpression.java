@@ -118,7 +118,7 @@ public class CallExpression extends Expression {
             if(currentType instanceof FunctionType) {
                 currentType = ((FunctionType) currentType).getReturnType();
             } else {
-                throw new CompileException(this, "Type " + currentType.getName() + " is not callable.");
+                throw new CompileException(arguments.get(i), "Type " + currentType.getName() + " is not callable.");
             }
         }
 

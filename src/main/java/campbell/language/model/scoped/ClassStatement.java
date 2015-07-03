@@ -105,6 +105,10 @@ public class ClassStatement extends Scope {
             result.findDefinitions();
             result.findImpls();
 
+            for(Statement stat : statements) {
+                stat.checkType();
+            }
+
             for(Statement stat : result.statements) {
                 if(stat instanceof DeclStatement) {
                     result.struct.addVariable(new Variable(((DeclStatement) stat).getName()));
@@ -267,15 +271,6 @@ public class ClassStatement extends Scope {
      */
     @Override
     public void checkType() {
-        // TODO: Check the type of the class
-        for (Type t : this.type.getParametricTypes()) {
-            if (t instanceof GenericType) {
-                System.out.printf("Generic type in Class found");
-            } else if (statements != null) {
-                for (Statement stat : statements) {
-                    stat.checkType();
-                }
-            }
-        }
+        // nop
     }
 }

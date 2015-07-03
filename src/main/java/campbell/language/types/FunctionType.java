@@ -20,10 +20,10 @@ public class FunctionType extends Type {
     }
 
     /**
-     * Returns the name of function type
-     * @return
+     * Returns the name of function type.
+     * Method should be unused.
+     * @return null
      */
-    //TODO: Should this be filled in?
     @Override
     public String getName() {
         return null;

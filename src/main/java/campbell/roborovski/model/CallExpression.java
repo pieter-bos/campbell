@@ -35,7 +35,7 @@ public class CallExpression extends Expression {
             }
 
             callee.compile(emitter, block);
-            emitter.pop(SprockellRegister.a); // curried frame pointer
+            emitter.pop(SprockellRegister.a, "Curried Call"); // curried frame pointer
             emitter.load(SprockellRegister.a, SprockellRegister.b); // number of saved arguments
             emitter.emitConst(2 + arguments.size(), SprockellRegister.c);
             emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.c, SprockellRegister.b); // size of new curried frame
@@ -108,7 +108,7 @@ public class CallExpression extends Expression {
             }
 
             callee.compile(emitter, block);
-            emitter.pop(SprockellRegister.a); // curried frame pointer
+            emitter.pop(SprockellRegister.a, "Actual call"); // curried frame pointer
             emitter.load(SprockellRegister.a, SprockellRegister.b); // number of saved arguments
             emitter.emitConst(3 + arguments.size(), SprockellRegister.c);
             emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.c, SprockellRegister.b); // size of function frame
@@ -173,7 +173,8 @@ public class CallExpression extends Expression {
             emitter.pop(SprockellRegister.sp);
             emitter.emitConst(1, SprockellRegister.e);
             emitter.compute(SprockellCompute.Add, SprockellRegister.e, SprockellRegister.d, SprockellRegister.d);
-            emitter.load(SprockellRegister.d, SprockellRegister.pc);
+            emitter.load(SprockellRegister.d, SprockellRegister.d);
+            emitter.jump(SprockellRegister.d);
 
             // Push the result of the function, return location.
             emitter.push(SprockellRegister.a);
@@ -186,7 +187,7 @@ public class CallExpression extends Expression {
     public void setOffset(int offset) {
         this.offset = offset;
 
-        int current = offset + 3;
+        int current = offset;
 
         for(Expression arg : arguments) {
             arg.setOffset(current);
@@ -201,20 +202,25 @@ public class CallExpression extends Expression {
         if(curried) {
             return 34 + arguments.size() * 4 + arguments.stream().mapToInt(Expression::getSize).sum() + callee.getSize();
         } else {
-            return 42 + arguments.size() * 4 + arguments.stream().mapToInt(Expression::getSize).sum() + callee.getSize();
+            return 43 + arguments.size() * 4 + arguments.stream().mapToInt(Expression::getSize).sum() + callee.getSize();
         }
     }
 
     @Override
     public int calcSpill() {
-        int result = callee.calcSpill();
-        int saved = 1;
+        int result = 1;
+
+        int saved = 0;
 
         for(Expression arg : arguments) {
+            arg.stackOffset = stackOffset + saved;
             result = Math.max(result, saved + arg.calcSpill());
             saved++;
         }
 
-        return Math.max(1, result);
+        result = Math.max(result, saved + callee.calcSpill());
+        callee.stackOffset = stackOffset + saved;
+
+        return result;
     }
 }

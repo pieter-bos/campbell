@@ -12,6 +12,11 @@ public abstract class Statement {
 
     public void start(SprockellEmitter emitter) {
         start = emitter.getLoc();
+
+        if(start != getOffset()) {
+            System.err.println("Offset is not the start: Expected = " + getOffset() + ", Actual = " + start + "\n" + this.toString());
+        }
+
     }
 
     public void end(SprockellEmitter emitter) {

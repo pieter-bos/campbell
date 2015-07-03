@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Program extends Block {
-    public static final int NEW = 65536;
+    public static final int NEW = 0;
 
     private List<Function> functions = new LinkedList<>();
     private List<Struct> structs = new LinkedList<>();
@@ -43,7 +43,7 @@ public class Program extends Block {
         calcOffsets();
 
         // Calculate code offsets recursively
-        setOffset(0);
+        setOffset(1);
 
         start(emitter);
 
@@ -69,7 +69,7 @@ public class Program extends Block {
 
     @Override
     public void setOffset(int offset) {
-        int current = offset + 1;
+        int current = offset + 3;
 
         for(Function function : functions) {
             function.setOffset(current);

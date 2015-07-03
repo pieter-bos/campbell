@@ -52,10 +52,14 @@ public class Block extends Statement {
 
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        emitter.load(Program.NEW, SprockellRegister.a);
+        emitter.emitConst(size + 1 + calcSpill(), SprockellRegister.b);
+        emitter.compute(SprockellCompute.Add, SprockellRegister.a, SprockellRegister.b, SprockellRegister.b);
+        emitter.store(SprockellRegister.b, Program.NEW);
         emitter.push(SprockellRegister.sp);
         emitter.pop(SprockellRegister.b);
-        emitter.emitConst(size + 1 + calcSpill(), SprockellRegister.a);
-        emitter.compute(SprockellCompute.Sub, SprockellRegister.sp, SprockellRegister.a, SprockellRegister.sp, ">>> ENTER SCOPE");
+        emitter.emitConst(calcSpill(), SprockellRegister.c);
+        emitter.compute(SprockellCompute.Add, SprockellRegister.a, SprockellRegister.c, SprockellRegister.sp, ">>> ENTER SCOPE");
         emitter.store(SprockellRegister.b, SprockellRegister.sp);
 
         for(Statement stat : statements) {
@@ -66,15 +70,14 @@ public class Block extends Statement {
             }
         }
 
-        emitter.emitConst(size + 1 + calcSpill(), SprockellRegister.a);
-        emitter.compute(SprockellCompute.Add, SprockellRegister.sp, SprockellRegister.a, SprockellRegister.sp, "<<< EXIT SCOPE");
+        emitter.load(SprockellRegister.sp, SprockellRegister.sp);
     }
 
     @Override
     public void setOffset(int offset) {
         this.offset = offset;
 
-        int current = offset + 5;
+        int current = offset + 9;
 
         for(Statement stat : statements) {
             stat.setOffset(current);
@@ -99,7 +102,7 @@ public class Block extends Statement {
             }
         }
 
-        return size + 7;
+        return size + 10;
     }
 
     @Override
@@ -110,7 +113,7 @@ public class Block extends Statement {
             max = Math.max(max, stat.calcSpill());
         }
 
-        return max;
+        return Math.max(max, 1);
     }
 
     public int getVarStackSize() {

@@ -61,6 +61,7 @@ public class DotExpression extends Expression {
 
     @Override
     public int calcSpill() {
+        expr.stackOffset = stackOffset;
         return Math.max(expr.calcSpill(), 1);
     }
 }

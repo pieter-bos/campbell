@@ -1,5 +1,6 @@
 package campbell.language.model.unscoped;
 
+import campbell.language.model.CompileException;
 import campbell.language.model.NotImplementedException;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
@@ -168,8 +169,8 @@ public class DeclStatement extends Statement implements Symbol {
      */
     @Override
     public void checkType() {
-        if (type instanceof ClassType && type.getImplementation() == null && !(type instanceof GenericType)) {
-            throw new NotImplementedException("Class of "+getName()+" is not implemented");
+        if (type instanceof ClassType && type.getImplementation() == null) {
+            throw new CompileException(this, "Class of " + getName() + " is not implemented.");
         }
     }
 }

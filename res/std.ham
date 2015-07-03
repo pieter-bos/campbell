@@ -1,2 +1,2 @@
-fun void nop
-    return 0
+fun void nop()
+    int blaat

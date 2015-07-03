@@ -54,7 +54,7 @@ public class SprockellEmitter {
     }
 
     public void branchRelative(SprockellRegister cond, int jump, String... comments) throws IOException {
-        emit("Branch", comments, cond, "(Rel " + jump + ")");
+        emit("Branch", comments, cond, "(Rel (" + jump + "))");
     }
 
     public void branch(SprockellRegister cond, SprockellRegister reg, String... comments) throws IOException {
@@ -66,7 +66,7 @@ public class SprockellEmitter {
     }
 
     public void jumpRelative(int jump, String... comments) throws IOException {
-        emit("Jump", comments, "(Rel " + jump + ")");
+        emit("Jump", comments, "(Rel (" + jump + "))");
     }
 
     public void jump(SprockellRegister reg, String... comments) throws IOException {

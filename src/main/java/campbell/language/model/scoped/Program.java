@@ -81,7 +81,7 @@ public class Program extends Scope {
      */
     public static void main(String[] args) throws IOException {
         Program std = parseFrom(ClassLoader.getSystemResourceAsStream("std.ham"));
-        Program p = parseFrom(new FileInputStream("/home/pieter/programming/haskell/campbell/example.ham"));
+        Program p = parseFrom(new FileInputStream("/home/pieter/programming/haskell/campbell/example2.ham"));
         p = p.merge(std);
         p.setScope(null);
         p.findDefinitions();
@@ -91,7 +91,7 @@ public class Program extends Scope {
         System.out.println(p);
 
         campbell.roborovski.model.Program program = p.toRoborovski();
-        program.compile(new SprockellEmitter(new FileWriter("/home/sophie/Downloads/Campbell/campbell/badExample.hs")));
+        program.compile(new SprockellEmitter(new FileWriter("/home/pieter/programming/haskell/campbell/example2.hs")));
     }
 
     /**

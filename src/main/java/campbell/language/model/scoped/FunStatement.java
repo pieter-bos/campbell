@@ -8,7 +8,9 @@ import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
 import campbell.roborovski.model.Function;
 import campbell.roborovski.model.Program;
+import util.ListTools;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -242,11 +244,21 @@ public class FunStatement extends Scope implements Symbol {
     }
 
     /**
-     * Returns the type of this function (which is always null at the moment)
+     * Returns the type of this function
      */
     @Override
     public Type getType() {
-        return new FunctionType(returnType, arguments.size() > 0 ? arguments.get(0).getType() : new VoidType());
+        if(arguments.size() == 0) {
+            return new FunctionType(returnType, new VoidType());
+        } else {
+            Type currentType = returnType;
+
+            for(DeclStatement arg : ListTools.reversed(arguments)) {
+                currentType = new FunctionType(currentType, arg.getType());
+            }
+
+            return currentType;
+        }
     }
 
     /**
@@ -274,5 +286,9 @@ public class FunStatement extends Scope implements Symbol {
                 stat.checkType();
             }
         }
+    }
+
+    public Type getReturnType() {
+        return returnType;
     }
 }
