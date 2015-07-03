@@ -1,0 +1,8 @@
+fun int try(int i)
+    int j
+    j = 0
+    int k
+    k = i / j
+    return k
+
+try(123456789)

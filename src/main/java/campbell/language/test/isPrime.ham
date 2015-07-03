@@ -33,7 +33,7 @@ fun bool isPrime(int n)
         return true
 
 int n
-n = 304371057102
+n = 65521
 
 if isPrime(n)
     writeNum(1)

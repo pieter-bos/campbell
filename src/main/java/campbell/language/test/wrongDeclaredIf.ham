@@ -1,3 +1,3 @@
-iff (true)
+iff true
     int a
     a = 1

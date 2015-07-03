@@ -67,4 +67,14 @@ fun int nest(int n)
         return nest3(n + 3)
     return nest2(n * 5)
 
+class Adder<T>
+    fun void init()
+        int blaat
+
+    fun int add(T x)
+        return x + 137
+
 primes(100)
+Adder<int> add
+int k
+k = add.add(2)

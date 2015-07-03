@@ -14,15 +14,15 @@ import static campbell.language.model.scoped.Program.parseFrom;
  */
 public class syntaxTest {
 
-    String[] files = {"wrongDeclaredFunction.ham", "wrongDeclaredFunction.hs",
-                    "wrongDeclaredIf.ham", "wrongDeclaredIf.hs",
-                    "wrongDeclaredClass.ham","wrongDeclaredClass.hs",
-                    "wrongArgumentsClass.ham","wrongArgumentsClass.hs",
-                    "example.ham", "example.hs"};
+    String[] files = {"wrongDeclaredFunction.ham", "src/main/java/campbell/language/test/wrongDeclaredFunction.hs",
+                    "wrongDeclaredIf.ham", "src/main/java/campbell/language/test/wrongDeclaredIf.hs",
+                    "wrongDeclaredClass.ham","src/main/java/campbell/language/test/wrongDeclaredClass.hs",
+                    "wrongArgumentsClass.ham","src/main/java/campbell/language/test/wrongArgumentsClass.hs",
+                    "example.ham", "src/main/java/campbell/language/test/example.hs"};
 
     /**
      * Method that compiles a program from a given input to a given output
-     * @param input - .ham file (path) to be compiled
+     * @param input - .ham file to be compiled
      * @param output - .hs file (path) to be made
      * @throws IOException
      */
@@ -31,9 +31,6 @@ public class syntaxTest {
         p.setScope(null);
         p.findDefinitions();
         p.findImpls();
-        p.checkType();
-
-        System.out.println(p);
     }
 
     /**
@@ -102,6 +99,7 @@ public class syntaxTest {
         }
     }
 
+    //TODO: Verplaats deze test case naar contextual tests
     /**
      * Test case where argument of class is spelled wrong, it therefore sees it as a generic argument
      *
@@ -115,10 +113,9 @@ public class syntaxTest {
         } catch (NotImplementedException e) {
             // Expected NotImplementedException: Does not recognize type of argument as it is typed incorrectly
             // Thus it expects a class to be defined with this type
-            //TODO: Te weinig argumenten aan n class geven geeft een nullpointer
             //TODO: Te veel argumenten aan n class geven gaat goed
             String error = e.getMessage();
-            String shouldBe = new String("Class of add is not implemented");
+            String shouldBe = new String("There is no implementation of the rule class x");
             System.out.println("Exception thrown: "+error);
             System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {

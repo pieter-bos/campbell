@@ -1,13 +1,14 @@
 package campbell.language.test;
 
 import campbell.language.model.CompileException;
+import campbell.language.model.NotImplementedException;
 import campbell.language.model.scoped.Program;
 import org.junit.Test;
 import sprockell.SprockellEmitter;
 
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 
 import static campbell.language.model.scoped.Program.parseFrom;
 
@@ -19,37 +20,36 @@ public class contextualTest {
     /**
      * Files for different test cases
      */
-    String[] files = {"/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/correctAssignmentDeclaration",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/declaredTypeAfterAssign",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/declaredTypeScopeAbove",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/declaredTypeScopeWithin",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongTypeAssigned",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/correctFunction",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongReturnTypeFunction",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongAmountArgumentsFunction",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongTypedArgumentsFunction",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/wrongAssignmentWithFunction",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/correctAssignmentWithFunction",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/addIntBool",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/andIntBool",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/andBools",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/andInts",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/addInts",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/andFunctions",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/addIntFunctions",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/addBooleans",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/andBooleanFunctions",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/noArgumentsGivenFunction",
-            "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/unneededArgumentsGivenFunction"};
+    String[] files = {"correctAssignmentDeclaration.ham", "src/main/java/campbell/language/test/correctAssignmentDeclaration.hs",
+                        "declaredTypeAfterAssign.ham", "src/main/java/campbell/language/test/declaredTypeAfterAssign.hs",
+                        "declaredTypeScopeAbove.ham", "src/main/java/campbell/language/test/declaredTypeScopeAbove.hs",
+                        "declaredTypeScopeWithin.ham", "src/main/java/campbell/language/test/declaredTypeScopeWithin.hs",
+                        "wrongTypeAssigned.ham", "src/main/java/campbell/language/test/wrongTypeAssigned.hs",
+                        "correctFunction.ham", "src/main/java/campbell/language/test/correctFunction.hs",
+                        "wrongReturnTypeAssigned.ham", "src/main/java/campbell/language/test/wrongReturnTypeAssigned.hs",
+                        "wrongAmountArgumentsFunction.ham", "src/main/java/campbell/language/test/wrongAmountArgumentsFunction.hs",
+                        "wrongTypedArgumentsFunction.ham", "src/main/java/campbell/language/test/wrongTypedArgumentsFunction.hs",
+                        "correctAssignmentWithFunction.ham", "src/main/java/campbell/language/test/correctAssignmentWithFunction.hs",
+                        "addIntBool.ham", "src/main/java/campbell/language/test/addIntBool.hs",
+                        "andIntBool.ham", "src/main/java/campbell/language/test/andIntBool.hs",
+                        "andBools.ham", "src/main/java/campbell/language/test/andBools.hs",
+                        "andInts.ham", "src/main/java/campbell/language/test/andInts.hs",
+                        "addInts.ham", "src/main/java/campbell/language/test/addInts.hs",
+                        "andFunctions.ham", "src/main/java/campbell/language/test/andFunctions.hs",
+                        "addIntFunctions.ham", "src/main/java/campbell/language/test/addIntFunctions.hs",
+                        "addBooleans.ham", "src/main/java/campbell/language/test/addBooleans.hs",
+                        "noArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/noArgumentsGivenFunction.hs",
+                        "unneededArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/unneededArgumentsGivenFunction.hs",
+                        "wrongArgumentsClass.ham","src/main/java/campbell/language/test/wrongArgumentsClass.hs"};
 
     /**
      * Method that compiles a program from a given input to a given output
-     * @param input - .ham file (path) to be compiled
+     * @param input - .ham file to be compiled
      * @param output - .hs file (path) to be made
      * @throws IOException
      */
-    public static void compileProgram(String input, String output) throws IOException {
-        Program p = parseFrom(new FileInputStream(input));
+    public static void compileProgram(URL input, String output) throws IOException {
+        Program p = parseFrom(input.openStream());
         p.setScope(null);
         p.findDefinitions();
         p.findImpls();
@@ -62,12 +62,21 @@ public class contextualTest {
     }
 
     /**
+     * Returns a URL for a given file located in the same package as this class
+     * @param file
+     * @return
+     */
+    public URL getURL(String file) {
+        return this.getClass().getResource(file);
+    }
+
+    /**
      * Correct test case for assignments
      */
     @Test
     public void testCorrectAssignment() {
         try {
-            compileProgram(files[0] + ".ham", files[0] + ".hs");
+            compileProgram(getURL(files[0]), files[1]);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,7 +90,7 @@ public class contextualTest {
     @Test
     public void testDeclarationAfterAssignment() {
         try {
-            compileProgram(files[1] + ".ham", files[1] + ".hs");
+            compileProgram(getURL(files[2]), files[3]);
         } catch (CompileException e) {
             // Expect a compile exception: Undeclared variable i used
             String error = e.getMessage().substring(95);
@@ -101,7 +110,7 @@ public class contextualTest {
     @Test
     public void testDeclarationScopeAbove() {
         try {
-            compileProgram(files[2] + ".ham", files[2] + ".hs");
+            compileProgram(getURL(files[4]), files[5]);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,7 +124,7 @@ public class contextualTest {
     @Test
     public void testDeclarationScopeWithin() {
         try {
-            compileProgram(files[3] + ".ham", files[3] + ".hs");
+            compileProgram(getURL(files[6]), files[7]);
         } catch (CompileException e) {
             // Expect a compile exception: No definition of i can be found
             String error = e.getMessage().substring(90);
@@ -135,7 +144,7 @@ public class contextualTest {
     @Test
     public void testWrongTypedAssignment() {
         try {
-            compileProgram(files[4] + ".ham", files[4] + ".hs");
+            compileProgram(getURL(files[8]), files[9]);
         } catch (CompileException e) {
             // Expect a compile exception: Type error: left expression is of type bool whereas right is of type int
             String error = e.getMessage().substring(102);
@@ -155,7 +164,7 @@ public class contextualTest {
     @Test
     public void testCorrectFunction() {
         try {
-            compileProgram(files[5] + ".ham", files[5] + ".hs");
+            compileProgram(getURL(files[10]), files[11]);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -169,7 +178,7 @@ public class contextualTest {
     @Test
     public void testWrongReturnTypeFunction() {
         try {
-            compileProgram(files[6] + ".ham", files[6] + ".hs");
+            compileProgram(getURL(files[12]), files[13]);
         } catch (CompileException e) {
             // Expected compile exception: Type of return expression (bool) does not correspond to the function's contract (int)
             String error = e.getMessage().substring(90);
@@ -182,14 +191,14 @@ public class contextualTest {
     }
 
     /**
-     * Test case where function gets too much arguments
+     * Test case where function gets too many arguments
      *
      * "Wrong" test case
      */
     @Test
     public void testWrongAmountArgumentsFunction() {
         try {
-            compileProgram(files[7]+".ham", files[7] + ".hs");
+            compileProgram(getURL(files[14]), files[15]);
             //TODO: Deze krijgt niet de juiste compile exception, "Type int is not callable"
         } catch (IOException e) {
             e.printStackTrace();
@@ -204,7 +213,8 @@ public class contextualTest {
     @Test
     public void testWrongTypedArgumentsFunction() {
         try {
-            compileProgram(files[8]+".ham", files[8] + ".hs");
+            compileProgram(getURL(files[16]), files[17]);
+            //TODO: Deze test case gaat stuk
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -218,7 +228,7 @@ public class contextualTest {
     @Test
     public void testCorrectAssignmentFunction() {
         try {
-            compileProgram(files[10]+".ham", files[10] + ".hs");
+            compileProgram(getURL(files[18]), files[19]);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -232,7 +242,7 @@ public class contextualTest {
     @Test
     public void testAddingIntBool() {
         try {
-            compileProgram(files[11] + ".ham", files[11] + ".hs");
+            compileProgram(getURL(files[20]), files[21]);
         } catch (CompileException e) {
             // Expected compile exception: Incorrect type in expression: (i + j)
             String error = e.getMessage().substring(89);
@@ -253,7 +263,7 @@ public class contextualTest {
     @Test
     public void testAndIntBool() {
         try {
-            compileProgram(files[12] + ".ham", files[12] + ".hs");
+            compileProgram(getURL(files[22]), files[23]);
         } catch (CompileException e) {
             // Expected compile exception: Incorrect type in expression: (i & j)
             String error = e.getMessage().substring(89);
@@ -274,7 +284,7 @@ public class contextualTest {
     @Test
     public void testAndBools() {
         try {
-            compileProgram(files[13] + ".ham", files[13] + ".hs");
+            compileProgram(getURL(files[24]), files[25]);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -289,7 +299,7 @@ public class contextualTest {
     @Test
     public void testAndInts() {
         try {
-            compileProgram(files[14] + ".ham", files[14] + ".hs");
+            compileProgram(getURL(files[26]), files[27]);
         } catch (CompileException e) {
             // Expected compile exception: Incorrect type in expression: (i & j)
             String error = e.getMessage().substring(89);
@@ -310,7 +320,7 @@ public class contextualTest {
     @Test
     public void testAddInts() {
         try {
-            compileProgram(files[15] + ".ham", files[15] + ".hs");
+            compileProgram(getURL(files[28]), files[29]);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -326,7 +336,7 @@ public class contextualTest {
     @Test
     public void testAndBooleanFunctions() {
         try {
-            compileProgram(files[19] + ".ham", files[19] + ".hs");
+            compileProgram(getURL(files[30]), files[31]);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -342,7 +352,7 @@ public class contextualTest {
     @Test
     public void testAddIntFunctions() {
         try {
-            compileProgram(files[17] + ".ham", files[17] + ".hs");
+            compileProgram(getURL(files[32]), files[33]);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -357,7 +367,7 @@ public class contextualTest {
     @Test
     public void testAddBooleans() {
         try {
-            compileProgram(files[18] + ".ham", files[18] + ".hs");
+            compileProgram(getURL(files[34]), files[35]);
         } catch (CompileException e) {
             // Expected compile exception : Cannot apply this operator to the given arguments: a, b
             String error = e.getMessage().substring(89);
@@ -378,7 +388,8 @@ public class contextualTest {
     @Test
     public void testNoArgumentsGivenFunction() {
         try {
-            compileProgram(files[20] + ".ham", files[20] + ".hs");
+            System.out.printf(files[36]);
+            compileProgram(getURL(files[36]), files[37]);
 //         Should catch CompileException, TODO: Function gaat stuk indien geen argumenten gegeven die wel verwacht zijn
 //         Het gaat niet echt stuk, maar het geeft wel een verkeerde error (namelijk n type error
         } catch (IOException e) {
@@ -395,10 +406,35 @@ public class contextualTest {
     @Test
     public void testUnneededArgumentsFunction() {
         try {
-            compileProgram(files[21] + ".ham", files[21] + ".hs");
+            compileProgram(getURL(files[38]), files[39]);
         } catch (CompileException e) {
             //Dit hoort net als bij alle andere dingen een andere foutmelding te geven, zal gefixt zijn als currying werkt
             // TODO: Gaat niet stuk terwijl dit wel hoort te gebeuren!
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+
+    /**
+     * Test case where argument of class is spelled wrong, it therefore sees it as a generic argument
+     *
+     * "Wrong" test case
+     */
+    @Test
+    public void testWrongArgumentsClass() {
+        try {
+            System.out.println(files[40]);
+            compileProgram(getURL(files[40]), files[41]);
+        } catch (NotImplementedException e) {
+            // Expected NotImplementedException: Does not recognize type of argument as it is typed incorrectly
+            // Thus it expects a class to be defined with this type
+            //TODO: Te veel argumenten aan n class geven gaat goed
+            String error = e.getMessage();
+            String shouldBe = new String("Class of add is not implemented");
+            System.out.println("Exception thrown: "+error);
+            System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
