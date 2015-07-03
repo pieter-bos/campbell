@@ -90,6 +90,7 @@ public class Program extends Block {
         // Initialize heap
         emitter.emitConst(NEW + 1, SprockellRegister.a);
         emitter.store(SprockellRegister.a, NEW);
+        emitter.emitConst(0, SprockellRegister.sp);
 
         // Jump to start of program
         emitter.jumpAbsolute(getOffset());
@@ -113,7 +114,7 @@ public class Program extends Block {
      */
     @Override
     public void setOffset(int offset) {
-        int current = offset + 3;
+        int current = offset + 4;
 
         for(Function function : functions) {
             function.setOffset(current);
@@ -131,7 +132,7 @@ public class Program extends Block {
      */
     @Override
     public int getSize() {
-        int size = 3;
+        int size = 4;
 
         for(Function function : functions) {
             size += function.getSize();

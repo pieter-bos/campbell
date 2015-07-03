@@ -1,5 +1,7 @@
 package campbell.language.types;
 
+import java.util.List;
+
 /**
  * Type for functions
  */
@@ -8,15 +10,17 @@ public class FunctionType extends Type {
      * Type of what should be returned by the function
      */
     private Type returnType;
+    private List<? extends Type> arguments;
 
     /**
      * Type of the argument of this function type
      */
     private Type argument;
+    private boolean terminal;
 
-    public FunctionType(Type returnType, Type argument) {
+    public FunctionType(Type returnType, List<? extends Type> arguments) {
         this.returnType = returnType;
-        this.argument = argument;
+        this.arguments = arguments;
     }
 
     /**
@@ -74,5 +78,14 @@ public class FunctionType extends Type {
     @Override
     public boolean equals(Object other) {
         return other instanceof FunctionType && returnType.equals(((FunctionType) other).returnType) && argument.equals(((FunctionType) other).argument);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + argument + " -> " + returnType + ")";
+    }
+
+    public List<? extends Type> getArguments() {
+        return arguments;
     }
 }

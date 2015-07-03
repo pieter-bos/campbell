@@ -1,13 +1,13 @@
-int x
-int y
+fun (int -> int -> int) dynamicOperation(int op)
+    fun int add(int x, int y)
+        return x + y
 
-x = 4
+    fun int mul(int x, int y)
+        return x * y
 
-fun int addx(int i)
-    if i == 0
-        return 0
+    if op == 0
+        return add
     else
-        return addx(i - 1) + x
+        return mul
 
-int result
-result = addx(10)
+dynamicOperation(1)(5, 6)

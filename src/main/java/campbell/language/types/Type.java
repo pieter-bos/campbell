@@ -1,10 +1,14 @@
 package campbell.language.types;
 
 import campbell.language.model.Node;
+import campbell.language.model.NotImplementedException;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.Function;
+import util.ListTools;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Type is an enveloping abstract class for all types
@@ -20,7 +24,7 @@ public abstract class Type {
      * @param classNameContext
      * @return
      */
-    public static Type fromContext(CampbellParser.ClassNameContext classNameContext) {
+    public static Type fromContext(CampbellParser.ClassNameClassContext classNameContext) {
         String id = classNameContext.IDENTIFIER().getText();
 
         if(classNameContext.className().size() == 0) {
@@ -32,6 +36,15 @@ public abstract class Type {
         } else {
             return new ClassType(id, fromContexts(classNameContext.className()));
         }
+    }
+
+    public static Type fromContext(CampbellParser.ClassNameFuncContext funcContext) {
+        List<Type> types = funcContext.className().stream().map(Type::fromContext).collect(Collectors.toList());
+
+        List<Type> arguments = types.subList(0, types.size() - 1);
+        Type returnType = types.get(types.size() - 1);
+
+        return new FunctionType(returnType, arguments);
     }
 
     /**
@@ -47,6 +60,16 @@ public abstract class Type {
         }
 
         return result;
+    }
+
+    public static Type fromContext(CampbellParser.ClassNameContext ctx) {
+        if(ctx instanceof CampbellParser.ClassNameClassContext) {
+            return fromContext((CampbellParser.ClassNameClassContext) ctx);
+        } else if(ctx instanceof CampbellParser.ClassNameFuncContext) {
+            return fromContext((CampbellParser.ClassNameFuncContext) ctx);
+        }
+
+        throw new NotImplementedException(ctx);
     }
 
     /**

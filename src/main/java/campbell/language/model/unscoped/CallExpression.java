@@ -7,6 +7,7 @@ import campbell.language.model.scoped.Scope;
 import campbell.language.types.FunctionType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
+import campbell.roborovski.model.Function;
 import campbell.roborovski.model.FunctionExpression;
 import campbell.roborovski.model.Program;
 
@@ -112,17 +113,27 @@ public class CallExpression extends Expression {
      */
     @Override
     public Type getType() {
-        Type currentType = callee.getType();
+        if(callee instanceof IdentifierExpression
+                && findSymbol(((IdentifierExpression) callee).getId()) == null
+                && findType(((IdentifierExpression) callee).getId()) != null) {
+            return findType(((IdentifierExpression) callee).getId());
+        } else {
+            Type currentType = callee.getType();
 
-        for(int i = 0; i < arguments.size(); i++) {
-            if(currentType instanceof FunctionType) {
-                currentType = ((FunctionType) currentType).getReturnType();
+            if(!(currentType instanceof FunctionType)) {
+                throw new CompileException(this, "Type " + currentType + " is not callable");
+            }
+
+            if(arguments.size() > ((FunctionType) currentType).getArguments().size()) {
+                throw new CompileException(this, "Called function takes up to " + ((FunctionType) currentType).getArguments().size() + " arguments, but " + arguments.size() + " were given.");
+            }
+
+            if(arguments.size() < ((FunctionType) currentType).getArguments().size()) {
+                return new FunctionType(((FunctionType) currentType).getReturnType(), ((FunctionType) currentType).getArguments().subList(arguments.size(), ((FunctionType) currentType).getArguments().size()));
             } else {
-                throw new CompileException(arguments.get(i), "Type " + currentType.getName() + " is not callable.");
+                return ((FunctionType) currentType).getReturnType();
             }
         }
-
-        return currentType;
     }
 
     /**
@@ -138,15 +149,14 @@ public class CallExpression extends Expression {
             args.add(e.toRoborovski(program));
         }
 
-        boolean curried = getType() instanceof FunctionType;
-
-        if(callee instanceof IdentifierExpression
-                && findSymbol(((IdentifierExpression) callee).getId()) == null
-                && findType(((IdentifierExpression) callee).getId()) != null) {
-            ClassStatement type = (ClassStatement) findType(((IdentifierExpression) callee).getId()).getImplementation();
-            return new campbell.roborovski.model.CallExpression(curried, new FunctionExpression(((FunStatement) type.getImplementation(Collections.emptyList(), program).findSymbol("#construct")).getFunction()), args);
+        if(this.callee instanceof IdentifierExpression
+                && findSymbol(((IdentifierExpression) this.callee).getId()) == null
+                && findType(((IdentifierExpression) this.callee).getId()) != null) {
+            ClassStatement type = (ClassStatement) findType(((IdentifierExpression) this.callee).getId()).getImplementation();
+            FunStatement func = ((FunStatement) type.getImplementation(Collections.emptyList(), program).findSymbol("#construct"));
+            return new campbell.roborovski.model.CallExpression(arguments.size() < func.getArguments().size(), callee.toRoborovski(program), args);
         } else {
-            return new campbell.roborovski.model.CallExpression(curried, callee.toRoborovski(program), args);
+            return new campbell.roborovski.model.CallExpression(arguments.size() < ((FunctionType) callee.getType()).getArguments().size(), callee.toRoborovski(program), args);
         }
     }
 

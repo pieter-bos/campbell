@@ -57,6 +57,13 @@ public class ClassStatement extends Scope {
 
         if(type instanceof ClassType) {
             ClassStatement stat = new ClassStatement((ClassType) type, Statement.fromContexts(classNodeContext.block().statement()));
+
+            for(Statement s : stat.statements) {
+                if(s instanceof FunStatement) {
+                    ((FunStatement) s).getArguments().add(0, new DeclStatement(stat.getType(), "this"));
+                }
+            }
+
             type.setImplementation(stat);
             return at(classNodeContext.getStart(), stat);
         } else {
@@ -95,12 +102,6 @@ public class ClassStatement extends Scope {
             result.struct = new Struct();
             program.addStruct(result.struct);
 
-            for(Statement stat : result.statements) {
-                if(stat instanceof FunStatement) {
-                    ((FunStatement) stat).getArguments().add(new DeclStatement(result.getType(), "this"));
-                }
-            }
-
             result.setScope(getScope());
             result.findDefinitions();
             result.findImpls();
@@ -130,7 +131,7 @@ public class ClassStatement extends Scope {
                 Arrays.asList(
                     new DeclStatement(result.getType(), "#this"),
                     new AssignStatement(new IdentifierExpression("#this"),
-                            new CallExpression(new DotExpression(new IdentifierExpression("mem"), "alloc"), Arrays.asList(new IntLiteralExpression(result.getStruct().getSize() + "")))),
+                            new CallExpression(new IdentifierExpression("alloc"), Arrays.asList(new IntLiteralExpression(result.getStruct().getSize() + "")))),
                     new CallExpression(new DotExpression(new IdentifierExpression("#this"), "init"),
                             ((FunStatement) constructor).getArguments().stream().skip(1).map(decl -> new IdentifierExpression(decl.getName())).collect(Collectors.toList())),
                     new ReturnStatement(new IdentifierExpression("#this"))

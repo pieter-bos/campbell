@@ -471,15 +471,29 @@ public interface CampbellListener extends ParseTreeListener {
 	 */
 	void exitBlock(@NotNull CampbellParser.BlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CampbellParser#className}.
+	 * Enter a parse tree produced by the {@code classNameClass}
+	 * labeled alternative in {@link CampbellParser#className}.
 	 * @param ctx the parse tree
 	 */
-	void enterClassName(@NotNull CampbellParser.ClassNameContext ctx);
+	void enterClassNameClass(@NotNull CampbellParser.ClassNameClassContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link CampbellParser#className}.
+	 * Exit a parse tree produced by the {@code classNameClass}
+	 * labeled alternative in {@link CampbellParser#className}.
 	 * @param ctx the parse tree
 	 */
-	void exitClassName(@NotNull CampbellParser.ClassNameContext ctx);
+	void exitClassNameClass(@NotNull CampbellParser.ClassNameClassContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code classNameFunc}
+	 * labeled alternative in {@link CampbellParser#className}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassNameFunc(@NotNull CampbellParser.ClassNameFuncContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code classNameFunc}
+	 * labeled alternative in {@link CampbellParser#className}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassNameFunc(@NotNull CampbellParser.ClassNameFuncContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CampbellParser#classList}.
 	 * @param ctx the parse tree

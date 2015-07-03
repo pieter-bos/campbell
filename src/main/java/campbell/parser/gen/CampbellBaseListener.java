@@ -509,13 +509,25 @@ public class CampbellBaseListener implements CampbellListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterClassName(@NotNull CampbellParser.ClassNameContext ctx) { }
+	@Override public void enterClassNameClass(@NotNull CampbellParser.ClassNameClassContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitClassName(@NotNull CampbellParser.ClassNameContext ctx) { }
+	@Override public void exitClassNameClass(@NotNull CampbellParser.ClassNameClassContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClassNameFunc(@NotNull CampbellParser.ClassNameFuncContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassNameFunc(@NotNull CampbellParser.ClassNameFuncContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

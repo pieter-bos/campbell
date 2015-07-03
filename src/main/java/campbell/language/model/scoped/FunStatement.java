@@ -248,17 +248,7 @@ public class FunStatement extends Scope implements Symbol {
      */
     @Override
     public Type getType() {
-        if(arguments.size() == 0) {
-            return new FunctionType(returnType, new VoidType());
-        } else {
-            Type currentType = returnType;
-
-            for(DeclStatement arg : ListTools.reversed(arguments)) {
-                currentType = new FunctionType(currentType, arg.getType());
-            }
-
-            return currentType;
-        }
+        return new FunctionType(returnType, arguments.stream().map(DeclStatement::getType).collect(Collectors.toList()));
     }
 
     /**

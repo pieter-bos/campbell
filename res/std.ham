@@ -1,2 +1,7 @@
-fun void nop()
-    int blaat
+int __new
+
+fun int alloc(int size)
+    int result
+    result = __new
+    __new = __new + size
+    return result

@@ -235,7 +235,12 @@ public class CampbellLexer implements TokenSource {
             }
 
             if(expect("-")) {
-                return accept(CampbellTokens.MINUS);
+                if(!finished() && peekc() == '>') {
+                    readc();
+                    return accept(CampbellTokens.ARROW);
+                } else {
+                    return accept(CampbellTokens.MINUS);
+                }
             }
 
             if(expect("*")) {

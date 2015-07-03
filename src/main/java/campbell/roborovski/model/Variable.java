@@ -44,6 +44,10 @@ public class Variable {
      * @return
      */
     public Integer getOffset() {
+        if(name.equals("__new")) {
+            return 0;
+        }
+
         return offset;
     }
 
@@ -53,14 +57,26 @@ public class Variable {
      * @return
      */
     public int getScopeOffset(Block block) {
-        int offset = 0;
+        if(name.equals("__new")) {
+            int offset = 0;
 
-        while(block != this.block) {
-            offset++;
-            block = block.getSuperBlock();
+            while(block != null) {
+                offset++;
+                block = block.getSuperBlock();
+            }
+
+            return offset;
+        } else {
+            int offset = 0;
+
+            while(block != this.block) {
+                offset++;
+                block = block.getSuperBlock();
+            }
+
+            return offset;
         }
 
-        return offset;
     }
 
     /**

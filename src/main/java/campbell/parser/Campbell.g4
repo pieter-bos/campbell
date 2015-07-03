@@ -121,7 +121,8 @@ block
 
 className
     : IDENTIFIER (BROKET_OPEN className
-      (COMMA className)* BROKET_CLOSE)?
+      (COMMA className)* BROKET_CLOSE)? # classNameClass
+    | PAREN_OPEN className ARROW className (ARROW className)* PAREN_CLOSE #classNameFunc
     ;
 
 classList
