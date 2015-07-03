@@ -112,6 +112,17 @@ public class WhileStatement extends Scope {
     }
 
     /**
+     * Method that checks whether this while loop returns
+     *
+     * While loop never returns (as the while statements may never be executed if the condition is false)
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return false;
+    }
+
+    /**
      * Finds definitions in this while-loop
      * Definition can be a function, declaration or a class.
      */

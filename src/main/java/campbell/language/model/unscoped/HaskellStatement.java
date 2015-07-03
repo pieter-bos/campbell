@@ -74,6 +74,17 @@ public class HaskellStatement extends Statement {
     }
 
     /**
+     * Method that checks whether this expression returns
+     *
+     * Expressions never return
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return true;
+    }
+
+    /**
      * Tries to parse a HaskellStatement from a given context
      * @param ctx
      * @return

@@ -159,6 +159,17 @@ public class ImplStatement extends Scope {
     }
 
     /**
+     * Method that checks whether this implementation returns
+     *
+     * Implementations never return
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return false;
+    }
+
+    /**
      * Finds definitions in this implementation
      * Definition can be a function, declaration or a class.
      */

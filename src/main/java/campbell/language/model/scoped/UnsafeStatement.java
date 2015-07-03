@@ -101,6 +101,21 @@ public class UnsafeStatement extends Scope {
     }
 
     /**
+     * Method that checks whether this unsafe statement returns
+     *
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        for (Statement stat : statements) {
+            if (stat.returns()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Finds definitions in this unsafe block
      * Definition can be a function, declaration or a class.
      */

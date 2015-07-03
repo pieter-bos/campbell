@@ -129,6 +129,22 @@ public class BlockStatement extends Scope implements Iterable<Statement> {
     }
 
     /**
+     * Method that checks whether this block returns
+     *
+     * A block returns if it contains a return statement
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        for (Statement stat : statements) {
+            if (stat.returns()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Make an iterator that iterates over the statements of this block
      * @return iterator over statements of block
      */

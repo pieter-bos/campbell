@@ -92,6 +92,17 @@ public class AssignStatement extends Statement {
     }
 
     /**
+     * Method that checks whether this assignment returns
+     *
+     * Assignments never return
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return false;
+    }
+
+    /**
      * Type checking for assignments
      *
      * The left side of the assignment must be of the same type as the right side of the expression

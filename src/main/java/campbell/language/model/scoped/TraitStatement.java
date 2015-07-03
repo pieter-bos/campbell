@@ -166,6 +166,17 @@ public class TraitStatement extends Scope {
     }
 
     /**
+     * Method that checks whether this traits returns
+     *
+     * Traits never return
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return false;
+    }
+
+    /**
      * Finds definitions in this trait
      * Definition can be a function, declaration or a class.
      */

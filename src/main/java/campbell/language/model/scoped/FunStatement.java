@@ -1,5 +1,6 @@
 package campbell.language.model.scoped;
 
+import campbell.language.model.CompileException;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
@@ -10,7 +11,6 @@ import campbell.roborovski.model.Function;
 import campbell.roborovski.model.Program;
 import util.ListTools;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -160,6 +160,17 @@ public class FunStatement extends Scope implements Symbol {
     }
 
     /**
+     * Method that checks whether this function returns
+     *
+     * Functions never return
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return false;
+    }
+
+    /**
      * Sets the scope for this function, its arguments and statements
      * @param scope - Scope of this function
      */
@@ -275,16 +286,23 @@ public class FunStatement extends Scope implements Symbol {
      */
     @Override
     public void checkType() {
-        if (returnType instanceof PrimitiveType || returnType instanceof ClassType ||
-                returnType instanceof FunctionType || returnType instanceof GenericType) {
-            for (DeclStatement decl : arguments) {
-                if (!(decl.getType() instanceof GenericType)) {
-                    decl.checkType();
-                }
+        for (DeclStatement decl : arguments) {
+            if (!(decl.getType() instanceof GenericType)) {
+                decl.checkType();
             }
-            for (Statement stat : statements) {
-                stat.checkType();
+        }
+        boolean returns;
+        returns = false;
+        for (Statement stat : statements) {
+            stat.checkType();
+            if (stat.returns()) {
+                returns = true;
             }
+        }
+
+        //
+        if (!returns && !(returnType instanceof VoidType)) {
+            throw new CompileException(this, "Non-void function "+this.getName()+" does not return ");
         }
     }
 

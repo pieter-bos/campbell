@@ -4,7 +4,6 @@ import campbell.language.model.CompileException;
 import campbell.language.model.Statement;
 import campbell.language.model.scoped.FunStatement;
 import campbell.language.model.scoped.Scope;
-import campbell.language.types.FunctionType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
@@ -91,6 +90,17 @@ public class ReturnStatement extends Statement {
     @Override
     public void replaceType(Type replace, Type replaceWith) {
         returnExpression.replaceType(replace, replaceWith);
+    }
+
+    /**
+     * Method that checks whether this return returns
+     *
+     * Returns always return
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return true;
     }
 
     /**
