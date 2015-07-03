@@ -3,6 +3,6 @@ class Adder<intt, T>
         return x + 137
 
 
-Adder<int> add
+Adder<int, int> add
 int j
 j = add.add(5)

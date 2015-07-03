@@ -15,6 +15,10 @@ import static campbell.language.model.scoped.Program.parseFrom;
  * Testing for contextual errors
  */
 public class contextualTest {
+
+    /**
+     * Files for different test cases
+     */
     String[] files = {"/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/correctAssignmentDeclaration",
             "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/declaredTypeAfterAssign",
             "/home/sophie/Downloads/Campbell/campbell/src/main/java/campbell/language/test/declaredTypeScopeAbove",
@@ -58,7 +62,7 @@ public class contextualTest {
     }
 
     /**
-     *
+     * Correct test case for assignments
      */
     @Test
     public void testCorrectAssignment() {
@@ -69,6 +73,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case where declaration is after the assignment
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testDeclarationAfterAssignment() {
         try {
@@ -84,6 +93,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case where declaration is in a scope above the current scope
+     *
+     * "Correct" test case
+     */
     @Test
     public void testDeclarationScopeAbove() {
         try {
@@ -93,6 +107,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case where declaration is in a scope within the current scope
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testDeclarationScopeWithin() {
         try {
@@ -108,6 +127,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case where value is assigned to a variable with a different type
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testWrongTypedAssignment() {
 //        try {
@@ -118,6 +142,11 @@ public class contextualTest {
 //        }
     }
 
+    /**
+     * Test case where functions with several scopes are tested
+     *
+     * "Correct" test case
+     */
     @Test
     public void testCorrectFunction() {
         try {
@@ -127,6 +156,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case where function returns something of an incorrect type
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testWrongReturnTypeFunction() {
         try {
@@ -142,6 +176,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case where function gets too much arguments
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testWrongAmountArgumentsFunction() {
 //        try {
@@ -152,6 +191,11 @@ public class contextualTest {
 //        }
     }
 
+    /**
+     * Test case where function gets arguments of a wrong type
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testWrongTypedArgumentsFunction() {
 //        try {
@@ -162,17 +206,11 @@ public class contextualTest {
 //        }
     }
 
-    @Test
-    public void testWrongAssigmentFunction() {
-        try {
-            compileProgram(files[9] + ".ham", files[9] + ".hs");
-        } catch (CompileException e) {
-            // Expected, maar TODO: Niet juiste compile exception, should get incompatible types, not "type int is not callable"
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Test case where function result is stored in variable
+     *
+     * "Correct" test case
+     */
     @Test
     public void testCorrectAssignmentFunction() {
 //        try {
@@ -183,6 +221,11 @@ public class contextualTest {
 //        }
     }
 
+    /**
+     * Test case that contains an expression of the form ( int + bool )
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testAddingIntBool() {
         try {
@@ -199,6 +242,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case that contains an expression of the form ( int & bool )
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testAndIntBool() {
         try {
@@ -215,6 +263,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case that contains an expression of the form ( bool & bool )
+     *
+     * "Correct" test case
+     */
     @Test
     public void testAndBools() {
         try {
@@ -225,6 +278,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case that contains an expression of the form ( int & int )
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testAndInts() {
         try {
@@ -241,6 +299,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case that contains an expression of the form ( int + int )
+     *
+     * "Correct" test case
+     */
     @Test
     public void testAddInts() {
         try {
@@ -251,6 +314,12 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case that contains an expression of the form ( fun & fun )
+     * Where fun are functions with return type bool
+     *
+     * "Correct" test case
+     */
     @Test
     public void testAndFunctions() {
 //        try {
@@ -262,6 +331,12 @@ public class contextualTest {
 //        }
     }
 
+    /**
+     * Test case that contains an experssion of the form ( fun + fun )
+     * Where fun are functions with return type int
+     *
+     * "Correct" test case
+     */
     @Test
     public void testAddIntFunctions() {
         try {
@@ -272,6 +347,11 @@ public class contextualTest {
         }
     }
 
+    /**
+     * Test case that contains an expression of the form ( bool + bool )
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testAddBooleans() {
         try {
@@ -288,16 +368,11 @@ public class contextualTest {
         }
     }
 
-    @Test
-    public void testAndBooleanFunctions() {
-        try {
-            compileProgram(files[19] + ".ham", files[19] + ".hs");
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
+    /**
+     * Test case where function expects arguments but none are given
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testNoArgumentsGivenFunction() {
 //        try {
@@ -310,6 +385,11 @@ public class contextualTest {
 //        }
     }
 
+    /**
+     * Test case where function expects no arguments but one is given
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testUnneededArgumentsFunction() {
         try {

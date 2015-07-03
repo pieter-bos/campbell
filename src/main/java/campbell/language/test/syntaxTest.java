@@ -19,7 +19,8 @@ public class syntaxTest {
     String[] files = {"wrongDeclaredFunction.ham", "wrongDeclaredFunction.hs",
                     "wrongDeclaredIf.ham", "wrongDeclaredIf.hs",
                     "wrongDeclaredClass.ham","wrongDeclaredClass.hs",
-                    "wrongArgumentsClass.ham","wrongArgumentsClass.hs"};
+                    "wrongArgumentsClass.ham","wrongArgumentsClass.hs",
+                    "example.ham", "example.hs"};
 
     /**
      * Method that compiles a program from a given input to a given output
@@ -40,6 +41,11 @@ public class syntaxTest {
         program.compile(new SprockellEmitter(new FileWriter(output)));
     }
 
+    /**
+     * Test case where function is wrongly declared, its keyword looks like "funn" instead of "fun"
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testWrongDeclaredFunction() {
         try {
@@ -47,7 +53,7 @@ public class syntaxTest {
             compileProgram(input, files[1]);
         } catch (NotImplementedException e) {
             //Expected NotImplementedException : Class of int is not implemented (it parses funn as a class because it does not correspond to the fun keyword
-            String error = e.getMessage().substring(0);
+            String error = e.getMessage();
             String shouldBe = new String("Class of int is not implemented");
             System.out.println("Exception thrown: "+error);
             System.out.println("Expected: "+shouldBe);
@@ -57,6 +63,11 @@ public class syntaxTest {
         }
     }
 
+    /**
+     * Test case where if is wrongly declared, its keyword looks like "iff" instead of "if"
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testWrongDeclaredIf() {
         try {
@@ -64,7 +75,7 @@ public class syntaxTest {
             compileProgram(input, files[3]);
         } catch (NotImplementedException e) {
             // Expected NotImplementedException: Does not recognize keyword of if-statement as it is typed incorrectly
-            String error = e.getMessage().substring(0);
+            String error = e.getMessage();
             String shouldBe = new String("There is no implementation of the rule class x");
             System.out.println("Exception thrown: "+error);
             System.out.println("Expected: "+shouldBe);
@@ -74,6 +85,11 @@ public class syntaxTest {
         }
     }
 
+    /**
+     * Test case where class is wrongly declared, its keyword looks like "claass" instead of "class"
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testWrongDeclaredClass() {
         try {
@@ -81,7 +97,7 @@ public class syntaxTest {
             compileProgram(input, files[5]);
         } catch (NotImplementedException e) {
             // Expected NotImplementedException: Does not recognize keyword of class statement as it is typed incorrectly
-            String error = e.getMessage().substring(0);
+            String error = e.getMessage();
             String shouldBe = new String("There is no implementation of the rule class x");
             System.out.println("Exception thrown: "+error);
             System.out.println("Expected: "+shouldBe);
@@ -91,6 +107,11 @@ public class syntaxTest {
         }
     }
 
+    /**
+     * Test case where argument of class is spelled wrong, it therefore sees it as a generic argument
+     *
+     * "Wrong" test case
+     */
     @Test
     public void testWrongArgumentsClass() {
         try {
@@ -99,13 +120,24 @@ public class syntaxTest {
         } catch (NotImplementedException e) {
             // Expected NotImplementedException: Does not recognize type of argument as it is typed incorrectly
             // Thus it expects a class to be defined with this type
-            String error = e.getMessage().substring(0);
+            String error = e.getMessage();
             String shouldBe = new String("Class of add is not implemented");
             System.out.println("Exception thrown: "+error);
             System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
+        }
+    }
+
+    @Test
+    public void testCorrectSyntax() {
+        try {
+            //TODO: This gives an error "Internal error: The size of statement class ...(VariableExpression) does not match its actual instruction count. Expected = 15, Actual = 13"
+            URL input = this.getClass().getResource(files[8]);
+            compileProgram(input, files[9]);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

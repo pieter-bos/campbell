@@ -168,7 +168,7 @@ public class DeclStatement extends Statement implements Symbol {
      */
     @Override
     public void checkType() {
-        if (type instanceof ClassType && type.getImplementation() == null && !(type instanceof GenericType)) {
+        if (findType(type.getName()) instanceof ClassType && findType(type.getName()).getImplementation() == null && !(findType(type.getName()) instanceof GenericType)) {
             throw new NotImplementedException("Class of "+getName()+" is not implemented");
         }
     }
