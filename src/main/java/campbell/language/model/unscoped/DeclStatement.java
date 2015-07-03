@@ -1,6 +1,5 @@
 package campbell.language.model.unscoped;
 
-import campbell.language.model.CompileException;
 import campbell.language.model.NotImplementedException;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
@@ -134,6 +133,17 @@ public class DeclStatement extends Statement implements Symbol {
         } else {
             type.replaceType(replace, replaceWith);
         }
+    }
+
+    /**
+     * Method that checks whether this declaration returns
+     *
+     * Declarations never return
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return false;
     }
 
     /**

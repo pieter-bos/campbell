@@ -131,6 +131,22 @@ public class ForStatement extends Scope {
     }
 
     /**
+     * Method that checks whether this for statement returns
+     *
+     * For statement never return
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        for (Statement stat : statements) {
+            if (stat.returns()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Finds definitions in this for.
      * Definition can be a function, declaration or a class.
      */

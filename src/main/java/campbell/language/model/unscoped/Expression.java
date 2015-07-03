@@ -229,4 +229,14 @@ public abstract class Expression extends Statement {
      * @return
      */
     public abstract Expression deepCopy();
+
+    /**
+     * Method that checks whether this expression returns
+     *
+     * Expressions never return
+     * @return
+     */
+    public boolean returns() {
+        return false;
+    }
 }

@@ -259,6 +259,17 @@ public class ClassStatement extends Scope {
     }
 
     /**
+     * Method that checks whether this class returns
+     *
+     * Classes never return
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return false;
+    }
+
+    /**
      * Returns the struct of this class
      * @return struct of this class
      */

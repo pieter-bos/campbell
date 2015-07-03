@@ -226,4 +226,10 @@ public abstract class Statement implements Node {
      * @param replaceWith
      */
     public abstract void replaceType(Type replace, Type replaceWith);
+
+    /**
+     * Abstract method that checks whether this statement returns
+     * @return
+     */
+    public abstract boolean returns();
 }

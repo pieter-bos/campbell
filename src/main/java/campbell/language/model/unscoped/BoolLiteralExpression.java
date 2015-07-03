@@ -69,6 +69,11 @@ public class BoolLiteralExpression extends Expression {
         // Nop
     }
 
+    @Override
+    public boolean returns() {
+        return false;
+    }
+
     /**
      * Returns the type of the expression
      *

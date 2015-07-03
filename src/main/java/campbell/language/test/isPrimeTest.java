@@ -63,7 +63,6 @@ public class isPrimeTest {
             URL input = this.getClass().getResource(
                     files[0]
             );
-
             compileProgram(input, files[1]);
         } catch (IOException e) {
             e.printStackTrace();

@@ -185,6 +185,17 @@ public class Program extends Scope {
     }
 
     /**
+     * Method that checks whether this program returns
+     *
+     * Program inevitably returns
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return true;
+    }
+
+    /**
      * Type checking for a program
      */
     @Override

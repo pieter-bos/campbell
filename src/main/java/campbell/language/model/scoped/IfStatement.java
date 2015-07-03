@@ -149,6 +149,17 @@ public class IfStatement extends Scope {
     }
 
     /**
+     * Method that checks whether this if statement returns
+     *
+     * If statements only return if both blocks contain a return statement
+     * @return
+     */
+    @Override
+    public boolean returns() {
+        return elseStatements.returns() && statements.returns();
+    }
+
+    /**
      * Finds definitions in this if.
      * Definition can be a function, declaration or a class.
      */
