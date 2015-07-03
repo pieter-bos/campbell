@@ -35,4 +35,6 @@ public class CompileException extends RuntimeException {
     public CompileException(int line, int col, String what, String message) {
         super(String.format("Compile error while processing a %s at %d:%d:\n%s", what, line, col, message));
     }
+
+
 }

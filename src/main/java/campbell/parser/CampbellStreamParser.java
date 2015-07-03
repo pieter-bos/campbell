@@ -17,6 +17,8 @@ public class CampbellStreamParser {
      */
     public static CampbellParser.ProgramContext parse(InputStream input) {
         CampbellParser parser = new CampbellParser(new CommonTokenStream(new CampbellLexer(input)));
+        parser.removeErrorListeners();
+        parser.addErrorListener(new ErrorListener());
         return parser.program();
     }
 }

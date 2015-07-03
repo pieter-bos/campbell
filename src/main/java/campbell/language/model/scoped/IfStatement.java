@@ -156,7 +156,11 @@ public class IfStatement extends Scope {
      */
     @Override
     public boolean returns() {
-        return elseStatements.returns() && statements.returns();
+        if (elseStatements != null) {
+            return elseStatements.returns() && statements.returns();
+        } else {
+            return statements.returns();
+        }
     }
 
     /**

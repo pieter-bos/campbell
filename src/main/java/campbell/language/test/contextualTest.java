@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import static campbell.language.model.scoped.Program.parseFrom;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Testing for contextual errors
@@ -26,7 +27,7 @@ public class contextualTest {
                         "declaredTypeScopeWithin.ham", "src/main/java/campbell/language/test/declaredTypeScopeWithin.hs",
                         "wrongTypeAssigned.ham", "src/main/java/campbell/language/test/wrongTypeAssigned.hs",
                         "correctFunction.ham", "src/main/java/campbell/language/test/correctFunction.hs",
-                        "wrongReturnTypeAssigned.ham", "src/main/java/campbell/language/test/wrongReturnTypeAssigned.hs",
+                        "wrongTypeAssigned.ham", "src/main/java/campbell/language/test/wrongTypeAssigned.hs",
                         "wrongAmountArgumentsFunction.ham", "src/main/java/campbell/language/test/wrongAmountArgumentsFunction.hs",
                         "wrongTypedArgumentsFunction.ham", "src/main/java/campbell/language/test/wrongTypedArgumentsFunction.hs",
                         "correctAssignmentWithFunction.ham", "src/main/java/campbell/language/test/correctAssignmentWithFunction.hs",
@@ -35,7 +36,7 @@ public class contextualTest {
                         "andBools.ham", "src/main/java/campbell/language/test/andBools.hs",
                         "andInts.ham", "src/main/java/campbell/language/test/andInts.hs",
                         "addInts.ham", "src/main/java/campbell/language/test/addInts.hs",
-                        "andFunctions.ham", "src/main/java/campbell/language/test/andFunctions.hs",
+                        "andBooleanFunctions.ham", "src/main/java/campbell/language/test/andBooleanFunctions.hs",
                         "addIntFunctions.ham", "src/main/java/campbell/language/test/addIntFunctions.hs",
                         "addBooleans.ham", "src/main/java/campbell/language/test/addBooleans.hs",
                         "noArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/noArgumentsGivenFunction.hs",
@@ -54,8 +55,6 @@ public class contextualTest {
         p.findDefinitions();
         p.findImpls();
         p.checkType();
-
-        System.out.println(p);
 
         campbell.roborovski.model.Program program = p.toRoborovski();
         program.compile(new SprockellEmitter(new FileWriter(output)));
@@ -95,8 +94,7 @@ public class contextualTest {
             // Expect a compile exception: Undeclared variable i used
             String error = e.getMessage().substring(95);
             String shouldBe = new String("Undeclared variable i used");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            assertEquals(error, shouldBe);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -127,10 +125,9 @@ public class contextualTest {
             compileProgram(getURL(files[6]), files[7]);
         } catch (CompileException e) {
             // Expect a compile exception: No definition of i can be found
-            String error = e.getMessage().substring(90);
-            String shouldBe = new String("No definition of i can be found");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            String error = e.getMessage().substring(95);
+            String shouldBe = new String("Usage of nonexistant symbol i");
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -148,9 +145,8 @@ public class contextualTest {
         } catch (CompileException e) {
             // Expect a compile exception: Type error: left expression is of type bool whereas right is of type int
             String error = e.getMessage().substring(102);
-            String shouldBe = new String("Type error: left expression is of type bool whereas right is of type int");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            String shouldBe = new String("left expression is of type bool whereas right is of type int");
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -182,9 +178,9 @@ public class contextualTest {
         } catch (CompileException e) {
             // Expected compile exception: Type of return expression (bool) does not correspond to the function's contract (int)
             String error = e.getMessage().substring(90);
+            // TODO: Verkeerde error wordt hier gegenereerd
             String shouldBe = new String("Type of return expression (bool) does not correspond to the function's contract (int)");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -199,7 +195,11 @@ public class contextualTest {
     public void testWrongAmountArgumentsFunction() {
         try {
             compileProgram(getURL(files[14]), files[15]);
-            //TODO: Deze krijgt niet de juiste compile exception, "Type int is not callable"
+        } catch (CompileException e) {
+            // Expected compile exception: Type error: left expression is of type int where right is of type FunctionType
+            String error = e.getMessage().substring(90);
+            String shouldBe = new String("Type error: left expression is of type int whereas right is of type (null -> int)");
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -247,8 +247,7 @@ public class contextualTest {
             // Expected compile exception: Incorrect type in expression: (i + j)
             String error = e.getMessage().substring(89);
             String shouldBe = new String("Incorrect type in expression: (i + j)");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -268,8 +267,7 @@ public class contextualTest {
             // Expected compile exception: Incorrect type in expression: (i & j)
             String error = e.getMessage().substring(89);
             String shouldBe = new String("Incorrect type in expression: (i & j)");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -287,7 +285,6 @@ public class contextualTest {
             compileProgram(getURL(files[24]), files[25]);
         } catch (IOException e) {
             e.printStackTrace();
-
         }
     }
 
@@ -304,8 +301,7 @@ public class contextualTest {
             // Expected compile exception: Incorrect type in expression: (i & j)
             String error = e.getMessage().substring(89);
             String shouldBe = new String("Incorrect type in expression: (i & j)");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            assertEquals(error,shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -372,8 +368,7 @@ public class contextualTest {
             // Expected compile exception : Cannot apply this operator to the given arguments: a, b
             String error = e.getMessage().substring(89);
             String shouldBe = new String("Cannot apply this operator to the given arguments: a, b");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            assertEquals(error,shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -388,10 +383,12 @@ public class contextualTest {
     @Test
     public void testNoArgumentsGivenFunction() {
         try {
-            System.out.printf(files[36]);
             compileProgram(getURL(files[36]), files[37]);
-//         Should catch CompileException, TODO: Function gaat stuk indien geen argumenten gegeven die wel verwacht zijn
-//         Het gaat niet echt stuk, maar het geeft wel een verkeerde error (namelijk n type error
+        } catch (CompileException e) {
+            // Expected compile exception : Type error: left expression is of type int whereas right is of type FunctionType
+            String error = e.getMessage().substring(90);
+            String shouldBe = new String("Type error: left expression is of type int whereas right is of type (null -> int)");
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -432,7 +429,7 @@ public class contextualTest {
             // Thus it expects a class to be defined with this type
             //TODO: Te veel argumenten aan n class geven gaat goed
             String error = e.getMessage();
-            String shouldBe = new String("Class of add is not implemented");
+            String shouldBe = new String("There is no implementation of the rule class ...");
             System.out.println("Exception thrown: "+error);
             System.out.println("Expected: "+shouldBe);
         } catch (IOException e) {

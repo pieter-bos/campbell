@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import static campbell.language.model.scoped.Program.parseFrom;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Testing for syntax errors
@@ -47,8 +48,7 @@ public class syntaxTest {
             //Expected NotImplementedException : Class of int is not implemented (it parses funn as a class because it does not correspond to the fun keyword
             String error = e.getMessage();
             String shouldBe = new String("Cannot return outside of all functions");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -69,8 +69,7 @@ public class syntaxTest {
             // Expected NotImplementedException: Does not recognize keyword of if-statement as it is typed incorrectly
             String error = e.getMessage();
             String shouldBe = new String("There is no implementation of the rule class x");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -91,15 +90,13 @@ public class syntaxTest {
             // Expected NotImplementedException: Does not recognize keyword of class statement as it is typed incorrectly
             String error = e.getMessage();
             String shouldBe = new String("There is no implementation of the rule class x");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
         }
     }
 
-    //TODO: Verplaats deze test case naar contextual tests
     /**
      * Test case where argument of class is spelled wrong, it therefore sees it as a generic argument
      *
@@ -116,8 +113,7 @@ public class syntaxTest {
             //TODO: Te veel argumenten aan n class geven gaat goed
             String error = e.getMessage();
             String shouldBe = new String("There is no implementation of the rule class x");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
