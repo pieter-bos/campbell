@@ -56,7 +56,7 @@ public class CallExpression extends Expression {
             callee.compile(emitter, block);
             emitter.pop(SprockellRegister.a, "Curried Call"); // curried frame pointer
             emitter.load(SprockellRegister.a, SprockellRegister.b); // number of saved arguments
-            emitter.emitConst(2 + arguments.size(), SprockellRegister.c);
+            emitter.emitConst(3 + arguments.size(), SprockellRegister.c);
             emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.c, SprockellRegister.b); // size of new curried frame
 
             emitter.load(Program.NEW, SprockellRegister.c); // new curried frame pointer
@@ -66,6 +66,9 @@ public class CallExpression extends Expression {
             emitter.push(SprockellRegister.c);
             emitter.pop(SprockellRegister.d);
 
+            emitter.emitConst(arguments.size(), SprockellRegister.b);
+            emitter.load(SprockellRegister.a, SprockellRegister.e);
+            emitter.compute(SprockellCompute.Add, SprockellRegister.e, SprockellRegister.b, SprockellRegister.b);
             emitter.store(SprockellRegister.b, SprockellRegister.d);
 
             emitter.emitConst(1, SprockellRegister.b);
@@ -79,27 +82,14 @@ public class CallExpression extends Expression {
             emitter.load(SprockellRegister.e, SprockellRegister.e);
             emitter.store(SprockellRegister.e, SprockellRegister.d);
 
+            emitter.emitConst(1, SprockellRegister.b);
+            emitter.compute(SprockellCompute.Add, SprockellRegister.d, SprockellRegister.b, SprockellRegister.d);
+
             // A: curried frame pointer
             // B: temp
             // C: new curried frame pointer
             // D: current new curried frame pointer
             // E: temp
-
-            // Load old arguments into new frame
-            emitter.load(SprockellRegister.a, SprockellRegister.e);
-            emitter.emitConst(3, SprockellRegister.b);
-            emitter.compute(SprockellCompute.Add, SprockellRegister.a, SprockellRegister.b, SprockellRegister.a);
-            emitter.emitConst(1, SprockellRegister.b);
-            emitter.compute(SprockellCompute.Add, SprockellRegister.d, SprockellRegister.b, SprockellRegister.d);
-
-            emitter.branchRelative(SprockellRegister.e, 2);
-            emitter.jumpRelative(7);
-            emitter.load(SprockellRegister.a, SprockellRegister.b);
-            emitter.store(SprockellRegister.b, SprockellRegister.d);
-            emitter.emitConst(1, SprockellRegister.b);
-            emitter.compute(SprockellCompute.Add, SprockellRegister.a, SprockellRegister.b, SprockellRegister.a);
-            emitter.compute(SprockellCompute.Add, SprockellRegister.d, SprockellRegister.b, SprockellRegister.d);
-            emitter.jumpRelative(-7);
 
             // Load new arguments into new frame
             for(Expression arg : arguments) {
@@ -108,6 +98,21 @@ public class CallExpression extends Expression {
                 emitter.emitConst(1, SprockellRegister.b);
                 emitter.compute(SprockellCompute.Add, SprockellRegister.d, SprockellRegister.b, SprockellRegister.d);
             }
+
+            // Load old arguments into new frame
+            emitter.load(SprockellRegister.a, SprockellRegister.e);
+            emitter.emitConst(3, SprockellRegister.b);
+            emitter.compute(SprockellCompute.Add, SprockellRegister.a, SprockellRegister.b, SprockellRegister.a);
+
+            emitter.branchRelative(SprockellRegister.e, 2);
+            emitter.jumpRelative(8);
+            emitter.load(SprockellRegister.a, SprockellRegister.b);
+            emitter.store(SprockellRegister.b, SprockellRegister.d);
+            emitter.emitConst(1, SprockellRegister.b);
+            emitter.compute(SprockellCompute.Add, SprockellRegister.a, SprockellRegister.b, SprockellRegister.a);
+            emitter.compute(SprockellCompute.Add, SprockellRegister.d, SprockellRegister.b, SprockellRegister.d);
+            emitter.compute(SprockellCompute.Sub, SprockellRegister.e, SprockellRegister.b, SprockellRegister.e);
+            emitter.jumpRelative(-8);
 
             // Push pointer to new frame, done!
             emitter.push(SprockellRegister.c);
@@ -148,20 +153,30 @@ public class CallExpression extends Expression {
             emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.d, SprockellRegister.b);
 
             emitter.emitConst(arguments.size(), SprockellRegister.d);
-            emitter.compute(SprockellCompute.Sub, SprockellRegister.sp, SprockellRegister.d, SprockellRegister.d);
+            emitter.compute(SprockellCompute.Add, SprockellRegister.sp, SprockellRegister.d, SprockellRegister.d);
             emitter.store(SprockellRegister.d, SprockellRegister.b);
 
             emitter.emitConst(1, SprockellRegister.d);
             emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.d, SprockellRegister.b);
 
             // Return address
-            emitter.emitConst(getOffset() + getSize() - 1, SprockellRegister.d);
+            emitter.emitConst(getOffset() + getSize() - 1, SprockellRegister.d, "Calculate return address");
             emitter.store(SprockellRegister.d, SprockellRegister.b);
+
+            emitter.emitConst(1, SprockellRegister.d);
+            emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.d, SprockellRegister.b);
 
             // A: curried frame pointer
             // B: current actual frame pointer
             // C: actual frame pointer
             // D: number of arguments left in curried frame pointer to store
+
+            for(Expression arg : arguments) {
+                emitter.pop(SprockellRegister.e);
+                emitter.store(SprockellRegister.e, SprockellRegister.b);
+                emitter.emitConst(1, SprockellRegister.e);
+                emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.e, SprockellRegister.b);
+            }
 
             emitter.load(SprockellRegister.a, SprockellRegister.d);
             emitter.push(SprockellRegister.a); // Spill the value of a, iterates over curried function arguments.
@@ -178,13 +193,6 @@ public class CallExpression extends Expression {
             emitter.jumpRelative(-8);
 
             emitter.pop(SprockellRegister.d); // Restore curried frame pointer to d
-
-            for(Expression arg : arguments) {
-                emitter.pop(SprockellRegister.e);
-                emitter.store(SprockellRegister.e, SprockellRegister.b);
-                emitter.emitConst(1, SprockellRegister.e);
-                emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.e, SprockellRegister.b);
-            }
 
             // Done creating function frame, call the function!
 
@@ -227,9 +235,9 @@ public class CallExpression extends Expression {
     @Override
     public int getSize() {
         if(curried) {
-            return 34 + arguments.size() * 4 + arguments.stream().mapToInt(Expression::getSize).sum() + callee.getSize();
+            return 38 + arguments.size() * 4 + arguments.stream().mapToInt(Expression::getSize).sum() + callee.getSize();
         } else {
-            return 43 + arguments.size() * 4 + arguments.stream().mapToInt(Expression::getSize).sum() + callee.getSize();
+            return 45 + arguments.size() * 4 + arguments.stream().mapToInt(Expression::getSize).sum() + callee.getSize();
         }
     }
 
@@ -249,8 +257,8 @@ public class CallExpression extends Expression {
             saved++;
         }
 
-        result = Math.max(result, saved + callee.calcSpill());
         callee.stackOffset = stackOffset + saved;
+        result = Math.max(result, saved + callee.calcSpill());
 
         return result;
     }

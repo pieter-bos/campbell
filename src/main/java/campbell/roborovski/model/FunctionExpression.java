@@ -64,7 +64,7 @@ public class FunctionExpression extends Expression {
 
         emitter.push(SprockellRegister.sp);
         emitter.pop(SprockellRegister.c);
-        emitter.emitConst(stackOffset, SprockellRegister.d);
+        emitter.emitConst(stackOffset + 1, SprockellRegister.d);
         emitter.compute(SprockellCompute.Add, SprockellRegister.c, SprockellRegister.d, SprockellRegister.c);
 
         emitter.emitConst(count, SprockellRegister.b);
@@ -106,6 +106,6 @@ public class FunctionExpression extends Expression {
      */
     @Override
     public int calcSpill() {
-        return 1;
+        return 2;
     }
 }

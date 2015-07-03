@@ -32,7 +32,10 @@ public class Function extends Block {
      */
     @Override
     public void calcOffsets() {
-        int size = 0;
+        addVariable(new Variable("ret"));
+        addVariable(new Variable("sp"));
+
+        int size = 1;
 
         for(Variable var : variables) {
             size += var.getSize();
@@ -44,15 +47,6 @@ public class Function extends Block {
             current -= var.getSize();
             var.setOffset(current);
         }
-
-        Variable ret = new Variable("ret");
-        Variable sp = new Variable("sp");
-
-        addVariable(ret);
-        addVariable(sp);
-
-        ret.setOffset(size);
-        sp.setOffset(size + 1);
 
         statementBlock.calcOffsets();
     }
