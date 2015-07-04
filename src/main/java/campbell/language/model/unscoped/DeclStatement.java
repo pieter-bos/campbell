@@ -33,11 +33,12 @@ public class DeclStatement extends Statement implements Symbol {
      * Variable form of the variable that is declared in this statement
      * This is used by IR Roborovski
      */
-    private Variable variable = null;
+    private Variable variable;
 
     public DeclStatement(Type type, String name) {
         this.type = type;
         this.name = name;
+        this.variable = new Variable(name);
     }
 
     /**
@@ -92,7 +93,6 @@ public class DeclStatement extends Statement implements Symbol {
      */
     @Override
     public void toRoborovski(Program program, Block block) {
-        variable = new Variable(name);
         block.addVariable(variable);
     }
 

@@ -95,9 +95,6 @@ public class IdentifierExpression extends Expression {
             return new FunctionExpression(((FunStatement) symbol).getFunction());
         } else if(symbol instanceof DeclStatement) {
             Variable v = ((DeclStatement) symbol).getVariable();
-            if (v == null) {
-                throw new CompileException(this, "Undeclared variable "+symbol.getName()+" used");
-            }
             return new VariableExpression(v);
         }
 
