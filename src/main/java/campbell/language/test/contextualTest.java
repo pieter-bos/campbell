@@ -39,7 +39,8 @@ public class contextualTest {
                         "addIntFunctions.ham", "src/main/java/campbell/language/test/addIntFunctions.hs",
                         "addBooleans.ham", "src/main/java/campbell/language/test/addBooleans.hs",
                         "noArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/noArgumentsGivenFunction.hs",
-                        "unneededArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/unneededArgumentsGivenFunction.hs"};
+                        "unneededArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/unneededArgumentsGivenFunction.hs",
+                        "getProperty.ham", "src/main/java/campbell/language/test/getProperty.hs"};
 
     /**
      * Method that compiles a program from a given input to a given output
@@ -414,4 +415,23 @@ public class contextualTest {
 
         }
     }
+
+    // Property opvragen die bestaat
+    @Test
+    public void testGetProperty() {
+        try {
+            compileProgram(getURL(files[40]), files[41]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Property opvragen die niet bestaat
+
+    // Genest property opvragen (class in class in class)
+
+    // Functie aanroepen in class
+
+
+
 }
