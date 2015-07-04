@@ -48,7 +48,7 @@ public class syntaxTest {
             //Expected NotImplementedException : Compile error while processing a [@5,0:0='OPEN_BLOCK',<34>,2:1] at 2:1: ...
             String error = e.getMessage();
             String shouldBe =  "Compile error while processing a [@5,0:0='OPEN_BLOCK',<34>,2:1] at 2:1:\n" +
-                    "extraneous input 'OPEN_BLOCK' expecting {<EOF>, CLASS, WHILE, IMPL, TRAIT, IF, RETURN, UNSAFE, TRUE, FALSE, FUN, FOR, BROKET_OPEN, BROKET_CLOSE, LTE, GTE, EQ, PAREN_OPEN, DOT, PLUS, MINUS, STAR, SLASH, PERCENT, INT, IDENTIFIER, NEQ, LSH, RSH, AND, OR, XOR, HASKELL}"; // TODO: Fix asserts in syntaxtest
+                    "extraneous input 'OPEN_BLOCK' expecting {<EOF>, CLASS, WHILE, IMPL, TRAIT, IF, RETURN, UNSAFE, TRUE, FALSE, FUN, FOR, BROKET_OPEN, BROKET_CLOSE, LTE, GTE, EQ, PAREN_OPEN, DOT, PLUS, MINUS, STAR, SLASH, PERCENT, INT, IDENTIFIER, NEQ, LSH, RSH, AND, OR, XOR, HASKELL}";
             assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,7 +111,6 @@ public class syntaxTest {
             compileProgram(input, files[7]);
         } catch (CompileException e) {
             // Expected NotImplementedException: Compile error while processing a [@22,0:0='>',<16>,6:6] at 6:6: no viable alternative at input 'Adder<>'
-            //TODO: Te veel argumenten aan n class geven gaat goed
             String error = e.getMessage();
             String shouldBe = new String("Compile error while processing a [@22,0:0='>',<16>,6:6] at 6:6:\nno viable alternative at input 'Adder<>'");
             assertEquals(error, shouldBe);

@@ -34,7 +34,6 @@ public class AssignStatement extends Statement {
      * @return
      */
     public static AssignStatement fromContext(CampbellParser.AssignContext assign) {
-        // TODO nested assignment/declaration
         return at(assign.getStart(), new AssignStatement(Expression.fromContext(assign.expr(0)), Expression.fromContext(assign.expr(1))));
     }
 
