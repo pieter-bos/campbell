@@ -180,7 +180,7 @@ public class CallExpression extends Expression {
                 continue;
             }
 
-            if (arguments.size()>0) {
+            if (arguments.size() > 0) {
                 if (!(arguments.get(index).getType().equals(type))) {
                     throw new CompileException(this, "Argument in call expression " + this.toString() + " should be of type " + type + " not " + arguments.get(index).getType());
                 }
