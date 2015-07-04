@@ -128,7 +128,7 @@ public class CampbellLexer implements TokenSource {
 
             if(peekc() == '\n' || peekc() == '\r') {
                 // Read any empty lines (and ignore the indent)
-                while(!finished() && peekc() == '\n' || peekc() == '\r') {
+                while(!finished() && (peekc() == '\n' || peekc() == '\r')) {
                     readc();
                 }
 

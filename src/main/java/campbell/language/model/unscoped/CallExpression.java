@@ -4,11 +4,8 @@ import campbell.language.model.CompileException;
 import campbell.language.model.scoped.ClassStatement;
 import campbell.language.model.scoped.FunStatement;
 import campbell.language.model.scoped.Scope;
-import campbell.language.types.FunctionType;
-import campbell.language.types.Type;
+import campbell.language.types.*;
 import campbell.parser.gen.CampbellParser;
-import campbell.roborovski.model.Function;
-import campbell.roborovski.model.FunctionExpression;
 import campbell.roborovski.model.Program;
 
 import java.util.Collections;
@@ -151,6 +148,29 @@ public class CallExpression extends Expression {
      */
     @Override
     public void checkType() {
-        //nop
+        Type current = callee.getType();
+        int index = 0;
+        for (Type arg : ((FunctionType) current).getArguments()) {
+            Type type = null;
+            if (arg instanceof IntType) {
+                type = (IntType) arg;
+            } else if (arg instanceof BoolType) {
+                type = (BoolType) arg;
+            } else if (arg instanceof VoidType) {
+                type = (VoidType) arg;
+            } else if (arg instanceof FunctionType) {
+                type = (FunctionType) arg;
+            } else if (arg instanceof ClassType) {
+                type = (ClassType) arg;
+            } else if (arg instanceof GenericType) {
+                continue;
+            }
+
+            if (arguments.size() > 0) {
+                if (!(arguments.get(index).getType().equals(type))) {
+                    throw new CompileException(this, "Argument in call expression " + this.toString() + " should be of type " + type + " not " + arguments.get(index).getType());
+                }
+            }
+        }
     }
 }

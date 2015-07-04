@@ -44,4 +44,3 @@ fun void primes(int until)
 
 int j
 j = 20
-writeNum(primes(j))

@@ -95,9 +95,12 @@ public class HaskellStatement extends Statement {
 
     /**
      * Type checking for Haskell statement
+     *
+     * Haskell statements cannot be type checked
+     * Haskell statements should only be used in unsafe blocks
      */
     @Override
     public void checkType() {
-        //TODO: There is no way to check Haskell code?
+        // Nop
     }
 }

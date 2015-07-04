@@ -11,12 +11,14 @@ import java.io.InputStream;
 public class CampbellStreamParser {
 
     /**
-     * Parses a given input
+     * Parses a given input and adds errorlistener to catch syntax errors
      * @param input
      * @return
      */
     public static CampbellParser.ProgramContext parse(InputStream input) {
         CampbellParser parser = new CampbellParser(new CommonTokenStream(new CampbellLexer(input)));
+        parser.removeErrorListeners();
+        parser.addErrorListener(new ErrorListener());
         return parser.program();
     }
 }

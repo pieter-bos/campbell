@@ -30,7 +30,7 @@ fun bool isPrime(int n)
             return false
         i = i + 1
 
-        return true
+    return true
 
 int n
 n = 65521

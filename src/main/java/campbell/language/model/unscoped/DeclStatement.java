@@ -50,21 +50,6 @@ public class DeclStatement extends Statement implements Symbol {
     }
 
     /**
-     * Tries to parse DeclStatements from multiple given contexts
-     * @param decl
-     * @param javaIsStom
-     * @return
-     */
-    public static List<DeclStatement> fromContexts(List<CampbellParser.DeclContext> decl, boolean... javaIsStom) {
-        //TODO: Remove boolean javaIsStom? Or at least rename it
-        List<DeclStatement> result = new LinkedList<>();
-        for (CampbellParser.DeclContext i : decl) {
-            result.add(fromContext(i));
-        }
-        return result;
-    }
-
-    /**
      * Tries to parse DeclStatements from a list of untyped statements
      * @param untypedStatements
      * @return
