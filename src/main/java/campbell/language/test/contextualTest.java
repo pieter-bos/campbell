@@ -40,7 +40,10 @@ public class contextualTest {
                         "addBooleans.ham", "src/main/java/campbell/language/test/addBooleans.hs",
                         "noArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/noArgumentsGivenFunction.hs",
                         "unneededArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/unneededArgumentsGivenFunction.hs",
-                        "getProperty.ham", "src/main/java/campbell/language/test/getProperty.hs"};
+                        "getProperty.ham", "src/main/java/campbell/language/test/getProperty.hs",
+                        "getNonexistingProperty.ham", "src/main/java/campbell/language/test/getNonexistingProperty.hs",
+                        "getNestedProperty.ham", "src/main/java/campbell/language/test/getNestedProperty.hs",
+                        "callNestedFunction.ham", "src/main/java/campbell/language/test/callNestedFunction.hs"};
 
     /**
      * Method that compiles a program from a given input to a given output
@@ -50,6 +53,8 @@ public class contextualTest {
      */
     public static void compileProgram(URL input, String output) throws IOException {
         Program p = parseFrom(input.openStream());
+        Program std = parseFrom(ClassLoader.getSystemResourceAsStream("std.ham"));
+        p = p.merge(std);
         p.setScope(null);
         p.findDefinitions();
         p.findImpls();
@@ -416,7 +421,11 @@ public class contextualTest {
         }
     }
 
-    // Property opvragen die bestaat
+    /**
+     * Test case that tries to get an existing property from a class
+     *
+     * "Correct" test case
+     */
     @Test
     public void testGetProperty() {
         try {
@@ -426,12 +435,45 @@ public class contextualTest {
         }
     }
 
-    // Property opvragen die niet bestaat
+    /**
+     * Test case that tries to get a non-existing property from a class
+     *
+     * "Wrong" test case
+     */
+    @Test
+    public void testGetNonexistingProperty() {
+        try {
+            compileProgram(getURL(files[42]), files[43]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-    // Genest property opvragen (class in class in class)
+    /**
+     * Test case that tries to get an existing property from a nested class
+     *
+     * "Correct" test case
+     */
+    @Test
+    public void testGetNestedProperty() {
+        try {
+            compileProgram(getURL(files[44]), files[45]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-    // Functie aanroepen in class
-
-
-
+    /**
+     * Test case that tries to call a nested function in a class
+     *
+     * "Correct" test case
+     */
+    @Test
+    public void testCallNestedFunction() {
+        try {
+            compileProgram(getURL(files[46]), files[47]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
