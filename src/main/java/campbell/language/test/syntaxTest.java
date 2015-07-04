@@ -1,6 +1,6 @@
 package campbell.language.test;
 
-import campbell.language.model.NotImplementedException;
+import campbell.language.model.CompileException;
 import campbell.language.model.scoped.Program;
 import org.junit.Test;
 
@@ -44,10 +44,11 @@ public class syntaxTest {
         try {
             URL input = this.getClass().getResource(files[0]);
             compileProgram(input, files[1]);
-        } catch (NotImplementedException e) {
-            //Expected NotImplementedException : Class of int is not implemented (it parses funn as a class because it does not correspond to the fun keyword
+        } catch (CompileException e) {
+            //Expected NotImplementedException : Compile error while processing a [@5,0:0='OPEN_BLOCK',<34>,2:1] at 2:1: ...
             String error = e.getMessage();
-            String shouldBe = new String("Cannot return outside of all functions");
+            String shouldBe =  "Compile error while processing a [@5,0:0='OPEN_BLOCK',<34>,2:1] at 2:1:\n" +
+                    "extraneous input 'OPEN_BLOCK' expecting {<EOF>, CLASS, WHILE, IMPL, TRAIT, IF, RETURN, UNSAFE, TRUE, FALSE, FUN, FOR, BROKET_OPEN, BROKET_CLOSE, LTE, GTE, EQ, PAREN_OPEN, DOT, PLUS, MINUS, STAR, SLASH, PERCENT, INT, IDENTIFIER, NEQ, LSH, RSH, AND, OR, XOR, HASKELL}"; // TODO: Fix asserts in syntaxtest
             assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,10 +66,11 @@ public class syntaxTest {
         try {
             URL input = this.getClass().getResource(files[2]);
             compileProgram(input, files[3]);
-        } catch (NotImplementedException e) {
+        } catch (CompileException e) {
             // Expected NotImplementedException: Does not recognize keyword of if-statement as it is typed incorrectly
             String error = e.getMessage();
-            String shouldBe = new String("There is no implementation of the rule class x");
+            String shouldBe = new String("Compile error while processing a [@2,0:0='OPEN_BLOCK',<34>,2:1] at 2:1:\n" +
+                    "extraneous input 'OPEN_BLOCK' expecting {<EOF>, CLASS, WHILE, IMPL, TRAIT, IF, RETURN, UNSAFE, TRUE, FALSE, FUN, FOR, BROKET_OPEN, BROKET_CLOSE, LTE, GTE, EQ, PAREN_OPEN, DOT, PLUS, MINUS, STAR, SLASH, PERCENT, INT, IDENTIFIER, NEQ, LSH, RSH, AND, OR, XOR, HASKELL}");
             assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,10 +88,10 @@ public class syntaxTest {
         try {
             URL input = this.getClass().getResource(files[4]);
             compileProgram(input, files[5]);
-        } catch (NotImplementedException e) {
-            // Expected NotImplementedException: Does not recognize keyword of class statement as it is typed incorrectly
+        } catch (CompileException e) {
+            // Expected NotImplementedException: Compile error while processing a [@5,0:0='OPEN_BLOCK',<34>,2:1] at 2:1: no viable alternative at input 'Adder<T>OPEN_BLOCK'
             String error = e.getMessage();
-            String shouldBe = new String("There is no implementation of the rule class x");
+            String shouldBe = new String("Compile error while processing a [@5,0:0='OPEN_BLOCK',<34>,2:1] at 2:1:\nno viable alternative at input 'Adder<T>OPEN_BLOCK'");
             assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
@@ -107,12 +109,11 @@ public class syntaxTest {
         try {
             URL input = this.getClass().getResource(files[6]);
             compileProgram(input, files[7]);
-        } catch (NotImplementedException e) {
-            // Expected NotImplementedException: Does not recognize type of argument as it is typed incorrectly
-            // Thus it expects a class to be defined with this type
+        } catch (CompileException e) {
+            // Expected NotImplementedException: Compile error while processing a [@22,0:0='>',<16>,6:6] at 6:6: no viable alternative at input 'Adder<>'
             //TODO: Te veel argumenten aan n class geven gaat goed
             String error = e.getMessage();
-            String shouldBe = new String("There is no implementation of the rule class x");
+            String shouldBe = new String("Compile error while processing a [@22,0:0='>',<16>,6:6] at 6:6:\nno viable alternative at input 'Adder<>'");
             assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();

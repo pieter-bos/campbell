@@ -11,7 +11,7 @@ import java.io.InputStream;
 public class CampbellStreamParser {
 
     /**
-     * Parses a given input
+     * Parses a given input and adds errorlistener to catch syntax errors
      * @param input
      * @return
      */

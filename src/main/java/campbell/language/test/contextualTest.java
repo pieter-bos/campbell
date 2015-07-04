@@ -1,7 +1,6 @@
 package campbell.language.test;
 
 import campbell.language.model.CompileException;
-import campbell.language.model.NotImplementedException;
 import campbell.language.model.scoped.Program;
 import org.junit.Test;
 import sprockell.SprockellEmitter;
@@ -27,7 +26,7 @@ public class contextualTest {
                         "declaredTypeScopeWithin.ham", "src/main/java/campbell/language/test/declaredTypeScopeWithin.hs",
                         "wrongTypeAssigned.ham", "src/main/java/campbell/language/test/wrongTypeAssigned.hs",
                         "correctFunction.ham", "src/main/java/campbell/language/test/correctFunction.hs",
-                        "wrongTypeAssigned.ham", "src/main/java/campbell/language/test/wrongTypeAssigned.hs",
+                        "wrongReturnTypeFunction.ham", "src/main/java/campbell/language/test/wrongReturnTypeFunction.hs",
                         "wrongAmountArgumentsFunction.ham", "src/main/java/campbell/language/test/wrongAmountArgumentsFunction.hs",
                         "wrongTypedArgumentsFunction.ham", "src/main/java/campbell/language/test/wrongTypedArgumentsFunction.hs",
                         "correctAssignmentWithFunction.ham", "src/main/java/campbell/language/test/correctAssignmentWithFunction.hs",
@@ -40,8 +39,7 @@ public class contextualTest {
                         "addIntFunctions.ham", "src/main/java/campbell/language/test/addIntFunctions.hs",
                         "addBooleans.ham", "src/main/java/campbell/language/test/addBooleans.hs",
                         "noArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/noArgumentsGivenFunction.hs",
-                        "unneededArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/unneededArgumentsGivenFunction.hs",
-                        "wrongArgumentsClass.ham","src/main/java/campbell/language/test/wrongArgumentsClass.hs"};
+                        "unneededArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/unneededArgumentsGivenFunction.hs"};
 
     /**
      * Method that compiles a program from a given input to a given output
@@ -178,7 +176,6 @@ public class contextualTest {
         } catch (CompileException e) {
             // Expected compile exception: Type of return expression (bool) does not correspond to the function's contract (int)
             String error = e.getMessage().substring(90);
-            // TODO: Verkeerde error wordt hier gegenereerd
             String shouldBe = new String("Type of return expression (bool) does not correspond to the function's contract (int)");
             assertEquals(error, shouldBe);
         } catch (IOException e) {
@@ -405,33 +402,10 @@ public class contextualTest {
         try {
             compileProgram(getURL(files[38]), files[39]);
         } catch (CompileException e) {
-            //Dit hoort net als bij alle andere dingen een andere foutmelding te geven, zal gefixt zijn als currying werkt
-            // TODO: Gaat niet stuk terwijl dit wel hoort te gebeuren!
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
-
-    /**
-     * Test case where argument of class is spelled wrong, it therefore sees it as a generic argument
-     *
-     * "Wrong" test case
-     */
-    @Test
-    public void testWrongArgumentsClass() {
-        try {
-            System.out.println(files[40]);
-            compileProgram(getURL(files[40]), files[41]);
-        } catch (NotImplementedException e) {
-            // Expected NotImplementedException: Does not recognize type of argument as it is typed incorrectly
-            // Thus it expects a class to be defined with this type
-            //TODO: Te veel argumenten aan n class geven gaat goed
-            String error = e.getMessage();
-            String shouldBe = new String("There is no implementation of the rule class ...");
-            System.out.println("Exception thrown: "+error);
-            System.out.println("Expected: "+shouldBe);
+            // Expected Compile exception: Called function takes up to 0 arguments, but 1 were given.
+            String error = e.getMessage().substring(89);
+            String shouldBe = "Called function takes up to 0 arguments, but 1 were given.";
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
 
