@@ -66,6 +66,8 @@ public abstract class Statement implements Node {
             return ForStatement.fromContext(ctx.forNode());
         } else if(ctx.haskell() != null) {
             return HaskellStatement.fromContext(ctx.haskell());
+        } else if(ctx.nop() != null) {
+            return NopStatement.fromContext(ctx.nop());
         }
 
         throw new campbell.language.model.NotImplementedException(ctx);

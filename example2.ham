@@ -10,4 +10,6 @@ class Box
     fun int add(Box other)
         return this.value + other.get()
 
-writeNumLine(testAndSet(1234))
+Lock lock
+lock.lock()
+lock.lock()

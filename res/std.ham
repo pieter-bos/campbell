@@ -34,6 +34,23 @@ fun void writeNumLine(int n)
     writeNum(n)
     putc(10)
 
+fun void writeBool(bool b)
+    if b
+        putc(116)
+        putc(114)
+        putc(117)
+        putc(101)
+    else
+        putc(102)
+        putc(97)
+        putc(108)
+        putc(115)
+        putc(101)
+
+fun void writeBoolLine(bool b)
+    writeBool(b)
+    putc(10)
+
 trait Iterable<T>
     fun T next()
     fun bool hasNext()
@@ -63,7 +80,7 @@ fun bool testAndSet(int loc)
         loc
         \TestAndSet (Deref RegA)
         \Receive RegE
-        return __reg_e == 0
+        return __reg_e == 1
 
 int __lock
 __lock = 0
@@ -71,8 +88,8 @@ __lock = 0
 class Lock
     int lockAddr
 
-    fun void initAddr()
-        this.lock = __lock
+    fun void init()
+        this.lockAddr = __lock
         __lock = __lock + 1
 
     fun void lock()

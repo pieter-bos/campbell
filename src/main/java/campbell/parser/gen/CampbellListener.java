@@ -39,6 +39,16 @@ public interface CampbellListener extends ParseTreeListener {
 	 */
 	void exitHaskell(@NotNull CampbellParser.HaskellContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CampbellParser#nop}.
+	 * @param ctx the parse tree
+	 */
+	void enterNop(@NotNull CampbellParser.NopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CampbellParser#nop}.
+	 * @param ctx the parse tree
+	 */
+	void exitNop(@NotNull CampbellParser.NopContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CampbellParser#fun}.
 	 * @param ctx the parse tree
 	 */
