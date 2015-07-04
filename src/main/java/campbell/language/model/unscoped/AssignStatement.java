@@ -109,6 +109,8 @@ public class AssignStatement extends Statement {
      */
     @Override
     public void checkType() {
+        left.checkType();
+        right.checkType();
         if (!left.getType().equals(right.getType())) {
             throw new CompileException(this, "Type error: left expression is of type "+left.getType()+" whereas right is of type "+ right.getType());
         }

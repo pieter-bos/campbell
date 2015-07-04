@@ -211,7 +211,10 @@ public class contextualTest {
     public void testWrongTypedArgumentsFunction() {
         try {
             compileProgram(getURL(files[16]), files[17]);
-            //TODO: Deze test case gaat stuk
+        } catch (CompileException e) {
+            String error = e.getMessage().substring(89);
+            String shouldBe = new String("Argument in call expression add(true, 2) should be of type int not bool");
+            assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -362,9 +365,9 @@ public class contextualTest {
         try {
             compileProgram(getURL(files[34]), files[35]);
         } catch (CompileException e) {
-            // Expected compile exception : Cannot apply this operator to the given arguments: a, b
+            // Expected compile exception : Incorrect type in expression: (a + b)
             String error = e.getMessage().substring(89);
-            String shouldBe = new String("Cannot apply this operator to the given arguments: a, b");
+            String shouldBe = new String("Incorrect type in expression: (a + b)");
             assertEquals(error,shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
