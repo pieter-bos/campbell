@@ -1,26 +1,3 @@
-fun void putc(int c)
-    unsafe
-        c
-        \Write RegA (Addr 0x1000000)
-
-fun void writeNumRecursive(int num)
-    if num > 0
-        int digit
-        writeNumRecursive(num / 10)
-        digit = num - (num / 10) * 10
-        putc(digit + 48)
-
-fun void writeNum(int num)
-    if num > 0
-        writeNumRecursive(num)
-    else
-        if num < 0
-            putc(45)
-            writeNumRecursive(-num)
-        else
-            putc(48)
-    putc(10)
-
 class Adder
     int total
 

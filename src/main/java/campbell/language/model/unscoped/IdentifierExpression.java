@@ -94,6 +94,9 @@ public class IdentifierExpression extends Expression {
         if(symbol instanceof FunStatement) {
             return new FunctionExpression(((FunStatement) symbol).getFunction());
         } else if(symbol instanceof DeclStatement) {
+            if (((DeclStatement) symbol).getScope() instanceof ClassStatement) {
+                throw new CompileException(this, "Try using 'this."+symbol.getName()+"'");
+            }
             Variable v = ((DeclStatement) symbol).getVariable();
             return new VariableExpression(v);
         }

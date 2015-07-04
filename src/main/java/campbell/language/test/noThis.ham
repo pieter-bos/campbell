@@ -5,7 +5,7 @@ class Adder
         this.total = 0
 
     fun void add(int a, int b)
-        this.total = a + b
+        total = a + b
 
 
 

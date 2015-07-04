@@ -101,7 +101,7 @@ public class Program extends Scope {
      * @param other
      * @return
      */
-    private Program merge(Program other) {
+    public Program merge(Program other) {
         return new Program(Stream.concat(statements.stream(), other.statements.stream()).collect(Collectors.toList()));
     }
 
