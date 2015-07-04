@@ -43,6 +43,7 @@ public class CampbellLexer implements TokenSource {
         keywords.put("unsafe", CampbellTokens.UNSAFE);
         keywords.put("for", CampbellTokens.FOR);
         keywords.put("in", CampbellTokens.IN);
+        keywords.put("nop", CampbellTokens.NOP);
     }
 
     /**

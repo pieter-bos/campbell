@@ -232,4 +232,14 @@ public abstract class Statement implements Node {
      * @return
      */
     public abstract boolean returns();
+
+    public FunStatement requireFunction(String name, Node place) {
+        Symbol symbol = requireSymbol(name, place);
+
+        if(!(symbol instanceof FunStatement)) {
+            throw new CompileException(place, "Symbol " + name + " is not a function, whereas it should be.");
+        }
+
+        return (FunStatement) symbol;
+    }
 }

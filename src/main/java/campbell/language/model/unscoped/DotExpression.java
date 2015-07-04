@@ -7,6 +7,7 @@ import campbell.language.model.scoped.ClassStatement;
 import campbell.language.model.scoped.FunStatement;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.ClassType;
+import campbell.language.types.FunctionType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.CallExpression;
@@ -92,7 +93,21 @@ public class DotExpression extends Expression {
     @Override
     public Type getType() {
         if(expr.getType() instanceof ClassType) {
-            return ((ClassStatement) findType(expr.getType().getName()).getImplementation()).findSymbol(property).getType();
+            ClassStatement genericClass = (ClassStatement) findType(expr.getType().getName()).getImplementation();
+            Symbol symbol = genericClass.findSymbol(property);
+
+            if(symbol == null) {
+                throw new CompileException(this, "Unknown property " + property + " of type " + genericClass.getType());
+            }
+
+            if(symbol instanceof FunStatement) {
+                FunctionType type = ((FunStatement) symbol).getType();
+                return new FunctionType(type.getReturnType(), type.getArguments().subList(1, type.getArguments().size()));
+            } else if(symbol instanceof DeclStatement) {
+                return symbol.getType();
+            }
+
+            throw new CompileException(this, "Internal error: dot not implemented for type " + symbol.getClass());
         } else {
             throw new CompileException(this, "Cannot get a property of type " + expr.getType());
         }
@@ -117,7 +132,7 @@ public class DotExpression extends Expression {
             if(symbol instanceof FunStatement) {
                 LinkedList<campbell.roborovski.model.Expression> args = new LinkedList<>();
                 args.add(expr.toRoborovski(program));
-                return new CallExpression(false, new FunctionExpression(((FunStatement) symbol).getFunction()), args);
+                return new CallExpression(true, new FunctionExpression(((FunStatement) symbol).getFunction()), args);
             } else if(symbol instanceof DeclStatement) {
                 return new campbell.roborovski.model.DotExpression(expr.toRoborovski(program), specificClass.getStruct(), property);
             }

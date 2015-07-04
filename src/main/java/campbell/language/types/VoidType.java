@@ -43,4 +43,9 @@ public class VoidType extends PrimitiveType {
     public boolean equals(Object other) {
         return other instanceof VoidType;
     }
+
+    @Override
+    public String toString() {
+        return "void";
+    }
 }

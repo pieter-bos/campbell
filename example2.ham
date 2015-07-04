@@ -1,13 +1,13 @@
-fun (int -> int -> int) dynamicOperation(int op)
-    fun int add(int x, int y)
-        return x + y
+class Box
+    int value
 
-    fun int mul(int x, int y)
-        return x * y
+    fun void init(int value)
+        this.value = value
 
-    if op == 0
-        return add
-    else
-        return mul
+    fun int get()
+        return this.value
 
-dynamicOperation(1)(5, 6)
+    fun int add(Box other)
+        return this.value + other.get()
+
+writeNumLine(testAndSet(1234))

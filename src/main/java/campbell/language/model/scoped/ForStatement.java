@@ -4,11 +4,15 @@ import campbell.language.model.CompileException;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.*;
+import campbell.language.model.unscoped.CallExpression;
+import campbell.language.model.unscoped.DotExpression;
+import campbell.language.model.unscoped.Expression;
 import campbell.language.types.ClassType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
-import campbell.roborovski.model.Block;
+import campbell.roborovski.model.*;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -89,21 +93,22 @@ public class ForStatement extends Scope {
      */
     @Override
     public void toRoborovski(campbell.roborovski.model.Program program, Block block) {
-        Block forBlock = new Block();
+        Variable it = new Variable(program.newInternalName());
+        block.addVariable(it);
+
+        block.addStatement(new Assign(new VariableExpression(it), iterable.toRoborovski(program)));
+        While forBlock = new While(new campbell.roborovski.model.CallExpression(false,
+                new FunctionExpression(iterable.requireFunction("hasNext", this).getFunction()),
+                Arrays.asList(new VariableExpression(it))));
         block.addStatement(forBlock);
 
-        String it = program.newInternalName();
+        forBlock.addStatement(new Assign(new VariableExpression(it), new campbell.roborovski.model.CallExpression(false,
+                new FunctionExpression(iterable.requireFunction("next", this).getFunction()),
+                Arrays.asList(new VariableExpression(it)))));
 
-        new DeclStatement(iterable.getType(), it).toRoborovski(program, forBlock);
-        new AssignStatement(new IdentifierExpression(it), iterable).toRoborovski(program, forBlock);
-
-        LinkedList<Statement> whileBody = new LinkedList<>();
-        Expression whileCondition = new CallExpression(new DotExpression(new IdentifierExpression(it), "hasNext"), new LinkedList<>());
-
-        whileBody.add(new AssignStatement(var, new CallExpression(new DotExpression(new IdentifierExpression(it), "next"), new LinkedList<Expression>())));
-        whileBody.addAll(statements);
-
-        new WhileStatement(whileCondition, whileBody).toRoborovski(program, block);
+        for(Statement stat : statements) {
+            stat.toRoborovski(program, forBlock);
+        }
     }
 
     /**
@@ -186,24 +191,24 @@ public class ForStatement extends Scope {
      */
     @Override
     public void checkType() {
-        if (statements != null) {
-            for (Statement stat : statements) {
-                stat.checkType();
-            }
-        }
-
-        if (iterable != null) {
-            Type type = iterable.getType();
-            if (type instanceof ClassType) {
-                //if (!type.isIterable()) {
-                    // TODO: Find out how to check iterability
-                //}
-            }
-        }
-        if (var != null) {
-            if (var.getType() != iterable.getType()) {
-                throw new CompileException(this, "Incompatible types for var ("+var.getLine()+") and iterable");
-            }
-        }
+//        if (statements != null) {
+//            for (Statement stat : statements) {
+//                stat.checkType();
+//            }
+//        }
+//
+//        if (iterable != null) {
+//            Type type = iterable.getType();
+//            if (type instanceof ClassType) {
+//                //if (!type.isIterable()) {
+//                    // TODO: Find out how to check iterability
+//                //}
+//            }
+//        }
+//        if (var != null) {
+//            if (var.getType() != iterable.getType()) {
+//                throw new CompileException(this, "Incompatible types for var ("+var.getLine()+") and iterable");
+//            }
+//        }
     }
 }

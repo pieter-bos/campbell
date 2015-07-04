@@ -45,6 +45,8 @@ public class UnaryMathExpression extends Expression {
         switch(op) {
             case Negate:
                 return indent(indent) + "(-" + inner + ")";
+            case Not:
+                return indent(indent) + "(!" + inner + ")";
         }
 
         return null;
@@ -106,7 +108,8 @@ public class UnaryMathExpression extends Expression {
      * Negate
      */
     public enum UnaryMathOp {
-        Negate;
+        Negate,
+        Not;
     }
 
     public UnaryMathExpression(UnaryMathOp op, Expression expr) {
@@ -121,5 +124,9 @@ public class UnaryMathExpression extends Expression {
      */
     public static Expression fromContext(CampbellParser.NegateContext ctx) {
         return new UnaryMathExpression(UnaryMathOp.Negate, Expression.fromContext(ctx.expr()));
+    }
+
+    public static Expression fromContext(CampbellParser.NotContext ctx) {
+        return new UnaryMathExpression(UnaryMathOp.Not, Expression.fromContext(ctx.expr()));
     }
 }

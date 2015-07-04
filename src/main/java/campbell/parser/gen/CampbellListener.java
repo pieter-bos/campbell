@@ -401,6 +401,18 @@ public interface CampbellListener extends ParseTreeListener {
 	 */
 	void exitNegate(@NotNull CampbellParser.NegateContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code not}
+	 * labeled alternative in {@link CampbellParser#expr3}.
+	 * @param ctx the parse tree
+	 */
+	void enterNot(@NotNull CampbellParser.NotContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code not}
+	 * labeled alternative in {@link CampbellParser#expr3}.
+	 * @param ctx the parse tree
+	 */
+	void exitNot(@NotNull CampbellParser.NotContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code simpleExpr3}
 	 * labeled alternative in {@link CampbellParser#expr3}.
 	 * @param ctx the parse tree
