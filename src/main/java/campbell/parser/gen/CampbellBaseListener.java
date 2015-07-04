@@ -437,6 +437,18 @@ public class CampbellBaseListener implements CampbellListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterNot(@NotNull CampbellParser.NotContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNot(@NotNull CampbellParser.NotContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSimpleExpr3(@NotNull CampbellParser.SimpleExpr3Context ctx) { }
 	/**
 	 * {@inheritDoc}

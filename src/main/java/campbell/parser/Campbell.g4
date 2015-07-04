@@ -7,6 +7,7 @@ program
 
 statement
     : haskell
+    | nop
     | fun
     | unsafe
     | whileNode
@@ -23,6 +24,10 @@ statement
 
 haskell
     : HASKELL
+    ;
+
+nop
+    : NOP
     ;
 
 fun
@@ -105,6 +110,7 @@ expr2
 
 expr3
     : MINUS expr # negate
+    | NOT expr # not
     | expr4 # simpleExpr3
     ;
 

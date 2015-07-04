@@ -2,14 +2,20 @@ package campbell.language.model.unscoped;
 
 import campbell.language.model.CompileException;
 import campbell.language.model.Symbol;
+import campbell.language.model.scoped.ClassStatement;
 import campbell.language.model.scoped.FunStatement;
 import campbell.language.model.scoped.Scope;
+import campbell.language.types.FunctionType;
 import campbell.language.types.Type;
 import campbell.roborovski.model.FunctionExpression;
 import campbell.roborovski.model.Program;
 import campbell.roborovski.model.Variable;
 import campbell.roborovski.model.VariableExpression;
 import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Identifier expression represents an identifier in Haskell
@@ -61,6 +67,12 @@ public class IdentifierExpression extends Expression {
      */
     @Override
     public Type getType() {
+        if(findSymbol(id) == null && findType(id) != null) {
+            ClassStatement type = (ClassStatement) findType(id).getImplementation();
+            List<Type> arguments = ((FunStatement) type.findSymbol("init")).getArguments().stream().map(DeclStatement::getType).collect(Collectors.toList());
+            return new FunctionType(type.getType(), arguments.subList(1, arguments.size()));
+        }
+
         return requireSymbol(id, this).getType();
     }
 
@@ -71,6 +83,12 @@ public class IdentifierExpression extends Expression {
      */
     @Override
     public campbell.roborovski.model.Expression toRoborovski(Program program) {
+        if(findSymbol(id) == null && findType(id) != null) {
+            ClassStatement type = (ClassStatement) findType(id).getImplementation();
+            FunStatement func = ((FunStatement) type.getImplementation(Collections.emptyList(), program).findSymbol("#construct"));
+            return new FunctionExpression(func.getFunction());
+        }
+
         Symbol symbol = requireSymbol(id, this);
 
         if(symbol instanceof FunStatement) {

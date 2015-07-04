@@ -1,7 +1,85 @@
 int __new
+int __reg_a
+int __reg_b
+int __reg_c
+int __reg_d
+int __reg_e
+int __sp
+int __pc
+int __spid
 
 fun int alloc(int size)
     int result
     result = __new
     __new = __new + size
     return result
+
+fun void putc(int c)
+    unsafe
+        c
+        \Write RegA (Addr 0x1000000)
+
+fun void writeNum(int n)
+    if n < 0
+        putc(45)
+        writeNum(-n)
+    else
+        if n < 10
+            putc(48 + n)
+        else
+            writeNum(n / 10)
+            putc(48 + (n % 10))
+
+fun void writeNumLine(int n)
+    writeNum(n)
+    putc(10)
+
+trait Iterable<T>
+    fun T next()
+    fun bool hasNext()
+
+class Range
+    int start
+    int end
+    int i
+
+    fun void init(int start, int end)
+        this.start = start
+        this.end = end
+        this.i = start
+
+impl Iterable<int> of Range
+    fun int next()
+        int result
+        result = this.i
+        this.i = this.i + 1
+        return result
+
+    fun bool hasNext()
+        return i < this.end
+
+fun bool testAndSet(int loc)
+    unsafe
+        loc
+        \TestAndSet (Deref RegA)
+        \Receive RegE
+        return __reg_e == 0
+
+int __lock
+__lock = 0
+
+class Lock
+    int lockAddr
+
+    fun void initAddr()
+        this.lock = __lock
+        __lock = __lock + 1
+
+    fun void lock()
+        while !testAndSet(this.lockAddr)
+            nop
+
+    fun void unlock()
+        unsafe
+            this.lockAddr
+            \Write Zero (Deref RegA)

@@ -20,6 +20,7 @@ public abstract class PrimitiveType extends Type {
     static {
         PRIMITIVE_TYPES.add("int");
         PRIMITIVE_TYPES.add("bool");
+        PRIMITIVE_TYPES.add("void");
     }
 
     /**
@@ -45,6 +46,8 @@ public abstract class PrimitiveType extends Type {
                 return new IntType();
             case "bool":
                 return new BoolType();
+            case "void":
+                return new VoidType();
         }
 
         throw new NotImplementedException("There is no implementation of the primitive type " + id);

@@ -1,6 +1,9 @@
 package campbell.language.types;
 
+import util.HashList;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Type for functions
@@ -10,17 +13,12 @@ public class FunctionType extends Type {
      * Type of what should be returned by the function
      */
     private Type returnType;
-    private List<? extends Type> arguments;
-
-    /**
-     * Type of the argument of this function type
-     */
-    private Type argument;
-    private boolean terminal;
+    private List<Type> arguments;
 
     public FunctionType(Type returnType, List<? extends Type> arguments) {
         this.returnType = returnType;
-        this.arguments = arguments;
+        this.arguments = new HashList<>();
+        this.arguments.addAll(arguments);
     }
 
     /**
@@ -46,10 +44,10 @@ public class FunctionType extends Type {
             returnType.replaceType(replace, replaceWith);
         }
 
-        if(argument.getName().equals(replace.getName())) {
-            argument = replaceWith;
-        } else {
-            returnType.replaceType(replace, replaceWith);
+        for(int i = 0; i < arguments.size(); i++) {
+            if(arguments.get(i).getName().equals(replace.getName())) {
+                arguments.set(i, replaceWith);
+            }
         }
     }
 
@@ -67,7 +65,15 @@ public class FunctionType extends Type {
      */
     @Override
     public int hashCode() {
-        return (returnType.hashCode() * 139) ^ argument.hashCode();
+        int result = (returnType.hashCode() * 139);
+
+        for(Type t : arguments) {
+            result = (result << 12) ^ result;
+            result *= 139;
+            result ^= t.hashCode();
+        }
+
+        return result;
     }
 
     /**
@@ -77,12 +83,18 @@ public class FunctionType extends Type {
      */
     @Override
     public boolean equals(Object other) {
-        return other instanceof FunctionType && returnType.equals(((FunctionType) other).returnType) && argument.equals(((FunctionType) other).argument);
+        return other instanceof FunctionType && returnType.equals(((FunctionType) other).returnType) && arguments.equals(((FunctionType) other).arguments);
     }
 
     @Override
     public String toString() {
-        return "(" + argument + " -> " + returnType + ")";
+        String result = "(";
+
+        for(Type t : arguments) {
+            result += t + " -> ";
+        }
+
+        return result + returnType + ")";
     }
 
     public List<? extends Type> getArguments() {

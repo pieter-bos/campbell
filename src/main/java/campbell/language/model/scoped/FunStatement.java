@@ -258,7 +258,7 @@ public class FunStatement extends Scope implements Symbol {
      * Returns the type of this function
      */
     @Override
-    public Type getType() {
+    public FunctionType getType() {
         return new FunctionType(returnType, arguments.stream().map(DeclStatement::getType).collect(Collectors.toList()));
     }
 

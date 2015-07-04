@@ -118,8 +118,10 @@ public abstract class Expression extends Statement {
      * @return
      */
     public static Expression fromContext(CampbellParser.Expr3Context expr) {
-        if(expr instanceof CampbellParser.NegateContext) {
+        if (expr instanceof CampbellParser.NegateContext) {
             return UnaryMathExpression.fromContext((CampbellParser.NegateContext) expr);
+        } else if(expr instanceof CampbellParser.NotContext) {
+            return UnaryMathExpression.fromContext((CampbellParser.NotContext) expr);
         } else if(expr instanceof CampbellParser.SimpleExpr3Context) {
             return fromContext(((CampbellParser.SimpleExpr3Context) expr).expr4());
         }
