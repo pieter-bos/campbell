@@ -26,6 +26,10 @@ public class SprockellEmitter {
      * Where to write
      */
     private int loc = 1;
+
+    /**
+     * Number of cores to be used
+     */
     private int cores = 1;
 
     public SprockellEmitter(Writer writer) throws IOException {
@@ -337,6 +341,10 @@ public class SprockellEmitter {
         return loc;
     }
 
+    /**
+     * Sets the number of cores to be used
+     * @param cores
+     */
     public void setCores(int cores) {
         this.cores = cores;
     }

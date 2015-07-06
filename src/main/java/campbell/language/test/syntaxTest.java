@@ -48,7 +48,7 @@ public class syntaxTest {
             //Expected NotImplementedException : Compile error while processing a [@5,0:0='OPEN_BLOCK',<34>,2:1] at 2:1: ...
             String error = e.getMessage();
             String shouldBe =  "Compile error while processing a [@5,0:0='OPEN_BLOCK',<34>,2:1] at 2:1:\n" +
-                    "extraneous input 'OPEN_BLOCK' expecting {<EOF>, CLASS, WHILE, IMPL, TRAIT, IF, RETURN, UNSAFE, TRUE, FALSE, FUN, FOR, BROKET_OPEN, BROKET_CLOSE, LTE, GTE, EQ, PAREN_OPEN, DOT, PLUS, MINUS, STAR, SLASH, PERCENT, INT, IDENTIFIER, NEQ, NOT, LSH, RSH, AND, OR, XOR, HASKELL, NOP}";
+                    "extraneous input 'OPEN_BLOCK' expecting {<EOF>, CLASS, WHILE, IMPL, TRAIT, IF, RETURN, UNSAFE, TRUE, FALSE, FUN, FOR, BROKET_OPEN, BROKET_CLOSE, LTE, GTE, EQ, PAREN_OPEN, DOT, PLUS, MINUS, STAR, SLASH, PERCENT, INT, IDENTIFIER, NEQ, NOT, LSH, RSH, AND, OR, XOR, HASKELL, NOP, SHARED, THREADS}";
             assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,8 +69,8 @@ public class syntaxTest {
         } catch (CompileException e) {
             // Expected NotImplementedException: Does not recognize keyword of if-statement as it is typed incorrectly
             String error = e.getMessage();
-            String shouldBe = new String("Compile error while processing a [@2,0:0='OPEN_BLOCK',<34>,2:1] at 2:1:\n" +
-                    "extraneous input 'OPEN_BLOCK' expecting {<EOF>, CLASS, WHILE, IMPL, TRAIT, IF, RETURN, UNSAFE, TRUE, FALSE, FUN, FOR, BROKET_OPEN, BROKET_CLOSE, LTE, GTE, EQ, PAREN_OPEN, DOT, PLUS, MINUS, STAR, SLASH, PERCENT, INT, IDENTIFIER, NEQ, NOT, LSH, RSH, AND, OR, XOR, HASKELL, NOP}");
+            String shouldBe = "Compile error while processing a [@2,0:0='OPEN_BLOCK',<34>,2:1] at 2:1:\n" +
+                    "extraneous input 'OPEN_BLOCK' expecting {<EOF>, CLASS, WHILE, IMPL, TRAIT, IF, RETURN, UNSAFE, TRUE, FALSE, FUN, FOR, BROKET_OPEN, BROKET_CLOSE, LTE, GTE, EQ, PAREN_OPEN, DOT, PLUS, MINUS, STAR, SLASH, PERCENT, INT, IDENTIFIER, NEQ, NOT, LSH, RSH, AND, OR, XOR, HASKELL, NOP, SHARED, THREADS}";
             assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();

@@ -40,6 +40,10 @@ public abstract class Statement {
 
     }
 
+    /**
+     * End variable, checks whether number of expected instruction equals number of actual instructions
+     * @param emitter
+     */
     public void end(SprockellEmitter emitter) {
         if(emitter.getLoc() - start != getSize()) {
             throw new RuntimeException("Internal error: The size of statement " + this.getClass() + " does not match its actual instruction count. Expected = "

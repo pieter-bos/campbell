@@ -1,0 +1,52 @@
+threads 4
+
+class Box
+    int value
+
+    fun void init(int value)
+        this.value = value
+
+    fun int get()
+        return this.value
+
+    fun int add(Box other)
+        return this.value + other.get()
+
+fun int answer()
+    return 42
+
+fun int applyTwice((int -> int) f, int i)
+    return f(f(i))
+
+fun int add1(int x)
+    return x + 1
+
+shared int countAll
+Lock lock
+lock = Lock(0)
+
+fun void init()
+    countAll = 0
+
+fun void thread()
+    int i
+    i = 0
+    while i < 100
+        lock.lock()
+        countAll = countAll + 1
+        lock.unlock()
+        i = i + 1
+
+fun void result()
+    writeNumLine(countAll)
+
+registerInit(init)
+
+registerThread(0, thread)
+registerThread(1, thread)
+registerThread(2, thread)
+registerThread(3, thread)
+
+join(4)
+
+registerThread(0, result)

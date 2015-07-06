@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import java.util.BitSet;
 
 /**
- * Created by sophie on 7/3/15.
+ * ErrorListener that can throw new ANTLR errors
  */
 public class ErrorListener extends BaseErrorListener implements ANTLRErrorListener {
     /**

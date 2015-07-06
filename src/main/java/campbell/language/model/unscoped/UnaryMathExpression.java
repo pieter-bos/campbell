@@ -118,7 +118,7 @@ public class UnaryMathExpression extends Expression {
     }
 
     /**
-     * Tries to parse a UnaryMathExpression from a given context
+     * Tries to parse a negating expression from a given context
      * @param ctx
      * @return
      */
@@ -126,6 +126,11 @@ public class UnaryMathExpression extends Expression {
         return new UnaryMathExpression(UnaryMathOp.Negate, Expression.fromContext(ctx.expr()));
     }
 
+    /**
+     * Tries to parse a not expression from a given context
+     * @param ctx
+     * @return
+     */
     public static Expression fromContext(CampbellParser.NotContext ctx) {
         return new UnaryMathExpression(UnaryMathOp.Not, Expression.fromContext(ctx.expr()));
     }

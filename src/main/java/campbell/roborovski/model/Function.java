@@ -79,6 +79,10 @@ public class Function extends Block {
         statementBlock.setOffset(offset);
     }
 
+    /**
+     * Calculates how many values are spilled on the stack
+     * @return
+     */
     @Override
     public int calcSpill() {
         statementBlock.calcSpill();

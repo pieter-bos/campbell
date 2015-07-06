@@ -147,7 +147,6 @@ public class CampbellLexer implements TokenSource {
                         accept(0);
                         newIndent++;
                     } else {
-                        // TODO figure out what antlr does when it cannot parse a token
                         return tokenFactory.create(new Pair<>(this, null), Token.EPSILON, buffer, 0, 0, 0, line, column);
                     }
                 }
@@ -322,8 +321,6 @@ public class CampbellLexer implements TokenSource {
         } catch(IOException e) {
             return accept(CampbellTokens.ERROR);
         }
-
-        // TODO figure out what antlr does when it cannot parse a token
     }
 
     /**

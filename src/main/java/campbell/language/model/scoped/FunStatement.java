@@ -9,7 +9,6 @@ import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
 import campbell.roborovski.model.Function;
 import campbell.roborovski.model.Program;
-import util.ListTools;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -296,6 +295,10 @@ public class FunStatement extends Scope implements Symbol {
         }
     }
 
+    /**
+     * Returns the return type of this FunStatement
+     * @return
+     */
     public Type getReturnType() {
         return returnType;
     }

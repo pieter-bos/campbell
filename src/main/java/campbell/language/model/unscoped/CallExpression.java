@@ -1,14 +1,11 @@
 package campbell.language.model.unscoped;
 
 import campbell.language.model.CompileException;
-import campbell.language.model.scoped.ClassStatement;
-import campbell.language.model.scoped.FunStatement;
 import campbell.language.model.scoped.Scope;
 import campbell.language.types.*;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Program;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -155,7 +152,7 @@ public class CallExpression extends Expression {
         }
 
         if(arguments.size() > ((FunctionType) callee.getType()).getArguments().size()) {
-            throw new CompileException(this, "Function is applied too many arguments. Expected a maximum of " + ((FunctionType) callee.getType()).getArguments().size() + " arguments, found " + arguments.size() + ".");
+            throw new CompileException(this, "Function is applied to too many arguments. Expected a maximum of " + ((FunctionType) callee.getType()).getArguments().size() + " arguments, found " + arguments.size() + ".");
         }
 
         int index = 0;

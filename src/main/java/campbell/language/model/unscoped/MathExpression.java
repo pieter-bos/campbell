@@ -160,6 +160,7 @@ public class MathExpression extends Expression {
             return roborovskiOp;
         }
     }
+
     public MathExpression(Expression left, MathOp op, Expression right) {
         this.left = left;
         this.op = op;

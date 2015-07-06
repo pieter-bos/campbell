@@ -54,6 +54,10 @@ public class While extends Block {
         return condition.getSize() + 3 + super.getSize() + 1;
     }
 
+    /**
+     * Calculates how many values are spilled on the stack
+     * @return
+     */
     @Override
     public int calcSpill() {
         return Math.max(super.calcSpill(), condition.calcSpill());
