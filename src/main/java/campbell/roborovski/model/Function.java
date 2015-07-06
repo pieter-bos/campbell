@@ -8,10 +8,6 @@ import java.io.IOException;
  * Function is a reference to the actual Function from Campbell in Roborovski
  */
 public class Function extends Block {
-    /**
-     * Return expression of the function
-     */
-    private Return ret = new Return(new ConstExpression(0), this);
 
     /**
      * Block of statements in the function
@@ -32,6 +28,8 @@ public class Function extends Block {
      */
     @Override
     public void calcOffsets() {
+        statementBlock.addStatement(new Return(new ConstExpression(0), this));
+
         addVariable(new Variable("ret"));
         addVariable(new Variable("sp"));
 
@@ -69,7 +67,6 @@ public class Function extends Block {
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
         statementBlock.compile(emitter, this);
-        ret.compile(emitter, this);
     }
 
     /**
@@ -80,7 +77,12 @@ public class Function extends Block {
     public void setOffset(int offset) {
         this.offset = offset;
         statementBlock.setOffset(offset);
-        ret.setOffset(offset + statementBlock.getSize());
+    }
+
+    @Override
+    public int calcSpill() {
+        statementBlock.calcSpill();
+        return super.calcSpill();
     }
 
     /**
@@ -89,7 +91,7 @@ public class Function extends Block {
      */
     @Override
     public int getSize() {
-        return statementBlock.getSize() + ret.getSize();
+        return statementBlock.getSize();
     }
 
     /**

@@ -85,6 +85,13 @@ public class Program extends Block {
         // Calculate code offsets recursively
         setOffset(1);
 
+        // Calculate value spills recursively
+        calcSpill();
+
+        for(Function func : functions) {
+            func.calcSpill();
+        }
+
         start(emitter);
 
         // Initialize heap

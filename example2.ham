@@ -10,6 +10,17 @@ class Box
     fun int add(Box other)
         return this.value + other.get()
 
+fun int answer()
+    return 42
+
+fun int applyTwice((int -> int) f, int i)
+    return f(f(i))
+
+fun int add1(int x)
+    return x + 1
+
 Lock lock
+lock = Lock()
 lock.lock()
+lock.unlock()
 lock.lock()

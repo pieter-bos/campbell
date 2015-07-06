@@ -83,7 +83,7 @@ fun bool testAndSet(int loc)
         return __reg_e == 1
 
 int __lock
-__lock = 0
+__lock = 10
 
 class Lock
     int lockAddr

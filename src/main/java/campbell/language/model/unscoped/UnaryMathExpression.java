@@ -70,7 +70,7 @@ public class UnaryMathExpression extends Expression {
      */
     @Override
     public campbell.roborovski.model.Expression toRoborovski(Program program) {
-        return new BinaryExpression(new ConstExpression(0), BinaryExpression.BinaryOp.Subtract, expr.toRoborovski(program));
+        return new BinaryExpression(new ConstExpression(op == UnaryMathOp.Negate ? 0 : 1), BinaryExpression.BinaryOp.Subtract, expr.toRoborovski(program));
     }
 
     /**

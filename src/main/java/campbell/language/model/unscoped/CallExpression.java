@@ -149,8 +149,18 @@ public class CallExpression extends Expression {
     @Override
     public void checkType() {
         Type current = callee.getType();
+
+        if(!(callee.getType() instanceof FunctionType)) {
+            throw new CompileException(this, "Cannot call type " + callee.getType());
+        }
+
+        if(arguments.size() > ((FunctionType) callee.getType()).getArguments().size()) {
+            throw new CompileException(this, "Function is applied too many arguments. Expected a maximum of " + ((FunctionType) callee.getType()).getArguments().size() + " arguments, found " + arguments.size() + ".");
+        }
+
         int index = 0;
-        for (Type arg : ((FunctionType) current).getArguments()) {
+
+        for(Type arg : ((FunctionType) current).getArguments()) {
             Type type = null;
             if (arg instanceof IntType) {
                 type = (IntType) arg;
@@ -166,11 +176,13 @@ public class CallExpression extends Expression {
                 continue;
             }
 
-            if (arguments.size() > 0) {
+            if (index < arguments.size()) {
                 if (!(arguments.get(index).getType().equals(type))) {
                     throw new CompileException(this, "Argument in call expression " + this.toString() + " should be of type " + type + " not " + arguments.get(index).getType());
                 }
             }
+
+            index++;
         }
     }
 }
