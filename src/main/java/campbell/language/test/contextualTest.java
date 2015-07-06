@@ -39,7 +39,12 @@ public class contextualTest {
                         "addIntFunctions.ham", "src/main/java/campbell/language/test/addIntFunctions.hs",
                         "addBooleans.ham", "src/main/java/campbell/language/test/addBooleans.hs",
                         "noArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/noArgumentsGivenFunction.hs",
-                        "unneededArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/unneededArgumentsGivenFunction.hs"};
+                        "unneededArgumentsGivenFunction.ham", "src/main/java/campbell/language/test/unneededArgumentsGivenFunction.hs",
+                        "getProperty.ham", "src/main/java/campbell/language/test/getProperty.hs",
+                        "getNonexistingProperty.ham", "src/main/java/campbell/language/test/getNonexistingProperty.hs",
+                        "getNestedProperty.ham", "src/main/java/campbell/language/test/getNestedProperty.hs",
+                        "callNestedFunction.ham", "src/main/java/campbell/language/test/callNestedFunction.hs",
+                        "noThis.ham", "src/main/java/campbell/language/test/noThis.hs"};
 
     /**
      * Method that compiles a program from a given input to a given output
@@ -49,6 +54,8 @@ public class contextualTest {
      */
     public static void compileProgram(URL input, String output) throws IOException {
         Program p = parseFrom(input.openStream());
+        Program std = parseFrom(ClassLoader.getSystemResourceAsStream("std.ham"));
+        p = p.merge(std);
         p.setScope(null);
         p.findDefinitions();
         p.findImpls();
@@ -195,7 +202,7 @@ public class contextualTest {
         } catch (CompileException e) {
             // Expected compile exception: Type error: left expression is of type int where right is of type FunctionType
             String error = e.getMessage().substring(90);
-            String shouldBe = new String("Type error: left expression is of type int whereas right is of type (null -> int)");
+            String shouldBe = new String("Type error: left expression is of type int whereas right is of type (int -> int)");
             assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
@@ -387,7 +394,7 @@ public class contextualTest {
         } catch (CompileException e) {
             // Expected compile exception : Type error: left expression is of type int whereas right is of type FunctionType
             String error = e.getMessage().substring(90);
-            String shouldBe = new String("Type error: left expression is of type int whereas right is of type (null -> int)");
+            String shouldBe = new String("Type error: left expression is of type int whereas right is of type (int -> int -> int)");
             assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();
@@ -412,6 +419,84 @@ public class contextualTest {
         } catch (IOException e) {
             e.printStackTrace();
 
+        }
+    }
+
+    /**
+     * Test case that tries to get an existing property from a class
+     *
+     * "Correct" test case
+     */
+    @Test
+    public void testGetProperty() {
+        try {
+            compileProgram(getURL(files[40]), files[41]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test case that tries to get a non-existing property from a class
+     *
+     * "Wrong" test case
+     */
+    @Test
+    public void testGetNonexistingProperty() {
+        try {
+            compileProgram(getURL(files[42]), files[43]);
+        } catch (CompileException e) {
+            String error = e.getMessage().substring(90);
+            String shouldBe = "Unknown property hamham of type Adder";
+            assertEquals(error, shouldBe);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test case that tries to get an existing property from a nested class
+     *
+     * "Correct" test case
+     */
+    @Test
+    public void testGetNestedProperty() {
+        try {
+            compileProgram(getURL(files[44]), files[45]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test case that tries to call a nested function in a class
+     *
+     * "Correct" test case
+     */
+    @Test
+    public void testCallNestedFunction() {
+        try {
+            compileProgram(getURL(files[46]), files[47]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test case that tries to use a property in the class scope without keyword this
+     *
+     * "Wrong" test case
+     */
+    @Test
+    public void testNoThis() {
+        try {
+            compileProgram(getURL(files[48]), files[49]);
+        } catch (CompileException e) {
+            String error = e.getMessage().substring(95);
+            String shouldBe = "Try using 'this.total'";
+            assertEquals(error, shouldBe);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

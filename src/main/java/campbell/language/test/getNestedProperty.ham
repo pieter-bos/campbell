@@ -1,0 +1,30 @@
+class Adder
+    int total
+    Nested campbell
+
+    fun void init()
+        this.total = 0
+        this.campbell = Nested()
+
+    fun int goNested()
+        return this.campbell.goNested2()
+
+    class Nested
+        Nested2 ham
+
+        fun int goNested2()
+            return this.ham.i
+
+        fun void init()
+            this.ham = Nested2()
+
+        class Nested2
+            int i
+
+            fun void init()
+                this.i = 123456789
+
+
+Adder go
+go = Adder()
+writeNum(go.goNested())

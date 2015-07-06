@@ -1,0 +1,15 @@
+class Adder
+    int total
+
+    fun void init()
+        this.total = 0
+
+    fun int goNested()
+        fun int go()
+            return 5
+
+        return go()
+
+Adder go
+go = Adder()
+writeNum(go.goNested())

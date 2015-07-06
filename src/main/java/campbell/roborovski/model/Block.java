@@ -191,7 +191,7 @@ public class Block extends Statement {
     }
 
     /**
-     * Searches for a varialbe with a given name in this block
+     * Searches for a variable with a given name in this block
      * @param name - name of variable to find
      * @return Variable
      */

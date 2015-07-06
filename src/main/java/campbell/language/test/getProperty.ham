@@ -1,0 +1,15 @@
+class Adder
+    int total
+
+    fun void init()
+        this.total = 0
+
+    fun void add(int a, int b)
+        this.total = a + b
+
+
+
+Adder go
+go = Adder()
+go.add(5,4)
+writeNum(go.total)
