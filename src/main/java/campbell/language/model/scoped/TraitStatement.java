@@ -1,5 +1,6 @@
 package campbell.language.model.scoped;
 
+import campbell.language.model.NotImplementedException;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
@@ -14,13 +15,9 @@ import java.util.stream.Collectors;
 /**
  * TraitStatement represents a trait in Campbell
  *
- * More about this feature in the report
+ * This feature could not be fully implemented in the end ;(
  */
 public class TraitStatement extends Scope {
-    //    Example trait:
-    //    trait Add<T> of (A, B)
-    //      fun T add(A a, B b)
-
     /**
      * Type for which the trait should be implemented
      */
@@ -212,6 +209,6 @@ public class TraitStatement extends Scope {
      */
     @Override
     public void checkType() {
-        // TODO: lastig...
+        throw new NotImplementedException("Traits could not be fully implemented... ;(");
     }
 }

@@ -1,11 +1,9 @@
 package campbell.language.model.scoped;
 
+import campbell.language.model.NotImplementedException;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
-import campbell.language.types.FunctionType;
-import campbell.language.types.GenericType;
-import campbell.language.types.PrimitiveType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.Block;
@@ -16,6 +14,8 @@ import java.util.stream.Collectors;
 
 /**
  * ImplStatement represents an implementation of a Trait
+ *
+ * Could not be fully implemented in the language ;(
  */
 public class ImplStatement extends Scope {
     /**
@@ -211,12 +211,6 @@ public class ImplStatement extends Scope {
      */
     @Override
     public void checkType() {
-        if (type instanceof PrimitiveType || (type instanceof GenericType && type.getImplementation()!= null) || type instanceof FunctionType) {
-            if (of != null) {
-                // Types may be of BoolLiteral, IntLiteral, Functions, Generics
-                // Geen Traits, Classes
-                //TODO: Implementation and trait type checking
-            }
-        }
+        throw new NotImplementedException("Impls were not fully implemented... ;(");
     }
 }

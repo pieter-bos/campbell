@@ -123,8 +123,6 @@ public class Program extends Block {
         super.compile(emitter, this);
 
         end(emitter);
-
-        System.out.println("Program size is " + getSize());
     }
 
     /**
@@ -160,10 +158,18 @@ public class Program extends Block {
         return size + super.getSize();
     }
 
+    /**
+     * Adds a shared variable to the program
+     * @param var
+     */
     public void addSharedVariable(Variable var) {
         sharedVariables.add(var);
     }
 
+    /**
+     * Sets the number of cores to be used by the Sprockell
+     * @param cores
+     */
     public void setCores(int cores) {
         this.cores = cores;
     }

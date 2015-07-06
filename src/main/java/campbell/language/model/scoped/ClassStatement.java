@@ -79,6 +79,12 @@ public class ClassStatement extends Scope {
         return type;
     }
 
+    /**
+     * Returns the implementation of this class
+     * @param types
+     * @param program
+     * @return
+     */
     public ClassStatement getImplementation(List<Type> types, Program program) {
         HashList<Type> hashTypes = new HashList<>();
         hashTypes.addAll(types);

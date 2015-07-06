@@ -78,7 +78,6 @@ public class FunctionExpression extends Expression {
         // Store the AL
 
         emitter.store(SprockellRegister.c, SprockellRegister.a);
-        System.out.println((getOffset() + getSize() - 1) + " 1");
 
         end(emitter);
     }

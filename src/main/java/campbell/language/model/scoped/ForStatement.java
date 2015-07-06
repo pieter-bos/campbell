@@ -1,24 +1,22 @@
 package campbell.language.model.scoped;
 
-import campbell.language.model.CompileException;
+import campbell.language.model.NotImplementedException;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
-import campbell.language.model.unscoped.*;
-import campbell.language.model.unscoped.CallExpression;
-import campbell.language.model.unscoped.DotExpression;
+import campbell.language.model.unscoped.DeclStatement;
 import campbell.language.model.unscoped.Expression;
-import campbell.language.types.ClassType;
 import campbell.language.types.Type;
 import campbell.parser.gen.CampbellParser;
 import campbell.roborovski.model.*;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * For statement represents a for loop in Campbell
+ *
+ * Could not be fully implemented in the language ;(
  */
 public class ForStatement extends Scope {
     /**
@@ -191,24 +189,6 @@ public class ForStatement extends Scope {
      */
     @Override
     public void checkType() {
-//        if (statements != null) {
-//            for (Statement stat : statements) {
-//                stat.checkType();
-//            }
-//        }
-//
-//        if (iterable != null) {
-//            Type type = iterable.getType();
-//            if (type instanceof ClassType) {
-//                //if (!type.isIterable()) {
-//                    // TODO: Find out how to check iterability
-//                //}
-//            }
-//        }
-//        if (var != null) {
-//            if (var.getType() != iterable.getType()) {
-//                throw new CompileException(this, "Incompatible types for var ("+var.getLine()+") and iterable");
-//            }
-//        }
+        throw new NotImplementedException("For loops were unfortunately not fully implemented... ;(");
     }
 }

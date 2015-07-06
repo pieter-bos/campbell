@@ -3,8 +3,6 @@ package campbell.language.types;
 import campbell.language.model.Node;
 import campbell.language.model.NotImplementedException;
 import campbell.parser.gen.CampbellParser;
-import campbell.roborovski.model.Function;
-import util.ListTools;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -38,6 +36,11 @@ public abstract class Type {
         }
     }
 
+    /**
+     * Tries to parse type from a given context
+     * @param funcContext
+     * @return
+     */
     public static Type fromContext(CampbellParser.ClassNameFuncContext funcContext) {
         List<Type> types = funcContext.className().stream().map(Type::fromContext).collect(Collectors.toList());
 
@@ -62,6 +65,11 @@ public abstract class Type {
         return result;
     }
 
+    /**
+     * Tries to parse type from a given context
+     * @param ctx
+     * @return
+     */
     public static Type fromContext(CampbellParser.ClassNameContext ctx) {
         if(ctx instanceof CampbellParser.ClassNameClassContext) {
             return fromContext((CampbellParser.ClassNameClassContext) ctx);

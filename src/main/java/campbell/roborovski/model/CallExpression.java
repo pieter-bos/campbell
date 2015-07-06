@@ -81,7 +81,6 @@ public class CallExpression extends Expression {
             emitter.compute(SprockellCompute.Add, SprockellRegister.e, SprockellRegister.b, SprockellRegister.e);
             emitter.load(SprockellRegister.e, SprockellRegister.e);
             emitter.store(SprockellRegister.e, SprockellRegister.d);
-            System.out.println((emitter.getLoc() - 1) + " 4");
 
             emitter.emitConst(1, SprockellRegister.b);
             emitter.compute(SprockellCompute.Add, SprockellRegister.d, SprockellRegister.b, SprockellRegister.d);
@@ -149,7 +148,6 @@ public class CallExpression extends Expression {
             emitter.compute(SprockellCompute.Add, SprockellRegister.a, SprockellRegister.d, SprockellRegister.d);
             emitter.load(SprockellRegister.d, SprockellRegister.d);
             emitter.store(SprockellRegister.d, SprockellRegister.b);
-            System.out.println((emitter.getLoc() - 1) + " 2");
 
             emitter.emitConst(1, SprockellRegister.d);
             emitter.compute(SprockellCompute.Add, SprockellRegister.b, SprockellRegister.d, SprockellRegister.b);
@@ -200,7 +198,6 @@ public class CallExpression extends Expression {
 
             emitter.push(SprockellRegister.c);
             emitter.pop(SprockellRegister.sp);
-//            System.out.println((getOffset() + getSize() - 6));
             emitter.emitConst(1, SprockellRegister.e);
             emitter.compute(SprockellCompute.Add, SprockellRegister.e, SprockellRegister.d, SprockellRegister.d);
             emitter.load(SprockellRegister.d, SprockellRegister.d);

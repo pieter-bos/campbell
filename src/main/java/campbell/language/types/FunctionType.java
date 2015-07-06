@@ -3,7 +3,6 @@ package campbell.language.types;
 import util.HashList;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Type for functions
@@ -13,6 +12,10 @@ public class FunctionType extends Type {
      * Type of what should be returned by the function
      */
     private Type returnType;
+
+    /**
+     * Types of the arguments of the function
+     */
     private List<Type> arguments;
 
     public FunctionType(Type returnType, List<? extends Type> arguments) {
@@ -86,6 +89,10 @@ public class FunctionType extends Type {
         return other instanceof FunctionType && returnType.equals(((FunctionType) other).returnType) && arguments.equals(((FunctionType) other).arguments);
     }
 
+    /**
+     * Returns a string representation of this function type
+     * @return
+     */
     @Override
     public String toString() {
         String result = "(";
@@ -97,6 +104,10 @@ public class FunctionType extends Type {
         return result + returnType + ")";
     }
 
+    /**
+     * Returns the list containing all types of the arguments of the function
+     * @return
+     */
     public List<? extends Type> getArguments() {
         return arguments;
     }

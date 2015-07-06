@@ -95,7 +95,6 @@ public class Block extends Statement {
         emitter.pop(SprockellRegister.b);
         emitter.emitConst(calcSpill(), SprockellRegister.c);
         emitter.compute(SprockellCompute.Add, SprockellRegister.a, SprockellRegister.c, SprockellRegister.sp, ">>> ENTER SCOPE");
-//        System.out.println(getOffset() + 7);
         emitter.store(SprockellRegister.b, SprockellRegister.sp);
 
         for(Statement stat : statements) {

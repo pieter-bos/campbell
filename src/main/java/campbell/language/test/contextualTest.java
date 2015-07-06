@@ -414,7 +414,7 @@ public class contextualTest {
         } catch (CompileException e) {
             // Expected Compile exception: Called function takes up to 0 arguments, but 1 were given.
             String error = e.getMessage().substring(89);
-            String shouldBe = "Called function takes up to 0 arguments, but 1 were given.";
+            String shouldBe = "Function is applied to too many arguments. Expected a maximum of 0 arguments, found 1.";
             assertEquals(error, shouldBe);
         } catch (IOException e) {
             e.printStackTrace();

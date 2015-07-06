@@ -44,6 +44,10 @@ public class VoidType extends PrimitiveType {
         return other instanceof VoidType;
     }
 
+    /**
+     * Returns a string representation of a void type
+     * @return
+     */
     @Override
     public String toString() {
         return "void";

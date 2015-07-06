@@ -87,6 +87,11 @@ public abstract class Statement implements Node {
         return result;
     }
 
+    /**
+     * Tries to parse a top-level statement from a given context
+     * @param ctx
+     * @return
+     */
     public static Statement fromContext(CampbellParser.TopLevelStatementContext ctx) {
         if(ctx instanceof CampbellParser.NormalStatementContext) {
             return fromContext(((CampbellParser.NormalStatementContext) ctx).statement());
@@ -247,6 +252,12 @@ public abstract class Statement implements Node {
      */
     public abstract boolean returns();
 
+    /**
+     * Checks whether a function is required
+     * @param name
+     * @param place
+     * @return
+     */
     public FunStatement requireFunction(String name, Node place) {
         Symbol symbol = requireSymbol(name, place);
 

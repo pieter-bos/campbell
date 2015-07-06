@@ -11,7 +11,7 @@ import java.net.URL;
 import static campbell.language.model.scoped.Program.parseFrom;
 
 /**
- * Created by sophie on 7/3/15.
+ * Testing for semantic issues
  */
 public class semanticTest {
 
@@ -32,7 +32,6 @@ public class semanticTest {
         p.findImpls();
         p.checkType();
 
-        System.out.println(p);
 
         campbell.roborovski.model.Program program = p.toRoborovski();
         program.compile(new SprockellEmitter(new FileWriter(output)));

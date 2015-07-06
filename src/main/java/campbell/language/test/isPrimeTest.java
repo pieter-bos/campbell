@@ -33,9 +33,7 @@ public class isPrimeTest {
         p.findDefinitions();
         p.findImpls();
         p.checkType();
-
-        System.out.println(p);
-
+        
         campbell.roborovski.model.Program program
                 = p.toRoborovski();
 
