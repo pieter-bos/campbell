@@ -1,0 +1,45 @@
+# classes are defined with the class keyword in Campbell
+
+class Test
+    # These are the fields of any instance of the class
+    int left
+    int right
+
+    # This is the constructor of the class, which may take any number of arguments.
+    fun void init(int left, int right)
+        this.left = left
+        this.right = right
+
+    # This method can only be executed in the context of an instance of the class, that is test.add().
+    fun int add()
+        return this.left + this.right
+
+    fun int divide()
+        return this.left / this.right
+
+writeNumLine(Test(2, 3).add())
+writeNumLine(Test(9, 2).divide())
+
+# instances can be stored in variables or passed as arguments
+
+Test t
+t = Test(2, 3)
+
+# The method of classes are internally just partially applied with the instance of the class (this) and can
+# be used to remember state.
+
+class Accumulator
+    int value
+
+    fun void init()
+        this.value = 0
+
+    fun int add(int x)
+        this.value = this.value + x
+        return this.value
+
+(int -> int) acc
+acc = Accumulator().add
+
+writeNumLine(acc(6))
+writeNumLine(acc(8))

@@ -51,10 +51,6 @@ fun void writeBoolLine(bool b)
     writeBool(b)
     putc(10)
 
-trait Iterable<T>
-    fun T next()
-    fun bool hasNext()
-
 class Range
     int start
     int end

@@ -76,24 +76,6 @@ public class Program extends Scope {
     }
 
     /**
-     * Main method, used to compile a given Campbell program to a .hs file
-     * @param args // Unused
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
-        Program std = parseFrom(ClassLoader.getSystemResourceAsStream("std.ham"));
-        Program p = parseFrom(new FileInputStream("/home/pieter/programming/haskell/campbell/example2.ham"));
-        p = p.merge(std);
-        p.setScope(null);
-        p.findDefinitions();
-        p.findImpls();
-        p.checkType();
-
-        campbell.roborovski.model.Program program = p.toRoborovski();
-        program.compile(new SprockellEmitter(new FileWriter("/home/pieter/programming/haskell/campbell/example2.hs")));
-    }
-
-    /**
      * Merges two programs
      *
      * This enables the including of other .ham files and compile them together (enables use of libraries)

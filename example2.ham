@@ -1,4 +1,4 @@
-threads 4
+threads 1
 
 fun int answer()
     return 42
@@ -9,22 +9,5 @@ fun int applyTwice((int -> int) f, int i)
 fun int add1(int x)
     return x + 1
 
-class Box<T>
-    T data
-
-    fun void init(T data)
-        this.data = data
-
-    fun T get()
-        return this.data
-
-    fun void set(T data)
-        this.data = data
-
-Box<int> thing1
-Box<bool> thing2
-
-thing1 = Box(3)
-thing2 = Box(false)
-
-writeBoolLine((thing1.get() + thing1.get()) > 5 & !thing2.get())
+(int -> int) add2
+add2 = applyTwice(add1)

@@ -1,0 +1,8 @@
+# The while statement is used as a block to execute statements while a condition is true
+
+int i
+i = 0
+
+while i < 10
+    writeNumLine(i)
+    i = i + 1

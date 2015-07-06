@@ -1,0 +1,8 @@
+# If statements can be used to branch on a condition
+# The if and else block are local scopes, so variables and functions can be defined in them locally.
+
+if 2 < 3
+    writeNumLine(1)
+else
+    writeNumLine(2) # The universe is broken!
+

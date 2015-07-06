@@ -1,0 +1,32 @@
+# Scopes can be used to make variables local to a certain piece of code, and afterwards discarded (or not)
+# The following statement introduce a new scope: class, fun, if, program, unsafe, while.
+
+int i
+i = 0
+
+if i == 0
+    int j
+    nop
+
+# j cannot be used here anymore, because it is out of scope. An exception to this rule is when functions are passed
+# around as values.
+# The values are not copied when the function is declared, rather the function remembers a 'reference' to the variables,
+# so any modification after the function definition are still propagated to the function, so to speak.
+
+fun (int) f()
+    int acc
+    acc = 0
+
+    fun int accumulate()
+        acc = acc + 5
+        return acc
+
+    return accumulate
+
+(int) thing
+thing = f()
+
+writeNumLine(thing())
+writeNumLine(thing())
+writeNumLine(thing())
+writeNumLine(thing())

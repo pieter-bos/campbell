@@ -128,7 +128,7 @@ public class CampbellLexer implements TokenSource {
                 accept(0);
             }
 
-            if(peekc() == '\n' || peekc() == '\r') {
+            while(peekc() == '\n' || peekc() == '\r') {
                 // Read any empty lines (and ignore the indent)
                 while(!finished() && (peekc() == '\n' || peekc() == '\r')) {
                     readc();
@@ -169,6 +169,15 @@ public class CampbellLexer implements TokenSource {
                     currentIndent = newIndent;
 
                     return tokenQueue.poll();
+                } else {
+                    // A correctly indented line may also start with a comment
+                    if(peekc() == '#') {
+                        while(peekc() != '\n' && peekc() != '\r') {
+                            readc();
+                        }
+
+                        accept(0);
+                    }
                 }
             }
 

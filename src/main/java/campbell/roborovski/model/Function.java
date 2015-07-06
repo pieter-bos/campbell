@@ -112,6 +112,7 @@ public class Function extends Block {
      */
     public void setBlock(Block block) {
         this.block = block;
+        this.superBlock = block;
     }
 
     /**

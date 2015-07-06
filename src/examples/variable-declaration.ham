@@ -1,0 +1,26 @@
+# Declarations are a type followed by the name of the variable
+int i
+int j
+
+i = 2
+j = i
+
+while i < 10
+    # Declarations are local to their scope, but can be used in inner scopes
+    int add
+    add = 2
+    i = i + add
+
+    fun void addMore()
+        # And even in functions!
+        i = i + add
+
+    addMore()
+    writeNumLine(i)
+
+# But not here
+# i = i + add
+# addMore()
+
+i = i + 1
+writeNumLine(i)

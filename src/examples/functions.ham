@@ -1,0 +1,32 @@
+# Functions are defined using the fun keyword:
+
+fun void test()
+    writeNumLine(1)
+    writeNumLine(2)
+    writeNumLine(3)
+
+test()
+test()
+
+# Functions are just values in campbell, so you can assign them to variables:
+fun int add(int x, int y)
+    return x + y
+
+(int -> int -> int) f
+f = add
+
+# and pass them to functions:
+fun int invert((int -> int -> int) f, int y, int x)
+    return f(x, y)
+
+# functions can also be partially applied, which just returns a new function:
+(int -> int -> int) reverseAdd
+reverseAdd = invert(f)
+
+fun int applyTwice((int -> int) f, int n)
+    return f(f(n))
+
+(int -> int) add2
+add2 = applyTwice(add(1))
+
+writeNumLine(add2(3))
