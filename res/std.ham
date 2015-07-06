@@ -65,15 +65,14 @@ class Range
         this.end = end
         this.i = start
 
-impl Iterable<int> of Range
+    fun bool hasNext()
+        return this.i < this.end
+
     fun int next()
         int result
         result = this.i
         this.i = this.i + 1
         return result
-
-    fun bool hasNext()
-        return i < this.end
 
 fun bool testAndSet(int loc)
     unsafe

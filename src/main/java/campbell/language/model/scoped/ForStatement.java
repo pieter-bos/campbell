@@ -98,12 +98,12 @@ public class ForStatement extends Scope {
 
         block.addStatement(new Assign(new VariableExpression(it), iterable.toRoborovski(program)));
         While forBlock = new While(new campbell.roborovski.model.CallExpression(false,
-                new FunctionExpression(iterable.requireFunction("hasNext", this).getFunction()),
+                new FunctionExpression(((ClassStatement) iterable.getType().getImplementation()).requireFunction("hasNext", this).getFunction()),
                 Arrays.asList(new VariableExpression(it))));
         block.addStatement(forBlock);
 
         forBlock.addStatement(new Assign(new VariableExpression(it), new campbell.roborovski.model.CallExpression(false,
-                new FunctionExpression(iterable.requireFunction("next", this).getFunction()),
+                new FunctionExpression(((ClassStatement) iterable.getType().getImplementation()).requireFunction("next", this).getFunction()),
                 Arrays.asList(new VariableExpression(it)))));
 
         for(Statement stat : statements) {
