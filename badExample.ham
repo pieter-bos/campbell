@@ -1,5 +1,0 @@
-fun void run()
-    int c
-    fun int add(int a, int b)
-        c = 1
-        return c
