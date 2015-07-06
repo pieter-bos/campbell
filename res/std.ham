@@ -88,9 +88,8 @@ __lock = 10
 class Lock
     int lockAddr
 
-    fun void init()
-        this.lockAddr = __lock
-        __lock = __lock + 1
+    fun void init(int lockNo)
+        this.lockAddr = lockNo + 1024
 
     fun void lock()
         while !testAndSet(this.lockAddr)
@@ -100,3 +99,28 @@ class Lock
         unsafe
             this.lockAddr
             \Write Zero (Deref RegA)
+
+shared bool __init
+shared int done
+Lock doneLock
+doneLock = Lock(0)
+
+fun void registerInit((void) f)
+    if __spid == 0
+        done = 0
+        f()
+        __init = true
+
+fun void registerThread(int thread, (void) f)
+    while !__init
+        nop
+
+    if __spid == thread
+        f()
+        doneLock.lock()
+        done = done + 1
+        doneLock.unlock()
+
+fun void join(int count)
+    while done != count
+        nop

@@ -1,5 +1,6 @@
 package campbell.language.model.scoped;
 
+import campbell.language.model.unscoped.SharedDeclStatement;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
@@ -32,7 +33,7 @@ public class Program extends Scope {
      * @return
      */
     public static Program fromContext(CampbellParser.ProgramContext context) {
-        return at(context.getStart(), new Program(Statement.fromContexts(context.statement())));
+        return at(context.getStart(), new Program(context.topLevelStatement().stream().map(Statement::fromContext).collect(Collectors.toList())));
     }
 
     /**
@@ -116,6 +117,8 @@ public class Program extends Scope {
                 symbols.put(((FunStatement) stat).getName(), (Symbol) stat);
             } else if(stat instanceof DeclStatement) {
                 symbols.put(((DeclStatement) stat).getName(), (Symbol) stat);
+            } else if(stat instanceof SharedDeclStatement) {
+                symbols.put(((SharedDeclStatement) stat).getName(), (Symbol) stat);
             } else if(stat instanceof ClassStatement) {
                 types.put(((ClassStatement) stat).getType().getName(), ((ClassStatement) stat).getType());
             }

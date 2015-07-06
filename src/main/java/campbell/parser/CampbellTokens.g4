@@ -56,3 +56,5 @@ HASKELL : '';
 
 ARROW : '';
 NOP : '';
+SHARED : '';
+THREADS : '';

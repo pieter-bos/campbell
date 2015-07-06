@@ -1,5 +1,6 @@
 package campbell.language.model.scoped;
 
+import campbell.language.model.unscoped.SharedDeclStatement;
 import campbell.language.model.Statement;
 import campbell.language.model.Symbol;
 import campbell.language.model.unscoped.DeclStatement;
@@ -35,10 +36,12 @@ public class BlockStatement extends Scope implements Iterable<Statement> {
     @Override
     public void findDefinitions() {
         for(Statement stat : statements) {
-            if(stat instanceof FunStatement) {
+            if (stat instanceof FunStatement) {
                 symbols.put(((FunStatement) stat).getName(), (Symbol) stat);
             } else if(stat instanceof DeclStatement) {
                 symbols.put(((DeclStatement) stat).getName(), (Symbol) stat);
+            } else if(stat instanceof SharedDeclStatement) {
+                symbols.put(((SharedDeclStatement) stat).getName(), (Symbol) stat);
             } else if(stat instanceof ClassStatement) {
                 types.put(((ClassStatement) stat).getType().getName(), ((ClassStatement) stat).getType());
             }

@@ -44,6 +44,8 @@ public class CampbellLexer implements TokenSource {
         keywords.put("for", CampbellTokens.FOR);
         keywords.put("in", CampbellTokens.IN);
         keywords.put("nop", CampbellTokens.NOP);
+        keywords.put("shared", CampbellTokens.SHARED);
+        keywords.put("threads", CampbellTokens.THREADS);
     }
 
     /**
@@ -137,7 +139,7 @@ public class CampbellLexer implements TokenSource {
                 int newIndent = 0;
 
                 // Change indent level if tab (or 4 spaces) can be found
-                while(!finished() && peekc() == '\t' || peekc() == ' ') {
+                while(!finished() && (peekc() == '\t' || peekc() == ' ')) {
                     if(peekc() == '\t') {
                         accept(0);
                         newIndent++;
@@ -270,6 +272,7 @@ public class CampbellLexer implements TokenSource {
 
             if(expect("!")) {
                 if (!finished() && peekc() == '=') {
+                    readc();
                     return accept(CampbellTokens.NEQ);
                 } else {
                     return accept(CampbellTokens.NOT);

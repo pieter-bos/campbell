@@ -26,10 +26,13 @@ public class Program extends Block {
      */
     private List<Struct> structs = new LinkedList<>();
 
+    private List<Variable> sharedVariables = new LinkedList<>();
+
     /**
      * Used if a new unique variable is needed
      */
     private int internalNameNo = 0;
+    private int cores = 1;
 
     /**
      * Add a function to this program
@@ -69,6 +72,13 @@ public class Program extends Block {
         for(Function func : functions) {
             func.calcOffsets();
         }
+
+        int position = 0;
+
+        for(Variable var : sharedVariables) {
+            var.setOffset(position);
+            position += var.getSize();
+        }
     }
 
     /**
@@ -79,6 +89,8 @@ public class Program extends Block {
      */
     @Override
     public void compile(SprockellEmitter emitter, Block block) throws IOException {
+        emitter.setCores(cores);
+
         // Calculate variable offsets recursively
         calcOffsets();
 
@@ -146,5 +158,13 @@ public class Program extends Block {
         }
 
         return size + super.getSize();
+    }
+
+    public void addSharedVariable(Variable var) {
+        sharedVariables.add(var);
+    }
+
+    public void setCores(int cores) {
+        this.cores = cores;
     }
 }

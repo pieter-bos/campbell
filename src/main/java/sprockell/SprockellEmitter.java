@@ -15,7 +15,7 @@ public class SprockellEmitter {
     /**
      * Ending, Epilogue, of each generated Haskell program
      */
-    private static final String EPILOGUE = "EndProg]\n\nmain = run 1 prog";
+    private static final String EPILOGUE = "EndProg]\n\nmain = run %d prog";
 
     /**
      * Writer
@@ -26,6 +26,7 @@ public class SprockellEmitter {
      * Where to write
      */
     private int loc = 1;
+    private int cores = 1;
 
     public SprockellEmitter(Writer writer) throws IOException {
         this.writer = writer;
@@ -47,7 +48,7 @@ public class SprockellEmitter {
      * @throws IOException
      */
     public void close() throws IOException {
-        write(EPILOGUE);
+        write(String.format(EPILOGUE, cores));
         writer.close();
     }
 
@@ -334,5 +335,9 @@ public class SprockellEmitter {
      */
     public int getLoc() {
         return loc;
+    }
+
+    public void setCores(int cores) {
+        this.cores = cores;
     }
 }

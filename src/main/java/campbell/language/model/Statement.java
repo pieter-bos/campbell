@@ -87,6 +87,18 @@ public abstract class Statement implements Node {
         return result;
     }
 
+    public static Statement fromContext(CampbellParser.TopLevelStatementContext ctx) {
+        if(ctx instanceof CampbellParser.NormalStatementContext) {
+            return fromContext(((CampbellParser.NormalStatementContext) ctx).statement());
+        } else if(ctx instanceof CampbellParser.SharedDeclContext) {
+            return SharedDeclStatement.fromContext((CampbellParser.SharedDeclContext) ctx);
+        } else if(ctx instanceof CampbellParser.CoresContext) {
+            return CoresStatement.fromContext((CampbellParser.CoresContext) ctx);
+        }
+
+        throw new NotImplementedException(ctx);
+    }
+
     /**
      * Abstract method to set the scope of the statement
      * @param scope

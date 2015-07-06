@@ -19,6 +19,42 @@ public interface CampbellListener extends ParseTreeListener {
 	 */
 	void exitProgram(@NotNull CampbellParser.ProgramContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code normalStatement}
+	 * labeled alternative in {@link CampbellParser#topLevelStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterNormalStatement(@NotNull CampbellParser.NormalStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code normalStatement}
+	 * labeled alternative in {@link CampbellParser#topLevelStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitNormalStatement(@NotNull CampbellParser.NormalStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code sharedDecl}
+	 * labeled alternative in {@link CampbellParser#topLevelStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterSharedDecl(@NotNull CampbellParser.SharedDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code sharedDecl}
+	 * labeled alternative in {@link CampbellParser#topLevelStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitSharedDecl(@NotNull CampbellParser.SharedDeclContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code cores}
+	 * labeled alternative in {@link CampbellParser#topLevelStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterCores(@NotNull CampbellParser.CoresContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code cores}
+	 * labeled alternative in {@link CampbellParser#topLevelStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitCores(@NotNull CampbellParser.CoresContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CampbellParser#statement}.
 	 * @param ctx the parse tree
 	 */

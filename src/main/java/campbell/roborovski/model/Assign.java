@@ -38,7 +38,12 @@ public class Assign extends Statement {
         right.compile(emitter, block);
         emitter.pop(SprockellRegister.a);
         emitter.pop(SprockellRegister.b);
-        emitter.store(SprockellRegister.a, SprockellRegister.b, "assign");
+
+        if(left instanceof SharedVariableExpression) {
+            emitter.write(SprockellRegister.a, SprockellRegister.b, "assign-shared");
+        } else {
+            emitter.store(SprockellRegister.a, SprockellRegister.b, "assign");
+        }
 
         end(emitter);
     }

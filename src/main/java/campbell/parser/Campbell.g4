@@ -2,7 +2,13 @@ grammar Campbell;
 import CampbellTokens;
 
 program
-    : statement+ EOF
+    : topLevelStatement+ EOF
+    ;
+
+topLevelStatement
+    : statement # normalStatement
+    | SHARED decl # sharedDecl
+    | THREADS INT # cores
     ;
 
 statement
@@ -128,7 +134,7 @@ block
 className
     : IDENTIFIER (BROKET_OPEN className
       (COMMA className)* BROKET_CLOSE)? # classNameClass
-    | PAREN_OPEN className ARROW className (ARROW className)* PAREN_CLOSE #classNameFunc
+    | PAREN_OPEN className (ARROW className)* PAREN_CLOSE #classNameFunc
     ;
 
 classList
